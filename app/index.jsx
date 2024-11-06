@@ -4,14 +4,15 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 import BearGuideColourScheme from '@/constants/ColourScheme';
+import { BearGuideProvider } from './BearGuideContext';
+import LocationList from './LocationList';
 
-// This theme doesnt seem to fucking work
 const theme = {
   ...DefaultTheme,
   colors: BearGuideColourScheme.colors
 };
 
-const MapRoute = () => <Text>Map</Text>;
+const MapRoute = () => <LocationList />;
 
 const ProfileRoute = () => <Text>User Profile</Text>;
 
@@ -41,9 +42,11 @@ const BottomNav = () => {
 
 export default function Index() {
   return (
-    <PaperProvider theme={theme}>
-      <BottomNav />
-    </PaperProvider>
+    <BearGuideProvider>
+      <PaperProvider theme={theme}>
+        <BottomNav />
+      </PaperProvider>
+    </BearGuideProvider>
   );
 }
 
