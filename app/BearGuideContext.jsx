@@ -4,41 +4,69 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Define initial structure for bearGuide
 const initialBearGuide = {
   locations: [
+    // {
+    //   id: 0,
+    //   coordinates: { long: 0, lat: 0 },
+    //   name: "",
+    //   reviews: {
+    //     summary: { accessibility: 0, cleanliness: 0, noisiness: 0, overall: 0 },
+    //     list: [
+    //       {
+    //         id: 0,
+    //         userId: 0,
+    //         accessibility: 0,
+    //         cleanliness: 0,
+    //         noisiness: 0,
+    //         overall: 0,
+    //         comment: ""
+    //       }
+    //     ],
+    //     amenities: [{ category: "", comment: "" }],
+    //     capacity: 0,
+    //     popularTimes: {
+    //       sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: []
+    //     },
+    //     images: ["<IMAGE URI>"],
+    //     openingHours: { type: 0, data: {} },
+    //     description: ""
+    //   }
+    // }
     {
       id: 0,
-      coordinates: { long: 0, lat: 0 },
-      name: "",
+      coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
+      name: "School of Computer Science and Engineering",
       reviews: {
         summary: { accessibility: 0, cleanliness: 0, noisiness: 0, overall: 0 },
         list: [
           {
             id: 0,
-            accessibility: 0,
-            cleanliness: 0,
-            noisiness: 0,
-            overall: 0,
-            comment: ""
+            userId: 0,
+            accessibility: 5,
+            cleanliness: 5,
+            noisiness: 5,
+            overall: 5,
+            comment: "What an amazing building."
           }
         ],
-        amenities: [{ category: "", comment: "" }],
+        amenities: [{ category: "power", comment: "Outlet Charging" }],
         capacity: 0,
         popularTimes: {
           sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: []
         },
-        images: ["<IMAGE URI>"],
-        openingHours: { type: 0, data: {} },
-        description: ""
+        images: [""],
+        openingHours: { type: 1, data: {} },
+        description: "Computer Science and Engineering"
       }
     }
   ],
   users: [
     {
       id: 0,
-      name: "",
-      email: "",
-      password: "",
-      faculty: "",
-      campus: "",
+      name: "John Doe",
+      email: "johndoe@example.com",
+      password: "bearguide",
+      faculty: "Computer Science and Engineering",
+      campus: "UNSW Kensington",
       reviews: [{ locationId: 0, reviewId: 0 }],
       favourites: [0],
       recents: [0]
@@ -56,6 +84,23 @@ const BearGuideContext = createContext();
 export const BearGuideProvider = ({ children }) => {
   const [bearGuide, setBearGuide] = useState(initialBearGuide);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Reset async storage to initial state
+  const resetData = () => {
+    try {
+      setBearGuide(initialBearGuide);
+    } catch (e) {
+      console.warn('Error with resetting data: ', e);
+      return;
+    } 
+
+    console.debug('Reset Bear Guide Data to inital state.')
+  }
+
+  // Dump local storage data
+  const dumpData = () => {
+    console.debug(bearGuide);
+  }
 
   // Load data from Async Storage or use initial structure
   const loadBearGuideData = async () => {
@@ -94,7 +139,13 @@ export const BearGuideProvider = ({ children }) => {
 
   {/* Only render children once data is loaded */}
   return (
-    <BearGuideContext.Provider value={{ bearGuide, setBearGuide }}>
+    <BearGuideContext.Provider value={{
+      bearGuide, setBearGuide, 
+      tools: {
+        resetData,
+        dumpData
+      }
+    }}>
       {isLoaded ? children : null} 
     </BearGuideContext.Provider>
   );

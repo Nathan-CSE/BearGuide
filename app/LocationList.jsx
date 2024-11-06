@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 import { useBearGuide } from './BearGuideContext';
 
 const LocationList = () => {
-  const { bearGuide, setBearGuide } = useBearGuide();
+  const { bearGuide, setBearGuide, tools } = useBearGuide();
   
   const addLocation = () => {
     const newLocation = {
@@ -34,6 +34,8 @@ const LocationList = () => {
   return (
     <View>
       <Button title="Add Location" onPress={addLocation} />
+      <Button title="Reset Data" onPress={tools.resetData} />
+      <Button title="Dump Data" onPress={tools.dumpData} />
 
       {bearGuide.locations.map((location) => (
         <View key={location.id}>
