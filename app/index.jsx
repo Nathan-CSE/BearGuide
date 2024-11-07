@@ -1,18 +1,10 @@
 import * as React from 'react';
 import { AppRegistry } from 'react-native';
-import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
 import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import BearGuideColourScheme from '@/constants/ColourScheme';
-import { BearGuideProvider } from './BearGuideContext';
-import LocationList from './LocationList';
+import MapPage from './MapPage';
 
-const theme = {
-  ...DefaultTheme,
-  colors: BearGuideColourScheme.colors
-};
-
-const MapRoute = () => <LocationList />;
+const MapRoute = () => <MapPage />;
 
 const ProfileRoute = () => <Text>User Profile</Text>;
 
@@ -34,7 +26,6 @@ const BottomNav = () => {
       onIndexChange={setIndex}
       renderScene={renderScene}
       style={styles.container}
-      theme={theme}
     />
   );
 
@@ -42,11 +33,7 @@ const BottomNav = () => {
 
 export default function Index() {
   return (
-    <BearGuideProvider>
-      <PaperProvider theme={theme}>
-        <BottomNav />
-      </PaperProvider>
-    </BearGuideProvider>
+    <BottomNav />
   );
 }
 
