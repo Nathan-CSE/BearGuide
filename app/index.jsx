@@ -6,6 +6,7 @@ import { View, StyleSheet, Image, ScrollView } from "react-native";
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
 import LocationList from './LocationList';
+import LocationDetail from './LocationDetail';
 
 const theme = {
   ...DefaultTheme,
@@ -14,7 +15,8 @@ const theme = {
 
 const MapRoute = () => <LocationList />;
 
-const ProfileRoute = () => <Text>User Profile</Text>;
+// Temporarily using profile tab for my component until we merge everything together
+const ProfileRoute = () => <LocationDetail locationId={0}/>;
 
 const BottomNav = () => {
   const [index, setIndex] = React.useState(0);
