@@ -16,7 +16,7 @@ const theme = {
 const MapRoute = () => <LocationList />;
 
 // Temporarily using profile tab for my component until we merge everything together
-const ProfileRoute = () => <LocationDetail locationId={0}/>;
+const ProfileRoute = () => <LocationDetail locationId={1}/>;
 
 const BottomNav = () => {
   const [index, setIndex] = React.useState(0);
