@@ -15,6 +15,12 @@ import { useBearGuide } from './BearGuideContext';
 import PopularTimesChart from './PopularTimesChart';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+// Import each screen component
+import ReviewsScreen from './ReviewsScreen';
+import OverviewScreen from './OverviewScreen';
+
+const Tab = createMaterialTopTabNavigator();
+
 const LocationDetail = ({ locationId }) => {
   const { bearGuide } = useBearGuide();
   const location = bearGuide.locations.find(loc => loc.id === locationId);
@@ -112,7 +118,7 @@ const LocationDetail = ({ locationId }) => {
           }}
         >
           <Tab.Screen name="Overview" component={OverviewScreen} />
-          <Tab.Screen name="Popular Times" component={PopularTimesScreen} />
+          {/* <Tab.Screen name="Popular Times" component={PopularTimesScreen} /> */}
           <Tab.Screen name="Reviews" component={ReviewsScreen} />
         </Tab.Navigator>
 

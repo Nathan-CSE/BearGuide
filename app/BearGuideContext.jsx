@@ -3,34 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define initial structure for bearGuide
 const initialBearGuide = {
+  currentUserId: null,
   locations: [
-    // {
-    //   id: 0,
-    //   coordinates: { long: 0, lat: 0 },
-    //   name: "",
-    //   reviews: {
-    //     summary: { accessibility: 0, cleanliness: 0, noisiness: 0, overall: 0 },
-    //     list: [
-    //       {
-    //         id: 0,
-    //         userId: 0,
-    //         accessibility: 0,
-    //         cleanliness: 0,
-    //         noisiness: 0,
-    //         overall: 0,
-    //         comment: ""
-    //       }
-    //     ],
-    //     amenities: [{ category: "", comment: "" }],
-    //     capacity: 0,
-    //     popularTimes: {
-    //       sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: []
-    //     },
-    //     images: ["<IMAGE URI>"],
-    //     openingHours: { type: 0, data: {} },
-    //     description: ""
-    //   }
-    // }
     {
       id: 0,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
@@ -116,8 +90,19 @@ const initialBearGuide = {
       faculty: "Computer Science and Engineering",
       campus: "UNSW Kensington",
       reviews: [{ locationId: 0, reviewId: 0 }],
-      favourites: [0],
-      recents: [0]
+      favourites: [0], // Array of integers, integers represents locationId
+      recents: [0] // Possibly related to search?
+    },
+    {
+      id: 1,
+      name: "Jane Doe",
+      email: "janedoe@example.com",
+      password: "bearguide",
+      faculty: "Computer Science and Engineering",
+      campus: "UNSW Kensington",
+      reviews: [{ locationId: 1, reviewId: 0 }],
+      favourites: [1], // Array of integers, integers represents locationId
+      recents: [1]
     }
   ]
 };
@@ -138,9 +123,6 @@ export const BearGuideProvider = ({ children }) => {
     try {
       // Set in-memory data to the initial state
       setBearGuide(initialBearGuide);
-      // Reset in AsyncStorage
-      await AsyncStorage.setItem(BEAR_GUIDE_STORAGE_KEY, JSON.stringify(initialBearGuide));
-      
       console.debug('Bear Guide Data has been reset to the initial state.');
     } catch (error) {
       console.warn('Error resetting data: ', error);

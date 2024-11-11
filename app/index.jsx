@@ -7,6 +7,7 @@ import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
 import LocationList from './LocationList';
 import LocationDetail from './LocationDetail';
+import { NavigationContainer } from '@react-navigation/native';
 
 const theme = {
   ...DefaultTheme,
@@ -44,11 +45,13 @@ const BottomNav = () => {
 
 export default function Index() {
   return (
-    <BearGuideProvider>
-      <PaperProvider theme={theme}>
-        <BottomNav />
-      </PaperProvider>
-    </BearGuideProvider>
+    <NavigationContainer>
+      <BearGuideProvider>
+        <PaperProvider theme={theme}>
+          <BottomNav />
+        </PaperProvider>
+      </BearGuideProvider>
+    </NavigationContainer>
   );
 }
 

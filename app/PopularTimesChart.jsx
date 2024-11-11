@@ -1,6 +1,17 @@
 import React from 'react';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory-native';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { 
+  Card, 
+  Title, 
+  Paragraph, 
+  Chip, 
+  Divider, 
+  Text,
+  Button,
+  IconButton,
+  MD3Colors
+} from 'react-native-paper';
 
 const PopularTimesChart = ({ dayData, day }) => {
 
