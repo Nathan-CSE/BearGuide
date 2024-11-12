@@ -8,7 +8,7 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
-import LocationList from './LocationList';
+import MapPage from './MapPage';
 import UserProfile from './UserProfile';
 
 const theme = {
@@ -16,7 +16,7 @@ const theme = {
   colors: BearGuideColourScheme.colors,
 };
 
-const MapRoute = () => <LocationList />;
+const MapRoute = () => <MapPage />;
 
 const ProfileRoute = () => <UserProfile />;
 
