@@ -12,7 +12,7 @@ import {
   MD3Colors
 } from 'react-native-paper';
 import { useBearGuide } from '../BearGuideContext';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 // You may need to update react-native-screens to resolve dependency tree
@@ -29,13 +29,6 @@ import PopularTimesChart from './PopularTimesChart';
 
 // const OverviewScreen = () => <Text>Overview Content</Text>;
 // const ReviewsScreen = () => <Text>Reviews Content</Text>;
-
-
-const FirstRoute = ({ location }) => <OverviewScreen location={location} />;
-const SecondRoute = ({ location }) => <ReviewsScreen location={location} />;
-const ThirdRoute = ({ location }) => <AmenitiesScreen location={location} />;
-
-const Tab = createMaterialTopTabNavigator();
 
 const LocationDetail = ({ locationId }) => {
   const { bearGuide } = useBearGuide();
@@ -194,35 +187,6 @@ const LocationDetail = ({ locationId }) => {
           </Card.Content>
           
           {/* Regardless -> the tab navigation just doesn't seem to work which is REALLY annoying */}
-          <Tab.Navigator
-            style={styles.tabNavigator}
-            screenOptions={{
-              tabBarIndicatorStyle: { backgroundColor: 'blue' },
-              tabBarLabelStyle: { fontSize: 14 },
-            }}
-            tabBarPosition="bottom"
-          >
-            <Tab.Screen
-              name="Overview"
-              component={OverviewScreen}
-              initialParams={{ location }}
-            />
-            <Tab.Screen
-              name="Reviews"
-              component={ReviewsScreen}
-              initialParams={{ location }}
-            />
-            {/* <Tab.Screen
-              name="Popular Times"
-              component={PopularTimesChart}
-              initialParams={{ location }}
-            /> */}
-            <Tab.Screen
-              name="Amenities"
-              component={AmenitiesScreen}
-              initialParams={{ location }}
-            />
-          </Tab.Navigator>
         
           <TabView
             navigationState={{ index, routes }}
