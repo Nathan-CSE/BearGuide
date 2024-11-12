@@ -1,16 +1,17 @@
 import { useState, createContext, useContext } from 'react';
 import { View, Pressable, ScrollView, Text } from 'react-native';
-import { Button, Chip, Searchbar, Surface } from 'react-native-paper';
+import { Button, Chip, List, Searchbar, Surface } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
-
-export const OverlayContext = createContext();
-export const FiltersContext = createContext();
+import { useBearGuide } from './BearGuideContext';
+import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
 
 const LocationSearch = () => {
+  const { bearGuide, setBearGuide, tools } = useBearGuide();
+
   const [searchField, setSearchField] = useState("");
   const [chipSelected, setChipSelected] = useState("");
 
@@ -19,6 +20,8 @@ const LocationSearch = () => {
 
   const theme = useTheme();
   const router = useRouter();
+
+  
 
   const openMenu = (type) => {
     // Open a menu based on the type of menu
@@ -90,7 +93,21 @@ const LocationSearch = () => {
           }}>
             {overlayView}
           </Surface>}
-          <View><Text>LOCATION LIST</Text></View>
+          <View>
+            <List.Section 
+              title='Locations' 
+              style={{ paddingHorizontal: 24 }}
+              titleStyle={{ paddingHorizontal: -8 }}
+            >
+              {bearGuide.locations.map((location) => (
+                <List.Item
+                  title={location.name}
+                  description={location.address}
+                  left={() => <List.Icon icon="map-marker" />}
+                />
+              ))}
+            </List.Section>
+          </View>
         </View>
       </FiltersContext.Provider>
     </View>

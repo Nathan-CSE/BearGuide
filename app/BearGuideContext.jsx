@@ -10,6 +10,7 @@ const initialBearGuide = {
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
       address: "Science Rd, Kensington NSW 2033",
       name: "School of Computer Science and Engineering",
+      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
       reviews: {
         summary: { accessibility: 4.2, cleanliness: 4.2, noisiness: 4.2, overall: 4.2 },
         list: [
@@ -39,6 +40,7 @@ const initialBearGuide = {
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
       address: "Science Rd, Kensington NSW 2033",
       name: "Blockhouse G15",
+      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
       reviews: {
         summary: { accessibility: 4.2, cleanliness: 4.2, noisiness: 4.2, overall: 4.2 },
         list: [

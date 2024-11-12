@@ -1,6 +1,6 @@
 import { Chip } from 'react-native-paper';
-import { OverlayContext } from '../../app/LocationSearch';
 import { useContext } from 'react';
+import { OverlayContext } from './SearchContexts';
 
 const FilterChip = ({ label, selected, setSelected, id, component }) => {
   const [overlayContext, setOverlayContext] = useContext(OverlayContext);

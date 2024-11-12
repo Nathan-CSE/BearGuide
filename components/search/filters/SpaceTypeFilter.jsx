@@ -1,7 +1,7 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
-import { FiltersContext } from "../../../app/LocationSearch";
+import { FiltersContext } from "../SearchContexts";
 
 const SpaceTypeFilter = () => {
   const [isStudyChecked, setStudyChecked] = useState(false);
@@ -30,7 +30,6 @@ const SpaceTypeFilter = () => {
     // If there are filters, set the state of the checkboxes
     if (filterTypes) {
       for (let filterKey in filterTypes) {
-        console.log(filterKey)
         filterCheckMap[filterKey](true);
       }
     }
@@ -38,26 +37,14 @@ const SpaceTypeFilter = () => {
 
   return (
     <View>
-      <Text style={{ 
-        fontSize: 20, 
-        fontWeight: 600,
-        alignItems: 'center',
-        textAlign: 'center',
-        padding: 16
-      }}>
-        Space Type Filter
-      </Text>
+      <Text style={styles.filterTitle}>Space Type Filter</Text>
       <View style={{ paddingHorizontal: 32, paddingVertical: 16 }}>
-        <Pressable style={{ 
-            flexDirection: 'row', 
-            gap: 16, 
-            alignItems: 'center'
-          }} 
+        <Pressable style={styles.filterPressable} 
           onPress={() => {
             setStudyChecked((prev) => {
               applyFilter({ type: 'study', filter: (item) => {
-              } }, !prev);
-              return !prev;
+
+              }}, !prev);
             });
           }}
         >
@@ -70,5 +57,20 @@ const SpaceTypeFilter = () => {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  filterTitle: {
+    fontSize: 20, 
+    fontWeight: '600',
+    alignItems: 'center',
+    textAlign: 'center',
+    padding: 16
+  },
+  filterPressable: { 
+    flexDirection: 'row', 
+    gap: 16, 
+    alignItems: 'center'
+  }
+});
 
 export default SpaceTypeFilter;
