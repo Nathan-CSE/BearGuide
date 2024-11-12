@@ -43,7 +43,7 @@ const SpaceTypeFilter = () => {
           onPress={() => {
             setStudyChecked((prev) => {
               applyFilter({ type: 'study', filter: (item) => {
-
+                return false;
               }}, !prev);
             });
           }}

@@ -15,7 +15,7 @@ const LocationSearch = () => {
   const [searchField, setSearchField] = useState("");
   const [chipSelected, setChipSelected] = useState("");
 
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState({});
   const [overlayView, setOverlayView] = useState();
 
   const theme = useTheme();
@@ -92,10 +92,20 @@ const LocationSearch = () => {
               style={{ paddingHorizontal: 24 }}
               titleStyle={{ paddingHorizontal: -8 }}
             >
-              {bearGuide.locations.map((location) => (
+              {bearGuide.locations.filter((location) => {
+                for (let filterCategory of Object.values(filters)) {
+                  for (let filterType of Object.values(filterCategory)) {
+                    if (filterType(location) === false) {
+                      return false;
+                    }
+                  }
+                }
+                return true;
+              }).map((location) => (
                 <List.Item
                   title={location.name}
                   description={location.address}
+                  onPress={() => {console.log('Route to Location: ', location.name)}}
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
                     if (location.images.length > 0)
