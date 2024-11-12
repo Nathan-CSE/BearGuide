@@ -2,13 +2,48 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
 import { FiltersContext } from "../SearchContexts";
+import EStyleSheet from 'react-native-extended-stylesheet'
 
 const SpaceTypeFilter = () => {
   const [isStudyChecked, setStudyChecked] = useState(false);
+  const [isBuildingChecked, setBuildingChecked] = useState(false);
+  const [isCafeChecked, setCafeChecked] = useState(false);
+  const [isCompLabChecked, setCompLabChecked] = useState(false);
+  const [isLectureHallChecked, setLectureHallChecked] = useState(false);
+  const [isTutorialChecked, setTutorialChecked] = useState(false);
   const [filters, setFilters] = useContext(FiltersContext);
 
-  const filterCheckMap = {
-    'study': setStudyChecked,
+  const filterMap = {
+    'study': {
+      isCheck: isStudyChecked,
+      setCheck: setStudyChecked,
+      name: 'Study Space'
+    },
+    'building': {
+      isCheck: isBuildingChecked,
+      setCheck: setBuildingChecked,
+      name: 'Building'
+    },
+    'cafe': {
+      isCheck: isCafeChecked,
+      setCheck: setCafeChecked,
+      name: 'Cafe'
+    },
+    'computerlab': {
+      isCheck: isCompLabChecked,
+      setCheck: setCompLabChecked,
+      name: 'Computer Lab'
+    },
+    'lecture': {
+      isCheck: isLectureHallChecked,
+      setCheck: setLectureHallChecked,
+      name: 'Lecture Hall'
+    },
+    'tutorial': {
+      isCheck: isTutorialChecked,
+      setCheck: setTutorialChecked,
+      name: 'Tutorial Room'
+    }
   }
 
   const applyFilter = (filterObj, setFilter = true) => {
@@ -30,7 +65,7 @@ const SpaceTypeFilter = () => {
     // If there are filters, set the state of the checkboxes
     if (filterTypes) {
       for (let filterKey in filterTypes) {
-        filterCheckMap[filterKey](true);
+        filterMap[filterKey].setCheck(true);
       }
     }
   }, [filters]);
@@ -38,27 +73,36 @@ const SpaceTypeFilter = () => {
   return (
     <View>
       <Text style={styles.filterTitle}>Space Type Filter</Text>
-      <View style={{ paddingHorizontal: 32, paddingVertical: 16 }}>
-        <Pressable style={styles.filterPressable} 
-          onPress={() => {
-            setStudyChecked((prev) => {
-              applyFilter({ type: 'study', filter: (item) => {
-                return false;
-              }}, !prev);
-            });
-          }}
-        >
-          <Checkbox 
-            value={isStudyChecked}
-          />
-          <Text style={{ fontSize: 18 }}>Study Spaces</Text>
-        </Pressable>
+      <View style={styles.filterList}>
+        {
+          Object.entries(filterMap).map(([key, value]) => {
+            return (
+              <Pressable key={key} style={[
+                styles.filterPressable,
+                EStyleSheet.child(styles, 'filterList', key)
+              ]} 
+                onPress={() => {
+                  value.setCheck((prev) => {
+                    applyFilter({ type: key, filter: (item) => {
+                      return item.spaceType.includes(value.name)
+                    }}, !prev);
+                  });
+                }}
+              >
+                <Checkbox 
+                  value={value.isCheck}
+                />
+                <Text style={{ fontSize: 18 }}>{value.name}</Text>
+              </Pressable>
+              )
+          })
+        }
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   filterTitle: {
     fontSize: 20, 
     fontWeight: '600',
@@ -68,8 +112,17 @@ const styles = StyleSheet.create({
   },
   filterPressable: { 
     flexDirection: 'row', 
-    gap: 16, 
-    alignItems: 'center'
+    gap: 8, 
+    alignItems: 'center',
+    paddingVertical: 16,
+  },
+  filterList: { 
+    paddingHorizontal: 16, 
+    paddingVertical: 12, 
+    gap: 12,
+  },
+  'filterList:nth-child-even': {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   }
 });
 

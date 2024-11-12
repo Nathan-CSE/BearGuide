@@ -10,7 +10,7 @@ const initialBearGuide = {
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
       address: "Science Rd, Kensington NSW 2033",
       name: "School of Computer Science and Engineering",
-      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
+      spaceType: ["Building", "Study Space", "Cafe", "Computer Lab", "Tutorial Room"],
       amenities: [{ category: "power", comment: "Outlet Charging" }],
       capacity: 0,
       popularTimes: {

@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import { View, Pressable, ScrollView, Text, Image } from 'react-native';
 import { Button, Chip, List, Searchbar, Surface } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
@@ -21,6 +21,36 @@ const LocationSearch = () => {
   const theme = useTheme();
   const router = useRouter();
 
+  const [filteredList, setFilteredList] = useState(bearGuide.locations);
+
+  useEffect(() => {
+    handleSearch(null);
+  }, [filters]);
+
+  const handleSearch = (e) => {
+    if (e === null) {
+      e = searchField
+    } else {
+      setSearchField(e);
+    }
+    console.log(e)
+    let newList = bearGuide.locations.filter((location) => {
+      for (let filterCategory of Object.values(filters)) {
+        for (let filterType of Object.values(filterCategory)) {
+          if (filterType(location) === false) {
+            return false;
+          }
+        }
+      }
+      if (!location.name.toLowerCase().includes(e.toLowerCase())) {
+        return false;
+      }
+      return true;
+    });
+
+    setFilteredList(newList);
+  }
+
   return (
     <View>
       <SafeAreaView style={{paddingHorizontal: 16 }}>
@@ -32,7 +62,7 @@ const LocationSearch = () => {
             }}>        
               <Searchbar
                 placeholder="Search nearby locations"
-                onChangeText={setSearchField}
+                onChangeText={handleSearch}
                 value={searchField}
                 theme={theme}
                 icon={"arrow-left"}
@@ -89,32 +119,24 @@ const LocationSearch = () => {
           <View>
             <List.Section 
               title='Locations' 
-              style={{ paddingHorizontal: 24 }}
-              titleStyle={{ paddingHorizontal: -8 }}
+              style={{ paddingHorizontal: 12 }}
+              titleStyle={{ paddingHorizontal: 8 }}
             >
-              {bearGuide.locations.filter((location) => {
-                for (let filterCategory of Object.values(filters)) {
-                  for (let filterType of Object.values(filterCategory)) {
-                    if (filterType(location) === false) {
-                      return false;
-                    }
-                  }
-                }
-                return true;
-              }).map((location) => (
+              {filteredList.map((location) => (
                 <List.Item
                   title={location.name}
                   description={location.address}
+                  style={{ paddingHorizontal: 16 }}
                   onPress={() => {console.log('Route to Location: ', location.name)}}
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
                     if (location.images.length > 0)
                       leftElement = <Image 
                         source={{ uri: location.images[0] }} 
-                        style={{ width: 64, height: 64, borderRadius: 8 }} 
+                        style={{ width: 72, height: 72, borderRadius: 8 }} 
                       />
                     return (
-                      <View style={{ width: 64, height: 64 }}>
+                      <View style={{ width: 72, height: 72 }}>
                         {leftElement}
                       </View>
                     )
