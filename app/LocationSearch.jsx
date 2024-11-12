@@ -124,6 +124,7 @@ const LocationSearch = () => {
             >
               {filteredList.map((location) => (
                 <List.Item
+                  key={location.id}
                   title={location.name}
                   description={location.address}
                   style={{ paddingHorizontal: 16 }}
