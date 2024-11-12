@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, View, useWindowDimensions } from 'react-native';
-import { Avatar, Button, Surface, Text, useTheme } from 'react-native-paper';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { View } from 'react-native';
+import { Avatar, Button, Surface, Text } from 'react-native-paper';
 
 import { useBearGuide } from './BearGuideContext';
 import { StyleSheet } from 'react-native';
 import UserProfileTab from './UserProfileTab';
 
 const UserProfile = () => {
-  const theme = useTheme();
-  const { bearGuide, setBearGuide, tools } = useBearGuide();
-  const [name, setName] = useState('Name');
-  const [faculty, setFaculty] = useState('Faculty');
-  const [campus, setCampus] = useState('Preferred campus');
-  const layout = useWindowDimensions();
+  const { bearGuide } = useBearGuide();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // finds current user using userId
+    setUser(bearGuide.users.find((x) => x.id === bearGuide.currentUserId));
+  }, []);
 
   return (
     <View style={styles.profileContainer}>
       <Surface elevation={5} style={styles.headerContainer}>
         <View style={styles.userInfo}>
-          <Avatar.Text size={80} label="NN" />
-          <View>
-            <Text variant="headlineLarge" style={styles.userInfoText}>
-              {name}
+          <Avatar.Icon size={80} icon="account" />
+          <View style={{ maxWidth: 150 }}>
+            <Text variant="headlineLarge" style={{ fontWeight: 'bold' }}>
+              {user ? user.name : 'Name'}
             </Text>
-            <Text variant="labelLarge" style={styles.userInfoText}>
-              {faculty}
+            <Text variant="labelLarge" numberOfLines={2}>
+              {user ? user.faculty : 'Faculty'}
             </Text>
-            <Text variant="labelLarge" style={styles.userInfoText}>
-              {campus}
-            </Text>
+            <Text variant="labelLarge">{user ? user.campus : 'Campus'}</Text>
           </View>
-          <Button mode="contained">Edit</Button>
+          <Button
+            mode="contained"
+            onPress={() => console.log('show modal for editing')}
+          >
+            Edit
+          </Button>
         </View>
       </Surface>
       <UserProfileTab />
@@ -51,10 +54,7 @@ const styles = StyleSheet.create({
   userInfo: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  userInfoText: {
-    fontWeight: 'bold',
+    gap: 24,
   },
 });
 
