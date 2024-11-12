@@ -1,24 +1,17 @@
 import { Text, View } from "react-native";
-import FilterChip from "../FilterChip";
+import Checkbox from "expo-checkbox";
+import { useState, useContext } from "react";
+import { FiltersContext } from "../../../app/LocationSearch";
 
-const SpaceTypeFilter = ({selected, setSelected, setFilterView}) => {
-  const viewGroup = (
-    <View>
-      <Text>Space Type Filter</Text>
-    </View>
-  )
+const SpaceTypeFilter = () => {
+  const [isStudyChecked, setStudyChecked] = useState(false);
+  const [filterFns, setFilterFns] = useContext(FiltersContext);
 
   return (
-    <FilterChip 
-      id="space" 
-      label="Space Type" 
-      selected={selected}
-      setSelected={setSelected}
-      view={{
-        setFilterView: setFilterView,
-        view: viewGroup
-      }}
-    />
+    <View>
+      <Text>Space Type Filter</Text>
+      <Checkbox color={isStudyChecked ? '#FF0000' : undefined} value={isStudyChecked} onValueChange={setStudyChecked} />
+    </View>
   );
 }
 

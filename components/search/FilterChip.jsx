@@ -1,10 +1,10 @@
-import { View, Pressable, ScrollView } from 'react-native';
-import { Button, Chip, Searchbar } from 'react-native-paper';
-import { useTheme } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { Chip } from 'react-native-paper';
+import { OverlayContext } from '../../app/LocationSearch';
+import { useContext } from 'react';
 
-const FilterChip = ({ label, selected, setSelected, id, view }) => {
+const FilterChip = ({ label, selected, setSelected, id, component }) => {
+  const [overlayContext, setOverlayContext] = useContext(OverlayContext);
+  
   return (
     <Chip 
       icon={(selected === id && "menu-right-outline") || "menu-down"} 
@@ -13,10 +13,10 @@ const FilterChip = ({ label, selected, setSelected, id, view }) => {
       onPress={() => {
         setSelected((prev) => {
           if(prev === id) {
-            view.setFilterView(null);
+            setOverlayContext(null);
             return '';
           } else {
-            view.setFilterView(view.view);
+            setOverlayContext(component);
             return id;
           }
         });
