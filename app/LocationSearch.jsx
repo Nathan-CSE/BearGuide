@@ -7,14 +7,14 @@ import { useRouter } from 'expo-router';
 import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 
-export const OverlayContext = createContext(null);
-export const FiltersContext = createContext(null);
+export const OverlayContext = createContext();
+export const FiltersContext = createContext();
 
 const LocationSearch = () => {
   const [searchField, setSearchField] = useState("");
   const [chipSelected, setChipSelected] = useState("");
 
-  const [filterFns, setFilterFns] = useState([null, null]);
+  const [filters, setFilters] = useState([]);
   const [overlayView, setOverlayView] = useState();
 
   const theme = useTheme();
@@ -80,7 +80,7 @@ const LocationSearch = () => {
             </View>
         </OverlayContext.Provider>
       </SafeAreaView>
-      <FiltersContext.Provider value={[ filterFns, setFilterFns ]}>
+      <FiltersContext.Provider value={[ filters, setFilters ]}>
         <View style={{ width: '100%', height: '100%' }}>
           {overlayView && <Surface elevation={3} style={{ 
             position: 'absolute',
