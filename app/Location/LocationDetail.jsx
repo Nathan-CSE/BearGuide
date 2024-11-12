@@ -35,7 +35,7 @@ const LocationDetail = ({ locationId }) => {
   const { id } = useLocalSearchParams();
   const { bearGuide } = useBearGuide();
 
-  if (!locationId) locationId = id;
+  if (!locationId) locationId = parseInt(id);
 
   const location = bearGuide.locations.find(loc => loc.id === locationId);
 

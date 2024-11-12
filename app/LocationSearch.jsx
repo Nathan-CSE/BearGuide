@@ -130,10 +130,10 @@ const LocationSearch = () => {
                   description={location.address}
                   style={{ paddingHorizontal: 16 }}
                   onPress={() => {
-                    router.navigate({
-                      pathname: '/Location/LocationDetail/',
+                    router.push({
+                      pathname: '/Location/LocationDetail',
                       params: { id: location.id }
-                    })
+                    }, {})
                   }}
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
