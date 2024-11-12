@@ -6,7 +6,7 @@ import { View, StyleSheet, Image, ScrollView } from "react-native";
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
 import LocationList from './LocationList';
-import LocationDetail from './LocationDetail';
+import LocationDetail from './Location/LocationDetail';
 import { NavigationContainer } from '@react-navigation/native';
 
 const theme = {
@@ -45,13 +45,13 @@ const BottomNav = () => {
 
 export default function Index() {
   return (
-    <NavigationContainer>
-      <BearGuideProvider>
+    <BearGuideProvider>
+      <NavigationContainer>
         <PaperProvider theme={theme}>
           <BottomNav />
         </PaperProvider>
-      </BearGuideProvider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </BearGuideProvider>
   );
 }
 
