@@ -16,7 +16,7 @@ const initialBearGuide = {
       popularTimes: {
         sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: []
       },
-      images: [""],
+      images: [],
       openingHours: { type: 1, data: {} },
       description: "Computer Science and Engineering",
       reviews: {

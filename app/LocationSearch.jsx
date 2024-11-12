@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from 'react';
-import { View, Pressable, ScrollView, Text } from 'react-native';
+import { View, Pressable, ScrollView, Text, Image } from 'react-native';
 import { Button, Chip, List, Searchbar, Surface } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,13 +20,6 @@ const LocationSearch = () => {
 
   const theme = useTheme();
   const router = useRouter();
-
-  
-
-  const openMenu = (type) => {
-    // Open a menu based on the type of menu
-
-  }
 
   return (
     <View>
@@ -103,7 +96,19 @@ const LocationSearch = () => {
                 <List.Item
                   title={location.name}
                   description={location.address}
-                  left={() => <List.Icon icon="map-marker" />}
+                  left={() => {
+                    let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
+                    if (location.images.length > 0)
+                      leftElement = <Image 
+                        source={{ uri: location.images[0] }} 
+                        style={{ width: 64, height: 64, borderRadius: 8 }} 
+                      />
+                    return (
+                      <View style={{ width: 64, height: 64 }}>
+                        {leftElement}
+                      </View>
+                    )
+                  }}
                 />
               ))}
             </List.Section>
