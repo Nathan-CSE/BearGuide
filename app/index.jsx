@@ -8,17 +8,18 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
-import LocationList from './LocationList';
-import LocationDetail from './Location/LocationDetail';
+// import LocationList from './LocationList';
 import { NavigationContainer } from '@react-navigation/native';
+import MapPage from './MapPage';
 import UserProfile from './UserProfile';
+import LocationDetail from './Location/LocationDetail'
 
 const theme = {
   ...DefaultTheme,
   colors: BearGuideColourScheme.colors,
 };
 
-const MapRoute = () => <LocationList />;
+const MapRoute = () => <MapPage />;
 
 // Temporarily using profile tab for my component until we merge everything together
 const ProfileRoute = () => <LocationDetail locationId={1}/>;
@@ -42,7 +43,6 @@ const BottomNav = () => {
       onIndexChange={setIndex}
       renderScene={renderScene}
       style={styles.container}
-      theme={theme}
     />
   );
 };
@@ -52,9 +52,9 @@ const BottomNav = () => {
 export default function Index() {
   return (
     <BearGuideProvider>
-        <PaperProvider theme={theme}>
-          <BottomNav />
-        </PaperProvider>
+      <PaperProvider theme={theme}>
+        <BottomNav />
+      </PaperProvider>
     </BearGuideProvider>
   );
 }

@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native';
 import { useBearGuide } from './BearGuideContext';
+import { Link } from 'expo-router';
 
-const LocationList = () => {
+const MapPage = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
   
   const addLocation = () => {
@@ -36,6 +37,9 @@ const LocationList = () => {
       <Button title="Add Location" onPress={addLocation} />
       <Button title="Reset Data" onPress={tools.resetData} />
       <Button title="Dump Data" onPress={tools.dumpData} />
+      <Link href={"/LocationSearch"} asChild>
+        <Button title="Go to Search" />
+      </Link>
 
       {bearGuide.locations.map((location) => (
         <View key={location.id}>
@@ -48,4 +52,4 @@ const LocationList = () => {
   );
 };
 
-export default LocationList;
+export default MapPage;

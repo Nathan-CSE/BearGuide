@@ -14,6 +14,7 @@ import {
 import { useBearGuide } from '../BearGuideContext';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useLocalSearchParams } from 'expo-router';
 
 // You may need to update react-native-screens to resolve dependency tree
 // npm install react-native-screens@^4.0.0
@@ -31,7 +32,11 @@ import PopularTimesChart from './PopularTimesChart';
 // const ReviewsScreen = () => <Text>Reviews Content</Text>;
 
 const LocationDetail = ({ locationId }) => {
+  const { id } = useLocalSearchParams();
   const { bearGuide } = useBearGuide();
+
+  if (!locationId) locationId = id;
+
   const location = bearGuide.locations.find(loc => loc.id === locationId);
 
   if (!location) {
