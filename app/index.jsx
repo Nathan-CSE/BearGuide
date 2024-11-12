@@ -38,18 +38,13 @@ const BottomNav = () => {
       onIndexChange={setIndex}
       renderScene={renderScene}
       style={styles.container}
-      theme={theme}
     />
   );
 };
 
 export default function Index() {
   return (
-    <BearGuideProvider>
-      <PaperProvider theme={theme}>
-        <BottomNav />
-      </PaperProvider>
-    </BearGuideProvider>
+    <BottomNav />
   );
 }
 

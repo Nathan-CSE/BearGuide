@@ -8,6 +8,7 @@ const initialBearGuide = {
     {
       id: 0,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
+      spaceType: ["Building", "Study Space", "Cafe", "Computer Lab", "Tutorial Room"],
       address: 'Science Rd, Kensington NSW 2033',
       name: 'K17 Computer Science Building',
       amenities: [{ category: 'power', comment: 'Outlet Charging' }],
@@ -61,9 +62,10 @@ const initialBearGuide = {
     {
       id: 1,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      address: 'Science Rd, Kensington NSW 2033',
-      name: 'Blockhouse G15',
-      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
+      address: "Science Rd, Kensington NSW 2033",
+      name: "Blockhouse G15",
+      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
+      amenities: [{ category: "power", comment: "Outlet Charging" }],
       capacity: 50,
       // example hourly levels from 12 AM to 11 PM
       popularTimes: {
