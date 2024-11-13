@@ -124,7 +124,7 @@ const LocationSearch = () => {
           </Surface>
         }
         <FiltersContext.Provider value={[ filters, setFilters ]}>
-          <View>
+          <View style={{ zIndex: -1 }}>
             <List.Section 
               title='Locations' 
               style={{ paddingHorizontal: 12 }}
