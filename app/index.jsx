@@ -51,11 +51,7 @@ const BottomNav = () => {
 // navigation container was initially for location details tab menu
 export default function Index() {
   return (
-    <BearGuideProvider>
-      <PaperProvider theme={theme}>
-        <BottomNav />
-      </PaperProvider>
-    </BearGuideProvider>
+    <BottomNav />
   );
 }
 

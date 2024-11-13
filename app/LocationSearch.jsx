@@ -1,6 +1,6 @@
 import { useState, createContext, useContext, useEffect } from 'react';
 import { View, Pressable, ScrollView, Text, Image } from 'react-native';
-import { Button, Chip, List, Searchbar, Surface } from 'react-native-paper';
+import { Button, Chip, List, Searchbar, Surface, Portal } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -8,7 +8,6 @@ import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 import { useBearGuide } from './BearGuideContext';
 import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
-import { router } from 'expo-router'; 
 
 const LocationSearch = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -107,17 +106,25 @@ const LocationSearch = () => {
             </View>
         </OverlayContext.Provider>
       </SafeAreaView>
-      <FiltersContext.Provider value={[ filters, setFilters ]}>
-        <View style={{ width: '100%', height: '100%' }}>
-          {overlayView && <Surface elevation={3} style={{ 
+      <View style={{ width: '100%', height: '100%' }}>
+        {overlayView && 
+          <Surface elevation={3} style={{ 
             position: 'absolute',
             width: '100%', 
             height: '100%', 
             zIndex: 10
           }}>
-            {overlayView}
-          </Surface>}
-          <View>
+            <Portal>
+              <FiltersContext.Provider value={[ filters, setFilters ]}>
+                <View style={{ top: 148 }}>
+                  {overlayView}
+                </View>
+              </FiltersContext.Provider>
+            </Portal>
+          </Surface>
+        }
+        <FiltersContext.Provider value={[ filters, setFilters ]}>
+          <View style={{ zIndex: -1 }}>
             <List.Section 
               title='Locations' 
               style={{ paddingHorizontal: 12 }}
@@ -135,6 +142,7 @@ const LocationSearch = () => {
                       params: { id: location.id }
                     }, {})
                   }}
+
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
                     if (location.images.length > 0)
@@ -152,8 +160,8 @@ const LocationSearch = () => {
               ))}
             </List.Section>
           </View>
-        </View>
-      </FiltersContext.Provider>
+        </FiltersContext.Provider>
+      </View>
     </View>
   );
 }
