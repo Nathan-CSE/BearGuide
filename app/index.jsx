@@ -43,14 +43,12 @@ const BottomNav = () => {
 };
 
 export default function Index() {
-  return (
-    <BottomNav />
-  );
+  return <BottomNav />;
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    // marginTop: 50,
   },
   baseText: {
     fontFamily: 'Cochin',
