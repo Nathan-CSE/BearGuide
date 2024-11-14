@@ -8,8 +8,11 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
+// import LocationList from './LocationList';
+import { NavigationContainer } from '@react-navigation/native';
 import MapPage from './MapPage';
 import UserProfile from './UserProfile';
+import LocationDetail from './Location/LocationDetail'
 
 const theme = {
   ...DefaultTheme,
@@ -18,7 +21,9 @@ const theme = {
 
 const MapRoute = () => <MapPage />;
 
-const ProfileRoute = () => <UserProfile />;
+// Temporarily using profile tab for my component until we merge everything together
+const ProfileRoute = () => <LocationDetail locationId={1}/>;
+// const ProfileRoute = () => <UserProfile />;
 
 const BottomNav = () => {
   const [index, setIndex] = React.useState(0);
@@ -42,6 +47,8 @@ const BottomNav = () => {
   );
 };
 
+// Removed navigation container here to get it working, but might need it later
+// navigation container was initially for location details tab menu
 export default function Index() {
   return (
     <BottomNav />

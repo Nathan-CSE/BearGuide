@@ -148,8 +148,6 @@ const initialBearGuide = {
       password: 'bearguide',
       faculty: 'Computer Science and Engineering',
       campus: 'UNSW Kensington',
-      reviews: [{ locationId: 0, reviewId: 0 }],
-      favourites: [0], // Array of integers, integers represents locationId
       recents: [0], // Possibly related to search?
     },
     {
@@ -159,11 +157,6 @@ const initialBearGuide = {
       password: 'bearguide',
       faculty: 'Computer Science and Engineering',
       campus: 'UNSW Kensington',
-      reviews: [
-        { locationId: 0, reviewId: 1 },
-        { locationId: 1, reviewId: 0 },
-      ],
-      favourites: [1], // Array of integers, integers represents locationId
       recents: [1],
     },
   ],
@@ -181,8 +174,9 @@ export const BearGuideProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Reset async storage to initial state
-  const resetData = () => {
+  const resetData = async () => {
     try {
+      // Set in-memory data to the initial state
       setBearGuide(initialBearGuide);
     } catch (e) {
       console.warn('Error with resetting data: ', e);
@@ -201,6 +195,7 @@ export const BearGuideProvider = ({ children }) => {
   const loadBearGuideData = async () => {
     try {
       const storedData = await AsyncStorage.getItem(BEAR_GUIDE_STORAGE_KEY);
+      
       if (storedData !== null) {
         setBearGuide(JSON.parse(storedData));
       } else {
