@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, SafeAreaView, Image, useWindowDimensions } from 'react-native';
+import { View, ScrollView, StyleSheet, Image, useWindowDimensions } from 'react-native';
 import { 
   Card, 
   Title, 
@@ -14,7 +14,9 @@ import {
 import { useBearGuide } from '../BearGuideContext';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
+import { useTheme } from 'react-native-paper';
 
 // You may need to update react-native-screens to resolve dependency tree
 // npm install react-native-screens@^4.0.0
@@ -34,6 +36,7 @@ import PopularTimesChart from './PopularTimesChart';
 const LocationDetail = ({ locationId }) => {
   const { id } = useLocalSearchParams();
   const { bearGuide } = useBearGuide();
+  const theme = useTheme();
 
   if (!locationId) locationId = parseInt(id);
 
@@ -42,6 +45,7 @@ const LocationDetail = ({ locationId }) => {
   if (!location) {
     return <Text>No location found.</Text>;
   }
+
 
   const { 
     coordinates,
@@ -70,9 +74,27 @@ const LocationDetail = ({ locationId }) => {
     amenities: () => <AmenitiesScreen location={location} />,
   });
 
-  // React.useEffect(() => {
-  //   images.forEach((image, index) => console.log(`Image ${index} uri:`, image));
-  // }, [images]);
+  const renderTabBar = (props) => (
+    <View style={styles.tabBarContainer}>
+      <TabBar
+        {...props}
+        style={{
+          backgroundColor: 'rgba(0,0,0,0)',
+          width: 320,
+        }}
+        activeColor={theme.colors.primary}
+        inactiveColor={theme.colors.onSurfaceVariant}
+        indicatorStyle={{
+          backgroundColor: theme.colors.primary,
+          height: 4,
+          width: 50,
+          borderTopStartRadius: 10,
+          borderTopEndRadius: 10,
+          marginHorizontal: 55,
+        }}
+      />
+    </View>
+  );
 
   React.useEffect(() => {
     if (openingHours && openingHours.data) {
@@ -88,141 +110,136 @@ const LocationDetail = ({ locationId }) => {
 
   return (
     <>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView>
+          <Card style={styles.card}>
+            <Card.Content>
+              <View style={styles.header}>
+                <Text variant="headlineLarge" style={styles.title}>{name}</Text>
+                <IconButton
+                  icon="close"
+                  mode="contained"
+                  onPress={() => console.log('Close button pressed')}
+                  style={styles.closeIcon}
+                />
+              </View>
 
-      <ScrollView>
-        <Card style={styles.card}>
-          <Card.Content>
-            <View style={styles.header}>
-              <Text variant="headlineLarge" style={styles.title}>{name}</Text>
-              <IconButton
-                icon="close"
-                mode="contained"
-                onPress={() => console.log('Close button pressed')}
-                style={styles.closeIcon}
+              {/* Probably change this to render a component that takes in a prop that conditionally */}
+              {/* renders the amount of stars (e.g. 3.5 -> round up to 4 stars) */}
+              <View style={styles.ratingContainer}>
+                <Text style={styles.ratingText}>4.2</Text>
+                <Text>⭐️⭐️⭐️⭐️☆ (12)</Text>
+              </View>
+
+              {/* Can't seem to get spaces between buttons if I include the entire text in the button */}
+              {/* Spaces vs. text */}
+              <View style={styles.buttonRow}>
+                <Button icon="map-marker" mode="elevated" style={styles.button}>
+                  Directions
+                </Button>
+                <Button icon="cards-heart-outline" mode="elevated" style={styles.button}>
+                  Favourite
+                </Button>
+                <Button icon="share-variant-outline" mode="elevated" style={styles.button}>
+                  Share
+                </Button>
+              </View>
+
+              <View style={styles.imageContainer}>
+                {images.map((image, index) => (
+                  <Card.Cover key={index} source={{ uri: image }} style={styles.image} />
+                  // console.log("this is uri: ", image)
+                  // <Image key={index} style={styles.image} source={{ uri: image }} />
+                ))}
+              </View>
+
+
+              <Card.Content>
+                <Text style={styles.subtitle}>Opening Hours:</Text>
+                {openingHours && openingHours.data ? (
+                  Object.entries(openingHours.data).map(([day, hours]) => (
+                    <Text key={day}>
+                      {day.charAt(0).toUpperCase() + day.slice(1)}: 
+                      {hours.open === "Closed" ? " Closed" : ` ${hours.open} - ${hours.close}`}
+                    </Text>
+                  ))
+                ) : (
+                  <Text>No opening hours available.</Text>
+                )}
+              </Card.Content>
+
+
+              <Paragraph>{description}</Paragraph>
+            </Card.Content>
+
+            <Divider style={styles.divider} />
+
+            {/* Having a lot of issues with popular times chart so gonna come back to it later */}
+            {/* <SafeAreaView style={{ flex: 1 }}>
+              <PopularTimesChart 
+                dayData={location.reviews.popularTimes.tuesday} 
+                day="Tuesday" 
               />
-            </View>
-
-            {/* Probably change this to render a component that takes in a prop that conditionally */}
-            {/* renders the amount of stars (e.g. 3.5 -> round up to 4 stars) */}
-            <View style={styles.ratingContainer}>
-              <Text style={styles.ratingText}>4.2</Text>
-              <Text>⭐️⭐️⭐️⭐️☆ (12)</Text>
-            </View>
-
-            {/* Can't seem to get spaces between buttons if I include the entire text in the button */}
-            {/* Spaces vs. text */}
-            <View style={styles.buttonRow}>
-              <Button icon="map-marker" mode="elevated" style={styles.button}>
-                Directions
-              </Button>
-              <Button icon="cards-heart-outline" mode="elevated" style={styles.button}>
-                Favourite
-              </Button>
-              <Button icon="share-variant-outline" mode="elevated" style={styles.button}>
-                Share
-              </Button>
-            </View>
-
-            <View style={styles.imageContainer}>
-              {images.map((image, index) => (
-                <Card.Cover key={index} source={{ uri: image }} style={styles.image} />
-                // console.log("this is uri: ", image)
-                // <Image key={index} style={styles.image} source={{ uri: image }} />
-              ))}
-            </View>
+              <PopularTimesChart 
+                dayData={location.reviews.popularTimes?.tuesday || []} // Provide an empty array as fallback
+                day="Tuesday" 
+              />
+            </SafeAreaView> */}
+            
 
 
             <Card.Content>
-              <Text style={styles.subtitle}>Opening Hours:</Text>
-              {openingHours && openingHours.data ? (
-                Object.entries(openingHours.data).map(([day, hours]) => (
-                  <Text key={day}>
-                    {day.charAt(0).toUpperCase() + day.slice(1)}: 
-                    {hours.open === "Closed" ? " Closed" : ` ${hours.open} - ${hours.close}`}
-                  </Text>
-                ))
-              ) : (
-                <Text>No opening hours available.</Text>
-              )}
+              <Text style={styles.subtitle}>Review Summary:</Text>
+              <Text>Accessibility: {reviews.summary.accessibility}</Text>
+              <Text>Cleanliness: {reviews.summary.cleanliness}</Text>
+              <Text>Noisiness: {reviews.summary.noisiness}</Text>
+              <Text>Overall: {reviews.summary.overall}</Text>
             </Card.Content>
 
-
-            <Paragraph>{description}</Paragraph>
-          </Card.Content>
-
-          <Divider style={styles.divider} />
-
-          {/* Having a lot of issues with popular times chart so gonna come back to it later */}
-          {/* <SafeAreaView style={{ flex: 1 }}>
-            <PopularTimesChart 
-              dayData={location.reviews.popularTimes.tuesday} 
-              day="Tuesday" 
-            />
-            <PopularTimesChart 
-              dayData={location.reviews.popularTimes?.tuesday || []} // Provide an empty array as fallback
-              day="Tuesday" 
-            />
-          </SafeAreaView> */}
-          
+            <Divider style={styles.divider} />
 
 
-          <Card.Content>
-            <Text style={styles.subtitle}>Review Summary:</Text>
-            <Text>Accessibility: {reviews.summary.accessibility}</Text>
-            <Text>Cleanliness: {reviews.summary.cleanliness}</Text>
-            <Text>Noisiness: {reviews.summary.noisiness}</Text>
-            <Text>Overall: {reviews.summary.overall}</Text>
-          </Card.Content>
-
-          <Divider style={styles.divider} />
-
-          <Card.Content>
-            <Text style={styles.subtitle}>Amenities:</Text>
-            <View style={styles.amenitiesContainer}>
-              {amenities.length > 0 ? (
-                amenities.map((amenity, index) => (
-                  <Chip key={index} style={styles.chip}>
-                    {amenity.category} - {amenity.comment}
-                  </Chip>
-                ))
-              ) : (
-                <Text>No amenities available.</Text>
-              )}
-            </View>
-          </Card.Content>
-          
-          {/* Regardless -> the tab navigation just doesn't seem to work which is REALLY annoying */}
-        
-          <TabView
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{ width: layout.width }}
-            style={styles.tabView}
-            renderTabBar={(props) => (
-              <View style={styles.tabBar}>
-                <TabBar {...props} indicatorStyle={{ backgroundColor: 'blue' }} />
+            <Card.Content>
+              <Text style={styles.subtitle}>Amenities:</Text>
+              <View style={styles.amenitiesContainer}>
+                {amenities.length > 0 ? (
+                  amenities.map((amenity, index) => (
+                    <Chip key={index} style={styles.chip}>
+                      {amenity.category} - {amenity.comment}
+                    </Chip>
+                  ))
+                ) : (
+                  <Text>No amenities available.</Text>
+                )}
               </View>
-            )}
-          />
-        </Card>
-      </ScrollView>
+            </Card.Content>
+            
+            {/* Regardless -> the tab navigation just doesn't seem to work which is REALLY annoying */}
+          
+
+          </Card>
+        </ScrollView>
+        {/* Tab View */}
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          initialLayout={{ width: layout.width }}
+          renderTabBar={renderTabBar}
+          style={styles.tabView}
+        />
+
+      </SafeAreaView>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  tabNavigator: {
-    position: 'absolute',
-    bottom: 0, // Make it stick to the bottom of the screen
-    left: 0,
-    right: 0,
-    zIndex: 10, // Ensure it's above other components
-  },
   card: {
     margin: 10,
     padding: 10,
   },
+  tabView: { flex: 1 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

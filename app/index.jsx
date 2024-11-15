@@ -22,8 +22,8 @@ const theme = {
 const MapRoute = () => <MapPage />;
 
 // Temporarily using profile tab for my component until we merge everything together
-const ProfileRoute = () => <LocationDetail locationId={1}/>;
-// const ProfileRoute = () => <UserProfile />;
+// const ProfileRoute = () => <LocationDetail locationId={1}/>;
+const ProfileRoute = () => <UserProfile />;
 
 const BottomNav = () => {
   const [index, setIndex] = React.useState(0);
@@ -50,14 +50,12 @@ const BottomNav = () => {
 // Removed navigation container here to get it working, but might need it later
 // navigation container was initially for location details tab menu
 export default function Index() {
-  return (
-    <BottomNav />
-  );
+  return <BottomNav />;
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    // marginTop: 50,
   },
   baseText: {
     fontFamily: 'Cochin',

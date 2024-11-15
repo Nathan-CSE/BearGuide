@@ -7,6 +7,35 @@ const OverviewScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
+      <Text style={styles.title}>Overview</Text>
       {/* <Text>{location.description}</Text> */}
     </View>
   );
@@ -15,6 +44,7 @@ const OverviewScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: "#bbbbbb",
   },
   title: {
     fontWeight: 'bold',

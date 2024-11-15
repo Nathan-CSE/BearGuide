@@ -72,6 +72,48 @@ const ReviewList = () => {
         )}
         keyExtractor={(item) => item.id}
       />
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
+      <Text>List is empty</Text>
     </View>
   );
 };
