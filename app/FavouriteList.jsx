@@ -27,7 +27,6 @@ const FavouriteList = () => {
 
   return (
     <ScrollView
-      styel
       style={{ paddingHorizontal: 24, paddingVertical: 16, gap: 24 }}
     >
       {favourites.length > 0 ? (
