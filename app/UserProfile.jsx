@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { Avatar, Button, Surface, Text } from 'react-native-paper';
-
+import { Button, Surface, Text } from 'react-native-paper';
 import { useBearGuide } from './BearGuideContext';
 import { StyleSheet } from 'react-native';
 import UserProfileTab from './UserProfileTab';
+import ProfileIcon from '@/components/profile/ProfileIcon';
+import { useRouter } from 'expo-router';
 
 const UserProfile = () => {
   const { bearGuide } = useBearGuide();
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // finds current user using userId
@@ -17,10 +19,10 @@ const UserProfile = () => {
 
   return (
     <View style={styles.profileContainer}>
-      <Surface elevation={5} style={styles.headerContainer}>
+      <Surface elevation={5} mode="flat" style={styles.headerContainer}>
         <SafeAreaView>
           <View style={styles.userInfo}>
-            <Avatar.Icon size={80} icon="account" />
+            <ProfileIcon user={user} />
             <View style={{ maxWidth: 150 }}>
               <Text variant="headlineLarge" style={{ fontWeight: 'bold' }}>
                 {user ? user.name : 'Name'}
@@ -32,7 +34,7 @@ const UserProfile = () => {
             </View>
             <Button
               mode="contained"
-              onPress={() => console.log('show modal for editing')}
+              onPress={() => router.push('/EditProfile')}
             >
               Edit
             </Button>
