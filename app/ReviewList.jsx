@@ -33,7 +33,7 @@ const ReviewList = () => {
         <Text>List is empty</Text>
       )}
       <FlatList
-        data={reviews}
+        data={[...reviews, ...reviews]}
         ItemSeparatorComponent={<Divider />}
         renderItem={({ item }) => (
           <View
@@ -72,48 +72,6 @@ const ReviewList = () => {
         )}
         keyExtractor={(item) => item.id}
       />
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
-      <Text>List is empty</Text>
     </View>
   );
 };
