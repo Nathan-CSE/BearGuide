@@ -13,6 +13,7 @@ import {
   useTheme,
   Icon,
 } from 'react-native-paper';
+import StarRating from '../StarRating';
 
 const OverviewScreen = ({ location }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -97,28 +98,21 @@ const OverviewScreen = ({ location }) => {
      
       <Divider style={styles.divider} />
 
-      <Text style={styles.subtitle}>Review Summary:</Text>
-      <Text>Accessibility: {reviews.summary.accessibility}</Text>
-      <Text>Cleanliness: {reviews.summary.cleanliness}</Text>
-      <Text>Noisiness: {reviews.summary.noisiness}</Text>
-      <Text>Overall: {reviews.summary.overall}</Text>
-
-      <Divider style={styles.divider} />
-
-
-      <Text style={styles.subtitle}>Amenities:</Text>
-      <View style={styles.amenitiesContainer}>
-        {amenities.length > 0 ? (
-          amenities.map((amenity, index) => (
-            <Chip key={index} style={styles.chip}>
-              {amenity.category} - {amenity.comment}
-            </Chip>
-          ))
-        ) : (
-          <Text>No amenities available.</Text>
-        )}
+      <Text style={styles.subtitle}>Review Summary</Text>
+      <View style={styles.reviewSummaryContainer}>
+        {[
+          { label: 'Overall', value: reviews.summary.overall },
+          { label: 'Cleanliness', value: reviews.summary.cleanliness },
+          { label: 'Noisiness', value: reviews.summary.noisiness },
+          { label: 'Accessibility', value: reviews.summary.accessibility },
+        ].map((item, index) => (
+          <View key={index} style={styles.reviewItem}>
+            <Text style={styles.ratingValue}>{item.value.toFixed(1)}</Text>
+            <StarRating rating={item.value} />
+            <Text style={styles.ratingLabel}>{item.label}</Text>
+          </View>
+        ))}
       </View>
-
     </ScrollView>
   );
 };
@@ -219,6 +213,30 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: 10,
   },
+  reviewSummaryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderRadius: 10,
+  },
+  reviewItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  ratingValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  starContainer: {
+    flexDirection: 'row',
+    marginVertical: 5,
+  },
+  ratingLabel: {
+    fontSize: 12,
+    color: '#555',
+  },
+  
 });
 
 

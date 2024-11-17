@@ -44,6 +44,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
+            title: 'Very cool!',
             comment: 'What an amazing building.',
           },
           {
@@ -53,6 +54,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 4,
             overall: 4.5,
+            title: 'Very cool!',
             comment: 'Spectacular building, but it can get loud.',
           },
         ],
@@ -134,6 +136,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
+            title: 'Very cool!',
             comment: 'What an amazing building.',
           },
         ],

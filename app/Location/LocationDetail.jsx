@@ -25,7 +25,7 @@ import OverviewScreen from './OverviewScreen';
 import ReviewsScreen from './ReviewsScreen';
 import AmenitiesScreen from './AmenitiesScreen'
 import PopularTimesChart from './PopularTimesChart';
-
+import StarRating from '../StarRating';
 
 const LocationDetail = ({ locationId }) => {
   const { id } = useLocalSearchParams();
@@ -123,11 +123,13 @@ const LocationDetail = ({ locationId }) => {
         />
       </View>
 
-      {/* Probably change this to render a component that takes in a prop that conditionally */}
-      {/* renders the amount of stars (e.g. 3.5 -> round up to 4 stars) */}
+      {/* Rating */}
       <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>4.2</Text>
-        <Text>⭐️⭐️⭐️⭐️☆ (12)</Text>
+        <StarRating rating={reviews.summary.overall || 4.2} size={20} />
+        <Text style={styles.ratingValue}>
+          {reviews.summary.overall ? reviews.summary.overall.toFixed(1) : 'Unable to find star rating'}
+        </Text>
+        <Text style={styles.ratingCount}> ({reviews.list.length})</Text>
       </View>
 
       {/* Can't seem to get spaces between buttons if I include the entire text in the button */}
@@ -225,6 +227,21 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: 10,
   },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  ratingValue: {
+    marginLeft: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  ratingCount: {
+    marginLeft: 5,
+    fontSize: 14,
+    color: 'gray',
+  }
 });
 
 export default LocationDetail;
