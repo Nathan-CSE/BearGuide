@@ -15,7 +15,7 @@ const UserProfile = () => {
   useEffect(() => {
     // finds current user using userId
     setUser(bearGuide.users.find((x) => x.id === bearGuide.currentUserId));
-  }, []);
+  }, [bearGuide]);
 
   return (
     <View style={styles.profileContainer}>
@@ -24,7 +24,11 @@ const UserProfile = () => {
           <View style={styles.userInfo}>
             <ProfileIcon user={user} />
             <View style={{ maxWidth: 150 }}>
-              <Text variant="headlineLarge" style={{ fontWeight: 'bold' }}>
+              <Text
+                variant="headlineLarge"
+                style={{ fontWeight: 'bold' }}
+                numberOfLines={1}
+              >
                 {user ? user.name : 'Name'}
               </Text>
               <Text variant="labelLarge" numberOfLines={2}>

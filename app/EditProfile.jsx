@@ -2,7 +2,10 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import React, { memo, useEffect, useState } from 'react';
 import {
   Button,
+  Dialog,
   IconButton,
+  Modal,
+  Portal,
   Surface,
   Text,
   TextInput,
@@ -37,6 +40,10 @@ const faculties = [
 
 const EditProfile = () => {
   const [user, setUser] = useState(null);
+  const { bearGuide, setBearGuide } = useBearGuide();
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [localInfo, setLocalInfo] = useState({
     name: '',
     email: '',
@@ -45,9 +52,6 @@ const EditProfile = () => {
     password: '',
     profile_image: null,
   });
-  const { bearGuide, setBearGuide } = useBearGuide();
-  const router = useRouter();
-  const [gender, setGender] = useState();
 
   useEffect(() => {
     // finds current user using userId
@@ -59,7 +63,6 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (user) {
-      console.log(user.profile_image);
       setLocalInfo({
         name: user.name,
         email: user.email,
@@ -96,6 +99,16 @@ const EditProfile = () => {
 
   return (
     <View>
+      <Portal>
+        <Dialog visible={isVisible} onDismiss={() => setIsVisible(false)}>
+          <Dialog.Title>
+            <Text>Your profile has been saved successfully</Text>
+          </Dialog.Title>
+          <Dialog.Content>
+            <Text>Press anywhere to dismiss.</Text>
+          </Dialog.Content>
+        </Dialog>
+      </Portal>
       <Surface elevation={5} mode="flat">
         <SafeAreaView>
           <View style={styles.header}>
@@ -139,6 +152,7 @@ const EditProfile = () => {
         <TextInput
           style={{ maxHeight: 56, width: '100%' }}
           label="Name"
+          maxLength={15}
           value={localInfo.name}
           onChangeText={handleChange('name')}
           mode="outlined"
@@ -152,17 +166,33 @@ const EditProfile = () => {
         />
         <TextInput
           style={{ maxHeight: 56, width: '100%' }}
-          label={'Password'}
+          label="Password"
+          secureTextEntry={!showPassword}
           value={localInfo.password}
           onChangeText={handleChange('password')}
           mode="outlined"
+          right={
+            <TextInput.Icon
+              icon={showPassword ? 'eye-off' : 'eye'}
+              size={24}
+              onPress={() => setShowPassword((prev) => !prev)}
+            />
+          }
         />
-
         <Button
           style={{ marginTop: 16 }}
           mode="contained"
           onPress={() => {
-            console.log(localInfo);
+            // combine updated data with stored data
+            const userData = { ...user, ...localInfo };
+            // remove old user data
+            const updatedUsers = bearGuide.users.filter(
+              (u) => u.id !== user.id
+            );
+            // add new user data
+            updatedUsers.push(userData);
+            setBearGuide({ ...bearGuide, users: updatedUsers });
+            setIsVisible(true);
           }}
         >
           Save Changes
