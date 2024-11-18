@@ -20,7 +20,9 @@ export default function RootLayout() {
     <BearGuideProvider>
       <PaperProvider theme={theme}>
         <Stack>
+          <Stack.Screen name="LoginPage" options={{ headerShown: false }} />
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="home" options={{ headerShown: false }} />
           <Stack.Screen name="EditProfile" options={{ headerShown: false }} />
           <Stack.Screen
             name="LocationSearch"

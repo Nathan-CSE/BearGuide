@@ -1,73 +1,21 @@
-import * as React from 'react';
-import { AppRegistry } from 'react-native';
-import {
-  MD3LightTheme as DefaultTheme,
-  PaperProvider,
-} from 'react-native-paper';
-import { BottomNavigation, Text } from 'react-native-paper';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
-import BearGuideColourScheme from '@/constants/ColourScheme';
-import { BearGuideProvider } from './BearGuideContext';
-import MapPage from './MapPage';
-import UserProfile from './UserProfile';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Link } from 'expo-router';
+import { Button } from 'react-native-paper';
+import a from '@/assets/images/Expanded Logo.png';
 
-const theme = {
-  ...DefaultTheme,
-  colors: BearGuideColourScheme.colors,
-};
-
-const MapRoute = () => <MapPage />;
-
-const ProfileRoute = () => <UserProfile />;
-
-const BottomNav = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'map', title: 'Map', focusedIcon: 'map' },
-    { key: 'profile', title: 'User Profile', focusedIcon: 'account-outline' },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    map: MapRoute,
-    profile: ProfileRoute,
-  });
-
+const index = () => {
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      style={styles.container}
-    />
+    <SafeAreaView>
+      <Image source={a} style={{ maxWidth: '100%', height: '100%' }} />
+      <Text>index</Text>
+      <Link href={'/home'}>
+        <Button>Go to Home</Button>
+      </Link>
+    </SafeAreaView>
   );
 };
 
-export default function Index() {
-  return <BottomNav />;
-}
+export default index;
 
-const styles = StyleSheet.create({
-  container: {
-    // marginTop: 50,
-  },
-  baseText: {
-    fontFamily: 'Cochin',
-  },
-  titleText: {
-    fontWeight: 'bold',
-    margin: 'auto',
-    marginTop: 50,
-  },
-  button: {
-    marginTop: 20,
-    marginHorizontal: 'auto',
-  },
-  textField: {
-    marginVertical: 10,
-  },
-  createModal: {
-    borderWidth: 1,
-    padding: 20,
-    margin: 10,
-  },
-});
+const styles = StyleSheet.create({});
