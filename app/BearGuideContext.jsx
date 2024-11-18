@@ -8,7 +8,13 @@ const initialBearGuide = {
     {
       id: 0,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      spaceType: ["Building", "Study Space", "Cafe", "Computer Lab", "Tutorial Room"],
+      spaceType: [
+        'Building',
+        'Study Space',
+        'Cafe',
+        'Computer Lab',
+        'Tutorial Room',
+      ],
       address: 'Science Rd, Kensington NSW 2033',
       name: 'K17 Computer Science Building',
       amenities: [{ category: 'power', comment: 'Outlet Charging' }],
@@ -62,10 +68,16 @@ const initialBearGuide = {
     {
       id: 1,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      address: "Science Rd, Kensington NSW 2033",
-      name: "Blockhouse G15",
-      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
-      amenities: [{ category: "power", comment: "Outlet Charging" }],
+      address: 'Science Rd, Kensington NSW 2033',
+      name: 'Blockhouse G15',
+      spaceType: [
+        'Building',
+        'Study Space',
+        'Computer Lab',
+        'Lecture Hall',
+        'Tutorial Room',
+      ],
+      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
       capacity: 50,
       // example hourly levels from 12 AM to 11 PM
       popularTimes: {
@@ -146,8 +158,9 @@ const initialBearGuide = {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'bearguide',
-      faculty: 'Computer Science and Engineering',
+      faculty: 'UNSW Faculty of Engineering',
       campus: 'UNSW Kensington',
+      profile_image: null,
       reviews: [{ locationId: 0, reviewId: 0 }],
       favourites: [0], // Array of integers, integers represents locationId
       recents: [0], // Possibly related to search?
@@ -157,8 +170,9 @@ const initialBearGuide = {
       name: 'Jane Doe',
       email: 'janedoe@example.com',
       password: 'bearguide',
-      faculty: 'Computer Science and Engineering',
+      faculty: 'UNSW Faculty of Engineering',
       campus: 'UNSW Kensington',
+      profile_image: null,
       reviews: [
         { locationId: 0, reviewId: 1 },
         { locationId: 1, reviewId: 0 },
