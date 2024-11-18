@@ -38,7 +38,7 @@ const ReviewList = () => {
         <Text>List is empty</Text>
       )}
       <FlatList
-        data={[...reviews, ...reviews]}
+        data={[...reviews]}
         ItemSeparatorComponent={<Divider />}
         keyExtractor={(item) => item.reviewId}
         renderItem={({ item }) => (

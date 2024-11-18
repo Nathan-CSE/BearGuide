@@ -3,7 +3,7 @@ import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory-nat
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useBearGuide } from '../BearGuideContext';
-
+  
 const PopularTimesChart = ({ location, selectedDay }) => {
   const { bearGuide } = useBearGuide();
 
