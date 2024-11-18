@@ -10,16 +10,16 @@ const routes = [
   { key: 'second', title: 'Favourites' },
 ];
 
-export default function TabViewExample({ user }) {
+export default function UserProfileTab() {
   const theme = useTheme();
   const [index, setIndex] = React.useState(0);
   const navigationState = { index, routes };
-  
+
   const renderScene = SceneMap({
     first: ReviewList,
     second: FavouriteList,
   });
-  
+
   // Render custom tab bar
   const renderTabBar = (props) => {
     const { navigationState, ...restProps } = props;
