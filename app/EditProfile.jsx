@@ -1,10 +1,9 @@
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
   IconButton,
-  Modal,
   Portal,
   Surface,
   Text,

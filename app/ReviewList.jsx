@@ -13,14 +13,19 @@ const ReviewList = () => {
     // filter user written reviews
     const userReviews = bearGuide.locations
       .flatMap((location) =>
-        location.reviews.list.map((review) => ({
-          ...review,
-          name: location.name,
-        }))
+        location.reviews.list.map((review) => {
+          return {
+            userId: review.userId,
+            comment: review.comment,
+            overall: review.overall,
+            reviewId: review.id,
+            locationId: location.id,
+            name: location.name,
+          };
+        })
       )
       .filter((review) => review.userId === bearGuide.currentUserId);
     setReviews(userReviews);
-    userReviews.forEach((review) => console.log(review));
   }, []);
 
   return (
@@ -35,6 +40,7 @@ const ReviewList = () => {
       <FlatList
         data={reviews}
         ItemSeparatorComponent={<Divider />}
+        keyExtractor={(item) => item.reviewId}
         renderItem={({ item }) => (
           <View
             style={{
@@ -63,14 +69,17 @@ const ReviewList = () => {
               </View>
               <Button
                 mode="outlined"
-                onPress={() => console.log('show modal for more info')}
+                onPress={() =>
+                  console.log(
+                    `location: ${item.locationId} review: ${item.reviewId}`
+                  )
+                }
               >
                 More Info
               </Button>
             </View>
           </View>
         )}
-        keyExtractor={(item) => item.id}
       />
     </View>
   );
