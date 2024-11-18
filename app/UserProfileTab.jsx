@@ -13,43 +13,50 @@ const routes = [
 export default function TabViewExample({ user }) {
   const theme = useTheme();
   const [index, setIndex] = React.useState(0);
-
+  const navigationState = { index, routes };
+  
   const renderScene = SceneMap({
     first: ReviewList,
     second: FavouriteList,
   });
+  
+  // Render custom tab bar
+  const renderTabBar = (props) => {
+    const { navigationState, ...restProps } = props;
 
-  const renderTabBar = (props) => (
-    <View
-      style={{
-        alignItems: 'center',
-        backgroundColor: theme.colors.elevation['level5'],
-      }}
-    >
-      <TabBar
-        {...props}
+    return (
+      <View
         style={{
-          backgroundColor: 'rgba(0,0,0,0)',
-          width: 320,
+          alignItems: 'center',
+          backgroundColor: theme.colors.elevation['level5'],
         }}
-        activeColor={theme.colors.primary}
-        inactiveColor={theme.colors.onSurfaceVariant}
-        indicatorStyle={{
-          backgroundColor: theme.colors.primary,
-          height: 4,
-          width: 50,
-          borderTopStartRadius: 10,
-          borderTopEndRadius: 10,
-          marginHorizontal: 55,
-        }}
-      />
-    </View>
-  );
+      >
+        <TabBar
+          {...restProps}
+          navigationState={navigationState} // Ensure correct navigationState is passed
+          style={{
+            backgroundColor: 'rgba(0,0,0,0)',
+            width: 320,
+          }}
+          activeColor={theme.colors.primary}
+          inactiveColor={theme.colors.onSurfaceVariant}
+          indicatorStyle={{
+            backgroundColor: theme.colors.primary,
+            height: 4,
+            width: 50,
+            borderTopStartRadius: 10,
+            borderTopEndRadius: 10,
+            marginHorizontal: 55,
+          }}
+        />
+      </View>
+    );
+  };
 
   return (
     <View style={{ flex: 1 }}>
       <TabView
-        navigationState={{ index, routes }}
+        navigationState={navigationState}
         renderScene={renderScene}
         onIndexChange={setIndex}
         renderTabBar={renderTabBar}

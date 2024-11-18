@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     paddingHorizontal: 24,
-    paddingTop: 32,
+    paddingTop: 64,
     paddingBottom: 16,
   },
   userInfo: {
