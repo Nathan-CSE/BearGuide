@@ -24,16 +24,15 @@ export default function RootLayout() {
       <PaperProvider theme={theme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          {/* <Stack.Screen
-            name="index"
-            options={{
-              headerStyle: {
-                backgroundColor: theme.colors.elevation['level5'],
-              },
-            }}
-          /> */}
+          <Stack.Screen name="EditProfile" options={{ headerShown: false }} />
           <Stack.Screen
             name="LocationSearch"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Location/LocationDetail"
             options={{
               headerShown: false,
             }}

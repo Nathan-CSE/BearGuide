@@ -1,15 +1,7 @@
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Image,
-  SectionList,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, View, Image, ScrollView, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useBearGuide } from './BearGuideContext';
-import { Button, Divider, Surface, Text } from 'react-native-paper';
-import { StarRatingDisplay } from 'react-native-star-rating-widget';
+import { Button, Surface, Text } from 'react-native-paper';
 
 const FavouriteList = () => {
   const { bearGuide } = useBearGuide();
@@ -18,17 +10,22 @@ const FavouriteList = () => {
   useEffect(() => {
     // map locations -> reviews
     // filter user written reviews
-    const userFavourites = bearGuide.locations.filter((location) =>
-      location.favourited.includes(bearGuide.currentUserId)
-    );
+    const userFavourites = bearGuide.locations
+      .filter((location) =>
+        location.favourited.includes(bearGuide.currentUserId)
+      )
+      .flatMap((location) => {
+        return {
+          id: location.id,
+          name: location.name,
+          images: [...location.images],
+        };
+      });
     setFavourites(userFavourites);
-    userFavourites.forEach((favourite) => console.log(favourite.name));
   }, []);
 
   return (
-    <ScrollView
-      style={{ paddingHorizontal: 24, paddingVertical: 16, gap: 24 }}
-    >
+    <View style={{ paddingHorizontal: 24, paddingVertical: 16 }}>
       {favourites.length > 0 ? (
         <Text variant="labelLarge" style={{ fontWeight: 'bold' }}>
           Most Recent
@@ -36,10 +33,16 @@ const FavouriteList = () => {
       ) : (
         <Text>List is empty</Text>
       )}
-      <View style={{ gap: 24, paddingTop: 24 }}>
-        {favourites.map((item) => (
+      <FlatList
+        data={favourites}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{
+          gap: 24,
+          paddingTop: 24,
+        }}
+        renderItem={({ item }) => (
           <View
-            key={item.id}
             style={{
               borderRadius: 5,
               overflow: 'hidden',
@@ -66,7 +69,7 @@ const FavouriteList = () => {
                 </Text>
                 <Button
                   mode="outlined"
-                  onPress={() => console.log('show location on map')}
+                  onPress={() => console.log(`location: ${item.id}`)}
                 >
                   Show on Map
                 </Button>
@@ -77,24 +80,19 @@ const FavouriteList = () => {
                   justifyContent: 'space-between',
                 }}
               >
-                <Image
-                  source={{ uri: item.images[0] }}
-                  style={{ height: 88, width: 88 }}
-                />
-                <Image
-                  source={{ uri: item.images[1] }}
-                  style={{ height: 88, width: 88 }}
-                />
-                <Image
-                  source={{ uri: item.images[2] }}
-                  style={{ height: 88, width: 88 }}
-                />
+                {item.images.slice(0, 3).map((imageUri, index) => (
+                  <Image
+                    key={index}
+                    source={{ uri: imageUri }}
+                    style={{ height: 88, width: 88 }}
+                  />
+                ))}
               </View>
             </Surface>
           </View>
-        ))}
-      </View>
-    </ScrollView>
+        )}
+      />
+    </View>
   );
 };
 
