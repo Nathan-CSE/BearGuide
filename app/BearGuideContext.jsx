@@ -3,224 +3,892 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define initial structure for bearGuide
 const initialBearGuide = {
-  currentUserId: 1,
-  locations: [
+  "currentUserId": 1,
+  "locations": [
     {
-      id: 0,
-      coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      spaceType: [
-        'Building',
-        'Study Space',
-        'Cafe',
-        'Computer Lab',
-        'Tutorial Room',
-      ],
-      address: 'Science Rd, Kensington NSW 2033',
-      name: 'K17 Computer Science Building',
-      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
-      capacity: 0,
-      popularTimes: {
-        monday: [
-          0, 0, 0, 0, 1, 2, 4, 6, 7, 6, 5, 4, 3, 2, 3, 5, 7, 6, 5, 4, 3, 2, 1,
-          0,
-        ],
-        tuesday: [
-          0, 0, 0, 0, 1, 2, 4, 5, 6, 6, 5, 4, 3, 3, 4, 5, 6, 7, 5, 4, 3, 2, 1,
-          0,
-        ],
-        wednesday: [
-          0, 0, 0, 0, 1, 3, 4, 6, 7, 6, 5, 5, 4, 3, 4, 5, 6, 6, 5, 3, 2, 1, 1,
-          0,
-        ],
-        thursday: [
-          0, 0, 0, 0, 1, 2, 3, 5, 6, 6, 5, 4, 3, 4, 5, 5, 6, 6, 5, 4, 3, 2, 1,
-          0,
-        ],
-        friday: [
-          0, 0, 0, 0, 1, 2, 4, 6, 8, 8, 7, 5, 5, 6, 7, 8, 7, 6, 5, 3, 2, 1, 0,
-          0,
-        ],
-        saturday: [
-          0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 8, 7, 6, 5, 4, 5, 6, 5, 4, 3, 2, 1, 0,
-          0,
-        ],
-        sunday: [
-          0, 0, 0, 1, 2, 3, 4, 5, 5, 6, 5, 4, 3, 4, 5, 5, 4, 4, 3, 2, 1, 0, 0,
-          0,
-        ],
+      "id": 0,
+      "coordinates": {
+        "long": -33.918900523094244,
+        "lat": 151.23102394496718
       },
-      images: [
-        'https://s3.studentvip.com.au/photos/front-view-174705-small.jpg',
-        'https://s3.studentvip.com.au/photos/back-view-174604-small.jpg',
-        'https://s3.studentvip.com.au/photos/side-view-174603-small.jpg',
+      "spaceType": [
+        "Building",
+        "Study Space",
+        "Cafe",
+        "Computer Lab",
+        "Tutorial Room"
       ],
-      openingHours: { 
-        type: 1, 
-        data: {
-          monday: { open: '9:00', close: '17:00' },
-          tuesday: { open: '9:00', close: '23:00' },
-          wednesday: { open: '9:00', close: '17:00' },
-          thursday: { open: '9:00', close: '17:00' },
-          friday: { open: '9:00', close: '17:00' },
-          saturday: { open: '10:00', close: '15:00' },
-          sunday: { open: 'Closed', close: 'Closed' },
-        } 
+      "address": "Science Rd, Kensington NSW 2033",
+      "name": "K17 Computer Science Building",
+      "amenities": [
+        {
+          "category": "power",
+          "comment": "Outlet Charging"
+        }
+      ],
+      "capacity": 0,
+      "popularTimes": {
+        "monday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          3,
+          5,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "tuesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          3,
+          4,
+          5,
+          6,
+          7,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "wednesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3,
+          4,
+          6,
+          7,
+          6,
+          5,
+          5,
+          4,
+          3,
+          4,
+          5,
+          6,
+          6,
+          5,
+          3,
+          2,
+          1,
+          1,
+          0
+        ],
+        "thursday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          4,
+          5,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "friday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          8,
+          7,
+          5,
+          5,
+          6,
+          7,
+          8,
+          7,
+          6,
+          5,
+          3,
+          2,
+          1,
+          0,
+          0
+        ],
+        "saturday": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          8,
+          7,
+          6,
+          5,
+          4,
+          5,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0
+        ],
+        "sunday": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          5,
+          6,
+          5,
+          4,
+          3,
+          4,
+          5,
+          5,
+          4,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          0
+        ]
       },
-      favourited: [1],
-      description: 'Computer Science and Engineering',
-      reviews: {
-        summary: {
-          accessibility: 4.2,
-          cleanliness: 4.2,
-          noisiness: 4.2,
-          overall: 4.2,
+      "images": [
+        "https://s3.studentvip.com.au/photos/front-view-174705-small.jpg",
+        "https://s3.studentvip.com.au/photos/back-view-174604-small.jpg",
+        "https://s3.studentvip.com.au/photos/side-view-174603-small.jpg"
+      ],
+      "openingHours": {
+        "type": 1,
+        "data": {
+          "monday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "tuesday": {
+            "open": "9:00",
+            "close": "23:00"
+          },
+          "wednesday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "thursday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "friday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "saturday": {
+            "open": "10:00",
+            "close": "15:00"
+          },
+          "sunday": {
+            "open": "Closed",
+            "close": "Closed"
+          }
+        }
+      },
+      "favourited": [
+        1
+      ],
+      "description": "Computer Science and Engineering",
+      "reviews": {
+        "summary": {
+          "accessibility": 4.2,
+          "cleanliness": 4.2,
+          "noisiness": 4.2,
+          "overall": 4.2
         },
-        list: [
+        "list": [
           {
-            id: 0,
-            userId: 0,
-            accessibility: 5,
-            cleanliness: 5,
-            noisiness: 5,
-            overall: 5,
-            title: 'Very cool!',
-            comment: 'What an amazing building.',
+            "id": 0,
+            "userId": 0,
+            "accessibility": 5,
+            "cleanliness": 5,
+            "noisiness": 5,
+            "overall": 5,
+            "title": "Very cool!",
+            "comment": "What an amazing building."
           },
           {
-            id: 1,
-            userId: 1,
-            accessibility: 5,
-            cleanliness: 5,
-            noisiness: 4,
-            overall: 4.5,
-            title: 'Very cool!',
-            comment: 'Spectacular building, but it can get loud.',
-          },
-        ],
-      },
+            "id": 1,
+            "userId": 1,
+            "accessibility": 5,
+            "cleanliness": 5,
+            "noisiness": 4,
+            "overall": 4.5,
+            "title": "Very cool!",
+            "comment": "Spectacular building, but it can get loud."
+          }
+        ]
+      }
     },
-    // Modified location object to include address string, popular times and opening hours
     {
-      id: 1,
-      coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      address: 'Science Rd, Kensington NSW 2033',
-      name: 'Blockhouse G15',
-      spaceType: [
-        'Building',
-        'Study Space',
-        'Computer Lab',
-        'Lecture Hall',
-        'Tutorial Room',
-      ],
-      amenities: [
-        { category: 'Power', comment: 'Outlet Charging' },
-        { category: 'Bathrooms', comment: 'Unisex Toilets' },
-        { category: 'Food', comment: 'Vending Machines' },
-      ],
-      capacity: 50,
-      // example hourly levels from 12 AM to 11 PM
-      popularTimes: {
-        monday: [
-          0, 0, 0, 0, 1, 2, 4, 6, 7, 6, 5, 4, 3, 2, 3, 5, 7, 6, 5, 4, 3, 2, 1,
-          0,
-        ],
-        tuesday: [
-          0, 0, 0, 0, 1, 2, 4, 5, 6, 6, 5, 4, 3, 3, 4, 5, 6, 7, 5, 4, 3, 2, 1,
-          0,
-        ],
-        wednesday: [
-          0, 0, 0, 0, 1, 3, 4, 6, 7, 6, 5, 5, 4, 3, 4, 5, 6, 6, 5, 3, 2, 1, 1,
-          0,
-        ],
-        thursday: [
-          0, 0, 0, 0, 1, 2, 3, 5, 6, 6, 5, 4, 3, 4, 5, 5, 6, 6, 5, 4, 3, 2, 1,
-          0,
-        ],
-        friday: [
-          0, 0, 0, 0, 1, 2, 4, 6, 8, 8, 7, 5, 5, 6, 7, 8, 7, 6, 5, 3, 2, 1, 0,
-          0,
-        ],
-        saturday: [
-          0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 8, 7, 6, 5, 4, 5, 6, 5, 4, 3, 2, 1, 0,
-          0,
-        ],
-        sunday: [
-          0, 0, 0, 1, 2, 3, 4, 5, 5, 6, 5, 4, 3, 4, 5, 5, 4, 4, 3, 2, 1, 0, 0,
-          0,
-        ],
+      "id": 1,
+      "coordinates": {
+        "long": -33.918900523094244,
+        "lat": 151.23102394496718
       },
-      images: [
-        'https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg',
-        'https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg',
-        'https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg',
-        'https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg',
+      "address": "Science Rd, Kensington NSW 2033",
+      "name": "Blockhouse G15",
+      "spaceType": [
+        "Building",
+        "Study Space",
+        "Computer Lab",
+        "Lecture Hall",
+        "Tutorial Room"
       ],
-      openingHours: {
-        type: 1, // assuming 1 indicates regular weekly hours
-        data: {
-          monday: { open: '9:00', close: '17:00' },
-          tuesday: { open: '9:00', close: '23:00' },
-          wednesday: { open: '9:00', close: '17:00' },
-          thursday: { open: '9:00', close: '17:00' },
-          friday: { open: '9:00', close: '17:00' },
-          saturday: { open: '10:00', close: '15:00' },
-          sunday: { open: 'Closed', close: 'Closed' },
+      "amenities": [
+        {
+          "category": "Power",
+          "comment": "Outlet Charging"
         },
+        {
+          "category": "Bathrooms",
+          "comment": "Unisex Toilets"
+        },
+        {
+          "category": "Food",
+          "comment": "Vending Machines"
+        }
+      ],
+      "capacity": 50,
+      "popularTimes": {
+        "monday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          3,
+          5,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "tuesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          3,
+          4,
+          5,
+          6,
+          7,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "wednesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3,
+          4,
+          6,
+          7,
+          6,
+          5,
+          5,
+          4,
+          3,
+          4,
+          5,
+          6,
+          6,
+          5,
+          3,
+          2,
+          1,
+          1,
+          0
+        ],
+        "thursday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          4,
+          5,
+          5,
+          6,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "friday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          8,
+          7,
+          5,
+          5,
+          6,
+          7,
+          8,
+          7,
+          6,
+          5,
+          3,
+          2,
+          1,
+          0,
+          0
+        ],
+        "saturday": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          8,
+          7,
+          6,
+          5,
+          4,
+          5,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0
+        ],
+        "sunday": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          5,
+          6,
+          5,
+          4,
+          3,
+          4,
+          5,
+          5,
+          4,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          0
+        ]
       },
-      favourited: [1],
-      description:
-        'The Blockhouse is home to several shops including Thoughtful Foods, Medibank and the UNSW Secondhand Book store and various rooms. Foundation studies take place inside the Blockhouse on levels 1 and 2 which is accessible from the back entrance near Roundhouse.',
-      reviews: {
-        summary: {
-          accessibility: 4.2,
-          cleanliness: 4.2,
-          noisiness: 4.2,
-          overall: 4.3,
-        },
-        list: [
-          {
-            id: 0,
-            userId: 1,
-            accessibility: 5,
-            cleanliness: 5,
-            noisiness: 5,
-            overall: 5,
-            title: 'Very cool!',
-            comment: 'What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.',
+      "images": [
+        "https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg",
+        "https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg",
+        "https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg",
+        "https://s3.studentvip.com.au/photos/blockhouse-g6-opposite-tyree-bui-174303-small.jpg"
+      ],
+      "openingHours": {
+        "type": 1,
+        "data": {
+          "monday": {
+            "open": "9:00",
+            "close": "17:00"
           },
-        ],
+          "tuesday": {
+            "open": "9:00",
+            "close": "23:00"
+          },
+          "wednesday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "thursday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "friday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "saturday": {
+            "open": "10:00",
+            "close": "15:00"
+          },
+          "sunday": {
+            "open": "Closed",
+            "close": "Closed"
+          }
+        }
       },
+      "favourited": [
+        1
+      ],
+      "description": "The Blockhouse is home to several shops including Thoughtful Foods, Medibank and the UNSW Secondhand Book store and various rooms. Foundation studies take place inside the Blockhouse on levels 1 and 2 which is accessible from the back entrance near Roundhouse.",
+      "reviews": {
+        "summary": {
+          "accessibility": 4.2,
+          "cleanliness": 4.2,
+          "noisiness": 4.2,
+          "overall": 4.3
+        },
+        "list": [
+          {
+            "id": 0,
+            "userId": 1,
+            "accessibility": 5,
+            "cleanliness": 5,
+            "noisiness": 5,
+            "overall": 5,
+            "title": "Very cool!",
+            "comment": "What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building."
+          }
+        ]
+      }
     },
+    {
+      "id": 2,
+      "coordinates": {
+        "long": -33.91871568561011,
+        "lat": 151.2312798870239
+      },
+      "address": "Engineering Rd, UNSW, Kensington NSW 2052",
+      "name": "Ainsworth Building J17",
+      "spaceType": [
+        "Building",
+        "Study Space",
+        "Computer Lab",
+        "Lecture Hall",
+        "Tutorial Room"
+      ],
+      "amenities": [
+        {
+          "category": "Power",
+          "comment": "Outlet Charging"
+        },
+        {
+          "category": "Bathrooms",
+          "comment": "Unisex Toilets"
+        },
+        {
+          "category": "Food",
+          "comment": "Cafe"
+        }
+      ],
+      "capacity": 120,
+      "popularTimes": {
+        "monday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          7,
+          6,
+          5,
+          8,
+          6,
+          7,
+          8,
+          6,
+          5,
+          5,
+          5,
+          4,
+          2,
+          1,
+          0,
+          0
+        ],
+        "tuesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          6,
+          5,
+          4,
+          5,
+          6,
+          7,
+          6,
+          6,
+          6,
+          4,
+          4,
+          2,
+          2,
+          1,
+          0
+        ],
+        "wednesday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3,
+          4,
+          6,
+          7,
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          5,
+          6,
+          4,
+          3,
+          3,
+          2,
+          1,
+          1,
+          0
+        ],
+        "thursday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          6,
+          5,
+          8,
+          7,
+          7,
+          5,
+          5,
+          6,
+          6,
+          5,
+          2,
+          2,
+          1,
+          1,
+          0
+        ],
+        "friday": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          8,
+          7,
+          6,
+          7,
+          6,
+          7,
+          8,
+          7,
+          5,
+          4,
+          1,
+          2,
+          1,
+          0,
+          0
+        ],
+        "saturday": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          3,
+          4,
+          4,
+          5,
+          6,
+          6,
+          5,
+          5,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0
+        ],
+        "sunday": [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          5,
+          6,
+          5,
+          7,
+          8,
+          7,
+          6,
+          5,
+          4,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "images": [
+        "https://s3.studentvip.com.au/photos/front-view-174471-small.jpg",
+        "https://s3.studentvip.com.au/photos/front-view-174471-small.jpg",
+        "https://s3.studentvip.com.au/photos/front-view-174471-small.jpg",
+        "https://s3.studentvip.com.au/photos/front-view-174471-small.jpg"
+      ],
+      "openingHours": {
+        "type": 1,
+        "data": {
+          "monday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "tuesday": {
+            "open": "9:00",
+            "close": "23:00"
+          },
+          "wednesday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "thursday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "friday": {
+            "open": "9:00",
+            "close": "17:00"
+          },
+          "saturday": {
+            "open": "10:00",
+            "close": "15:00"
+          },
+          "sunday": {
+            "open": "Closed",
+            "close": "Closed"
+          }
+        }
+      },
+      "favourited": [
+        1
+      ],
+      "description": "The home to the School of Mechanical & Manufacturing Engineering, this building located along the main walkway opposite the Electrical Engineering Building.",
+      "reviews": {
+        "summary": {
+          "accessibility": 4.5,
+          "cleanliness": 4.2,
+          "noisiness": 4.1,
+          "overall": 4.4
+        },
+        "list": [
+          {
+            "id": 0,
+            "userId": 1,
+            "accessibility": 5,
+            "cleanliness": 5,
+            "noisiness": 5,
+            "overall": 5,
+            "title": "Very omg cool!",
+            "comment": "What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building."
+          }
+        ]
+      }
+    }
   ],
-  users: [
+  "users": [
     {
-      id: 0,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: 'bearguide',
-      faculty: 'UNSW Faculty of Engineering',
-      campus: 'UNSW Kensington',
-      profile_image: null,
-      reviews: [{ locationId: 0, reviewId: 0 }],
-      favourites: [0], // Array of integers, integers represents locationId
-      recents: [0], // Possibly related to search?
-    },
-    {
-      id: 1,
-      name: 'Jane Doe',
-      email: 'janedoe@example.com',
-      password: 'bearguide',
-      faculty: 'UNSW Faculty of Engineering',
-      campus: 'UNSW Kensington',
-      profile_image: null,
-      reviews: [
-        { locationId: 0, reviewId: 1 },
-        { locationId: 1, reviewId: 0 },
+      "id": 0,
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "password": "bearguide",
+      "faculty": "UNSW Faculty of Engineering",
+      "campus": "UNSW Kensington",
+      "profile_image": null,
+      "reviews": [
+        {
+          "locationId": 0,
+          "reviewId": 0
+        }
       ],
-      favourites: [1], // Array of integers, integers represents locationId
-      recents: [1],
+      "favourites": [
+        0
+      ],
+      "recents": [
+        0
+      ]
     },
-  ],
+    {
+      "id": 1,
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "password": "bearguide",
+      "faculty": "UNSW Faculty of Engineering",
+      "campus": "UNSW Kensington",
+      "profile_image": null,
+      "reviews": [
+        {
+          "locationId": 0,
+          "reviewId": 1
+        },
+        {
+          "locationId": 1,
+          "reviewId": 0
+        }
+      ],
+      "favourites": [
+        1
+      ],
+      "recents": [
+        1
+      ]
+    }
+  ]
 };
 
 // Async Storage key for the bearGuide data
