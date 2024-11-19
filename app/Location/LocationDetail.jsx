@@ -17,9 +17,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useTheme } from 'react-native-paper';
-
-// You may need to update react-native-screens to resolve dependency tree
-// npm install react-native-screens@^4.0.0
+import { useNavigation } from '@react-navigation/native';
 
 import OverviewScreen from './OverviewScreen';
 import ReviewsScreen from './ReviewsScreen';
@@ -29,8 +27,9 @@ import StarRating from '../StarRating';
 
 const LocationDetail = ({ locationId }) => {
   const { id } = useLocalSearchParams();
-  const { bearGuide } = useBearGuide();
+  const { bearGuide, setBearGuide } = useBearGuide();
   const theme = useTheme();
+  const navigation = useNavigation();
 
   if (!locationId) locationId = parseInt(id);
 
@@ -52,9 +51,28 @@ const LocationDetail = ({ locationId }) => {
     images = [""], 
     openingHours = { type: 1, data: {} }, 
     description, 
-    reviews = { summary: {}, list: [] }, 
+    reviews = { summary: {}, list: [] },
+    favourited = [],
   } = location;
   
+  const currentUserId = bearGuide.currentUserId;
+  const isFavourited = favourited.includes(currentUserId);
+
+  const toggleFavourite = () => {
+    const updatedLocations = bearGuide.locations.map(loc => {
+      if (loc.id === locationId) {
+        const updatedFavourited = isFavourited
+          ? loc.favourited.filter(userId => userId !== currentUserId) // Remove from favourites
+          : [...loc.favourited, currentUserId]; // Add to favourites
+
+        return { ...loc, favourited: updatedFavourited };
+      }
+      return loc;
+    });
+
+    setBearGuide({ ...bearGuide, locations: updatedLocations }); // Update the context
+  };
+
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const routes = [
@@ -114,11 +132,15 @@ const LocationDetail = ({ locationId }) => {
   return (
     <SafeAreaView style={{ flex: 1, padding: 25, backgroundColor: "#fffdf5" }}>
       <View style={styles.header}>
-        <Text variant="headlineLarge" style={styles.title}>{name}</Text>
+        <View style={styles.titleContainer}>
+          <Text variant="headlineLarge" style={styles.title} numberOfLines={2}>
+            {name}
+          </Text>
+        </View>
         <IconButton
-          icon="close"
+          icon="undo-variant"
           mode="contained"
-          onPress={() => console.log('Close button pressed')}
+          onPress={() => navigation.goBack()}
           style={styles.closeIcon}
         />
       </View>
@@ -145,8 +167,13 @@ const LocationDetail = ({ locationId }) => {
             </Button>
           </View>
           <View style={styles.buttonWrapper}>
-            <Button icon="cards-heart-outline" mode="elevated" style={styles.button}>
-              Favourite
+            <Button
+              icon={isFavourited ? "cards-heart" : "cards-heart-outline"}
+              mode="elevated"
+              style={styles.button}
+              onPress={toggleFavourite}
+            >
+              {isFavourited ? "Favourited" : "Favourite"}
             </Button>
           </View>
           <View style={styles.buttonWrapper}>
@@ -177,17 +204,20 @@ const styles = StyleSheet.create({
   tabView: { flex: 1, height: "100%" },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  titleContainer: {
+    flex: 1,
+    marginRight: 50,
   },
   title: {
     fontWeight: 'bold',
     fontSize: 24,
-    flex: 1,
   },
   closeIcon: {
     position: 'absolute',
     right: 0,
+    marginLeft: 10
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -200,16 +230,15 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   scrollableButtonRow: {
-    flexDirection: 'row', // Align buttons horizontally
-    alignItems: 'center', // Center buttons vertically
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 5,
-    // flex: 1,
   },
   buttonWrapper: {
-    marginHorizontal: 5, // Space between buttons
+    marginHorizontal: 5,
   },
   button: {
-    justifyContent: 'center', // Center-align text inside buttons
+    justifyContent: 'center',
   },  
   imageContainer: {
     flexDirection: 'row',

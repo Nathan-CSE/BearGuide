@@ -17,7 +17,7 @@ const initialBearGuide = {
       ],
       address: 'Science Rd, Kensington NSW 2033',
       name: 'K17 Computer Science Building',
-      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
+      amenities: [{ category: 'Power', comment: 'Outlet Charging' }],
       capacity: 0,
       popularTimes: {
         monday: [
@@ -186,7 +186,7 @@ const initialBearGuide = {
             noisiness: 5,
             overall: 5,
             title: 'Very cool!',
-            comment: 'What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.',
+            comment: 'What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.',
           },
         ],
       },
