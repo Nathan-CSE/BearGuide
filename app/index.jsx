@@ -14,7 +14,7 @@ const index = () => {
       <Image
         source={a}
         style={{
-          resizeMode: 'contain',
+          resizeMode: 'fill',
           maxHeight: '100%',
           maxWidth: '100%',
         }}
