@@ -9,6 +9,7 @@ import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 import { useBearGuide } from './BearGuideContext';
 import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
 import CapacityFilter from '../components/search/filters/CapacityFilter';
+import AmenitiesFilter from '../components/search/filters/AmenitiesFilter';
 
 const LocationSearch = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -106,7 +107,13 @@ const LocationSearch = () => {
                     setSelected={setChipSelected}
                     component={<CapacityFilter />}
                   />
-                  <Chip icon={"menu-down"} onPress={() => {}}>Amenities</Chip>
+                  <FilterChip
+                    id='amenities' 
+                    label="Amenities" 
+                    selected={chipSelected}
+                    setSelected={setChipSelected}
+                    component={<AmenitiesFilter />}
+                  />
                   <Chip icon={"menu-down"} onPress={() => {}}>Access</Chip>
                   <Chip icon={"menu-down"} onPress={() => {}}>Accessibility</Chip>
               </ScrollView>
