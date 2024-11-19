@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import {
   IconButton,
@@ -9,30 +9,57 @@ import {
   Button,
   Dialog,
 } from 'react-native-paper';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useBearGuide } from './BearGuideContext';
 
 const LoginPage = () => {
   const router = useRouter();
   const theme = useTheme();
   const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [password2, setPassword2] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const { bearGuide, setBearGuide } = useBearGuide();
 
-  const handleLogin = () => {
-    const validUser = bearGuide.users.find(
+  const handleRegister = () => {
+    const newUser = {
+      id: bearGuide.users.length,
+      name: userName,
+      email: email,
+      password: password,
+      faculty: 'UNSW Faculty of Engineering',
+      campus: 'UNSW Kensington',
+      profile_image: null,
+      reviews: [],
+      favourites: [],
+      recents: [],
+    };
+    if (password === password2) {
+      if (userExists) {
+        setVisible2(true);
+      } else {
+        setBearGuide({
+          ...bearGuide,
+          users: [...bearGuide.users, newUser],
+          currentUserId: newUser.id,
+        });
+        router.push('/home');
+      }
+    } else {
+      setVisible(true);
+    }
+  };
+
+  const userExists = () => {
+    return bearGuide.users.find(
       (user) =>
         user.email.toLowerCase() == email.toLowerCase() &&
         user.password == password
     );
-    if (validUser) {
-      setBearGuide({ ...bearGuide, currentUserId: validUser.id });
-      router.push('/home');
-    } else {
-      setVisible(true);
-    }
   };
 
   return (
@@ -50,17 +77,24 @@ const LoginPage = () => {
         <View style={{ gap: 32 }}>
           <View style={{ alignItems: 'center', gap: 8 }}>
             <Text variant="displayMedium" style={{ fontWeight: 'bold' }}>
-              Login
+              Create Account{' '}
             </Text>
             <Text
               variant="labelLarge"
               style={{ color: theme.colors.tertiary, textAlign: 'center' }}
             >
-              Welcome back! We&#39;ve missed you
+              Create an account so you can access all our features
             </Text>
           </View>
           <View style={{ gap: 32 }}>
             <View style={{ gap: 16 }}>
+              <TextInput
+                style={{ maxHeight: 56, width: '100%' }}
+                label={'Name'}
+                value={userName}
+                onChangeText={setUserName}
+                mode="outlined"
+              />
               <TextInput
                 style={{ maxHeight: 56, width: '100%' }}
                 label={'Email'}
@@ -83,9 +117,24 @@ const LoginPage = () => {
                   />
                 }
               />
+              <TextInput
+                style={{ maxHeight: 56, width: '100%' }}
+                label="Password"
+                secureTextEntry={!showPassword2}
+                value={password2}
+                onChangeText={setPassword2}
+                mode="outlined"
+                right={
+                  <TextInput.Icon
+                    icon={showPassword2 ? 'eye-off' : 'eye'}
+                    size={24}
+                    onPress={() => setShowPassword2((prev) => !prev)}
+                  />
+                }
+              />
             </View>
-            <Button mode="contained" onPress={handleLogin}>
-              Login
+            <Button mode="contained" onPress={handleRegister}>
+              Register
             </Button>
           </View>
         </View>
@@ -98,22 +147,14 @@ const LoginPage = () => {
             gap: 16,
           }}
         >
-          <Link href={'/RegisterPage'}>
+          <Pressable onPress={() => router.dismiss()}>
             <Text
               variant="bodyLarge"
               style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}
             >
-              Create an account
+              Already have an account
             </Text>
-          </Link>
-          <Link href={'/LoginPage'}>
-            <Text
-              variant="bodyLarge"
-              style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}
-            >
-              Or continue without signing in
-            </Text>
-          </Link>
+          </Pressable>
         </View>
       </SafeAreaView>
       <Dialog visible={visible} onDismiss={() => setVisible(false)}>
@@ -121,10 +162,23 @@ const LoginPage = () => {
           <Text>Error</Text>
         </Dialog.Title>
         <Dialog.Content>
-          <Text>Email or Password doesn&#39;t match our system</Text>
+          <Text>
+            Passwords don&#39;t match. Please make sure they are the same.
+          </Text>
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={() => setVisible(false)}>Ok</Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog visible={visible2} onDismiss={() => setVisible2(false)}>
+        <Dialog.Title>
+          <Text>Error</Text>
+        </Dialog.Title>
+        <Dialog.Content>
+          <Text>Account already exists with this email</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => setVisible2(false)}>Ok</Button>
         </Dialog.Actions>
       </Dialog>
     </Surface>

@@ -3,9 +3,11 @@ import React from 'react';
 import { Link } from 'expo-router';
 import { Button, Text, useTheme } from 'react-native-paper';
 import a from '@/assets/images/Expanded Logo.png';
+import { useBearGuide } from './BearGuideContext';
 
 const index = () => {
   const theme = useTheme();
+  const { bearGuide, setBearGuide } = useBearGuide();
 
   return (
     <View style={{ flex: 1 }}>
@@ -54,21 +56,21 @@ const index = () => {
           >
             Get Started
           </Button>
-          <Link href={'/LoginPage'}>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-              }}
-            >
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+            }}
+          >
+            <Link href={'/LoginPage'}>
               <Text
                 variant="bodyLarge"
                 style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}
               >
                 Skip to Login/Register
               </Text>
-            </View>
-          </Link>
+            </Link>
+          </View>
         </View>
       </View>
     </View>
