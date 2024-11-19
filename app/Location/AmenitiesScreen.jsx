@@ -17,19 +17,20 @@ const AmenitiesScreen = ({ location }) => {
     <View style={styles.container}>
       <FlatList
         data={location.amenities}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => `${item.category}-${index}`}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.amenityItem}>
+          <View style={styles.amenityItem}>
             <MaterialCommunityIcons
               name={getIconForCategory(item.category)}
               size={24}
-              color="#007BFF"
+              color="#964800"
             />
             <View style={styles.amenityDetails}>
               <Text style={styles.amenityCategory}>{item.category}</Text>
               <Text style={styles.amenityComment}>{item.comment}</Text>
             </View>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>
@@ -57,7 +58,7 @@ export default AmenitiesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 10,
   },
   title: {
     fontSize: 20,
