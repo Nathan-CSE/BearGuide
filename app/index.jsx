@@ -1,68 +1,82 @@
-import * as React from 'react';
-import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
-import { BottomNavigation } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
-import BearGuideColourScheme from '@/constants/ColourScheme';
-import MapPage from './MapPage';
-import UserProfile from './UserProfile';
+import { Image, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Link } from 'expo-router';
+import { Button, Text, useTheme } from 'react-native-paper';
+import a from '@/assets/images/Expanded Logo.png';
+import { useBearGuide } from './BearGuideContext';
 
-const theme = {
-  ...DefaultTheme,
-  colors: BearGuideColourScheme.colors,
-};
-
-const MapRoute = () => <MapPage />;
-
-const ProfileRoute = () => <UserProfile />;
-
-const BottomNav = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'map', title: 'Map', focusedIcon: 'map' },
-    { key: 'profile', title: 'User Profile', focusedIcon: 'account-outline' },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    map: MapRoute,
-    profile: ProfileRoute,
-  });
+const index = () => {
+  const theme = useTheme();
+  const { bearGuide, setBearGuide } = useBearGuide();
 
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      style={styles.container}
-    />
+    <View style={{ flex: 1 }}>
+      <Image
+        source={a}
+        style={{
+          resizeMode: 'fill',
+          maxHeight: '100%',
+          maxWidth: '100%',
+        }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          height: '50%',
+          paddingVertical: 48,
+          paddingHorizontal: 48,
+          gap: 32,
+          backgroundColor: 'white',
+          alignItems: 'center',
+          padding: 20,
+          borderTopEndRadius: 50,
+          borderTopStartRadius: 50,
+        }}
+      >
+        <View style={{ alignItems: 'flex-start' }}>
+          <Text
+            variant="displayMedium"
+            style={{ fontWeight: 'bold', color: theme.colors.onTertiary }}
+          >
+            Welcome to
+          </Text>
+          <Text
+            variant="displayLarge"
+            style={{ fontWeight: 'bold', color: theme.colors.primaryContainer }}
+          >
+            BearGuide
+          </Text>
+        </View>
+        <View style={{ width: '100%', gap: 16 }}>
+          <Button
+            mode="contained"
+            onPress={() => console.log('go to starting guide')}
+          >
+            Get Started
+          </Button>
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+            }}
+          >
+            <Link href={'/LoginPage'}>
+              <Text
+                variant="bodyLarge"
+                style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}
+              >
+                Skip to Login/Register
+              </Text>
+            </Link>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 };
 
-export default function Index() {
-  return <BottomNav />;
-}
+export default index;
 
-const styles = StyleSheet.create({
-  container: {
-    // marginTop: 50,
-  },
-  baseText: {
-    fontFamily: 'Cochin',
-  },
-  titleText: {
-    fontWeight: 'bold',
-    margin: 'auto',
-    marginTop: 50,
-  },
-  button: {
-    marginTop: 20,
-    marginHorizontal: 'auto',
-  },
-  textField: {
-    marginVertical: 10,
-  },
-  createModal: {
-    borderWidth: 1,
-    padding: 20,
-    margin: 10,
-  },
-});
+const styles = StyleSheet.create({});

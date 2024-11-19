@@ -8,6 +8,7 @@ import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 import { useBearGuide } from './BearGuideContext';
 import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
+import CapacityFilter from '../components/search/filters/CapacityFilter';
 
 const LocationSearch = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -96,9 +97,15 @@ const LocationSearch = () => {
                     label="Space Type" 
                     selected={chipSelected}
                     setSelected={setChipSelected}
-                    component={<SpaceTypeFilter/>}
+                    component={<SpaceTypeFilter />}
                   />
-                  <Chip icon={"menu-down"} onPress={() => {console.log(overlayView)}}>Capacity</Chip>
+                  <FilterChip
+                    id='capacity' 
+                    label="Capacity" 
+                    selected={chipSelected}
+                    setSelected={setChipSelected}
+                    component={<CapacityFilter />}
+                  />
                   <Chip icon={"menu-down"} onPress={() => {}}>Amenities</Chip>
                   <Chip icon={"menu-down"} onPress={() => {}}>Access</Chip>
                   <Chip icon={"menu-down"} onPress={() => {}}>Accessibility</Chip>
@@ -127,8 +134,8 @@ const LocationSearch = () => {
           <View style={{ zIndex: -1 }}>
             <List.Section 
               title='Locations' 
-              style={{ paddingHorizontal: 12 }}
-              titleStyle={{ paddingHorizontal: 8 }}
+              style={{ paddingHorizontal: 16 }}
+              titleStyle={{ paddingHorizontal: 0 }}
             >
               {filteredList.map((location) => (
                 <List.Item
@@ -136,7 +143,13 @@ const LocationSearch = () => {
                   title={location.name}
                   description={location.address}
                   style={{ paddingHorizontal: 16 }}
-                  onPress={() => {console.log('Route to Location: ', location.name)}}
+                  onPress={() => {
+                    router.push({
+                      pathname: '/Location/LocationDetail',
+                      params: { id: location.id }
+                    }, {})
+                  }}
+
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
                     if (location.images.length > 0)

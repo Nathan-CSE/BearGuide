@@ -220,7 +220,6 @@ export const BearGuideProvider = ({ children }) => {
   const loadBearGuideData = async () => {
     try {
       const storedData = await AsyncStorage.getItem(BEAR_GUIDE_STORAGE_KEY);
-
       if (storedData !== null) {
         setBearGuide(JSON.parse(storedData));
       } else {
