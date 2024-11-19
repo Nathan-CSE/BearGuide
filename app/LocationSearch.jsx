@@ -7,8 +7,12 @@ import { useRouter } from 'expo-router';
 import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 import { useBearGuide } from './BearGuideContext';
-import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
+import { 
+  OverlayContext, FiltersContext, SortContext 
+} from '../components/search/SearchContexts';
 import CapacityFilter from '../components/search/filters/CapacityFilter';
+import AmenitiesFilter from '../components/search/filters/AmenitiesFilter';
+import SortBy from '../components/search/filters/SortBy';
 
 const LocationSearch = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -18,6 +22,7 @@ const LocationSearch = () => {
 
   const [filters, setFilters] = useState({});
   const [overlayView, setOverlayView] = useState();
+  const [sortOption, setSortOption] = useState({});
 
   const theme = useTheme();
   const router = useRouter();
@@ -26,7 +31,7 @@ const LocationSearch = () => {
 
   useEffect(() => {
     handleSearch(null);
-  }, [filters]);
+  }, [filters, sortOption]);
 
   const handleSearch = (e) => {
     if (e === null) {
@@ -34,11 +39,11 @@ const LocationSearch = () => {
     } else {
       setSearchField(e);
     }
-    console.log(e)
+    console.log("Search Refreshing")
     let newList = bearGuide.locations.filter((location) => {
       for (let filterCategory of Object.values(filters)) {
         for (let filterType of Object.values(filterCategory)) {
-          if (filterType(location) === false) {
+          if (filterType.filter(location) === false) {
             return false;
           }
         }
@@ -49,12 +54,16 @@ const LocationSearch = () => {
       return true;
     });
 
+    if (sortOption) {
+      newList.sort(sortOption.fn);
+    }
+
     setFilteredList(newList);
   }
 
   return (
-    <View>
-      <SafeAreaView style={{paddingHorizontal: 16 }}>
+    <View style={{  }}>
+      <SafeAreaView style={{paddingHorizontal: 16, marginBottom: -24 }}>
         <OverlayContext.Provider value={[ overlayView, setOverlayView ]}>
             <View style={{ 
               flexDirection: 'row', 
@@ -78,14 +87,13 @@ const LocationSearch = () => {
                 borderRightWidth: 1, 
                 borderRightColor: 'grey'
               }}>
-                <Chip 
-                  icon={(chipSelected === 'sort' && "menu-right-outline") || "menu-down"} 
-                  selected={chipSelected === 'sort'} 
-                  showSelectedOverlay={true}
-                  onPress={() => {}}
-                >
-                  Sort By
-                </Chip>
+                <FilterChip
+                  id='sort' 
+                  label="Sort By" 
+                  selected={chipSelected}
+                  setSelected={setChipSelected}
+                  component={<SortBy />}
+                />
               </View>
               <ScrollView horizontal 
                 showsHorizontalScrollIndicator={false}
@@ -109,9 +117,13 @@ const LocationSearch = () => {
                     setSelected={setChipSelected}
                     component={<CapacityFilter />}
                   />
-                  <Chip icon={"menu-down"} onPress={() => {}}>Amenities</Chip>
-                  <Chip icon={"menu-down"} onPress={() => {}}>Access</Chip>
-                  <Chip icon={"menu-down"} onPress={() => {}}>Accessibility</Chip>
+                  <FilterChip
+                    id='amenities' 
+                    label="Amenities" 
+                    selected={chipSelected}
+                    setSelected={setChipSelected}
+                    component={<AmenitiesFilter />}
+                  />
               </ScrollView>
             </View>
         </OverlayContext.Provider>
@@ -125,52 +137,56 @@ const LocationSearch = () => {
             zIndex: 10
           }}>
             <Portal>
-              <FiltersContext.Provider value={[ filters, setFilters ]}>
-                <View style={{ top: 148 }}>
-                  {overlayView}
-                </View>
-              </FiltersContext.Provider>
+              <SortContext.Provider value={[ sortOption, setSortOption ]}>
+                <FiltersContext.Provider value={[ filters, setFilters ]}>
+                  <View style={{ top: 148 }}>
+                    {overlayView}
+                  </View>
+                </FiltersContext.Provider>
+              </SortContext.Provider>
             </Portal>
           </Surface>
         }
-        <FiltersContext.Provider value={[ filters, setFilters ]}>
-          <View style={{ zIndex: -1 }}>
-            <List.Section 
-              title='Locations' 
-              style={{ paddingHorizontal: 16 }}
-              titleStyle={{ paddingHorizontal: 0 }}
-            >
-              {filteredList.map((location) => (
-                <List.Item
-                  key={location.id}
-                  title={location.name}
-                  description={location.address}
-                  style={{ paddingHorizontal: 16 }}
-                  onPress={() => {
-                    router.push({
-                      pathname: '/Location/LocationDetail',
-                      params: { id: location.id }
-                    }, {})
-                  }}
+        <SortContext.Provider value={[ sortOption, setSortOption ]}>
+          <FiltersContext.Provider value={[ filters, setFilters ]}>
+            <View style={{ zIndex: -1 }}>
+              <List.Section 
+                title='Locations' 
+                style={{ paddingHorizontal: 0 }}
+                titleStyle={{ paddingHorizontal: 16 }}
+              >
+                {filteredList.map((location) => (
+                  <List.Item
+                    key={location.id}
+                    title={location.name}
+                    description={location.address}
+                    style={{ paddingHorizontal: 16 }}
+                    onPress={() => {
+                      router.push({
+                        pathname: '/Location/LocationDetail',
+                        params: { id: location.id }
+                      }, {})
+                    }}
 
-                  left={() => {
-                    let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
-                    if (location.images.length > 0)
-                      leftElement = <Image 
-                        source={{ uri: location.images[0] }} 
-                        style={{ width: 72, height: 72, borderRadius: 8 }} 
-                      />
-                    return (
-                      <View style={{ width: 72, height: 72 }}>
-                        {leftElement}
-                      </View>
-                    )
-                  }}
-                />
-              ))}
-            </List.Section>
-          </View>
-        </FiltersContext.Provider>
+                    left={() => {
+                      let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
+                      if (location.images.length > 0)
+                        leftElement = <Image 
+                          source={{ uri: location.images[0] }} 
+                          style={{ width: 72, height: 72, borderRadius: 8 }} 
+                        />
+                      return (
+                        <View style={{ width: 72, height: 72 }}>
+                          {leftElement}
+                        </View>
+                      )
+                    }}
+                  />
+                ))}
+              </List.Section>
+            </View>
+          </FiltersContext.Provider>
+        </SortContext.Provider>
       </View>
     </View>
   );

@@ -5,13 +5,8 @@ import { FiltersContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const SpaceTypeFilter = () => {
-  const [isStudyChecked, setStudyChecked] = useState(false);
-  const [isBuildingChecked, setBuildingChecked] = useState(false);
-  const [isCafeChecked, setCafeChecked] = useState(false);
-  const [isCompLabChecked, setCompLabChecked] = useState(false);
-  const [isLectureHallChecked, setLectureHallChecked] = useState(false);
-  const [isTutorialChecked, setTutorialChecked] = useState(false);
+const AmenitiesFilter = () => {
+  const [isPowerChecked, setPowerChecked] = useState(false);
   const [filters, setFilters] = useContext(FiltersContext);
 
   // Due to the overlay, this will adjust content to be within
@@ -19,40 +14,15 @@ const SpaceTypeFilter = () => {
   const insets = useSafeAreaInsets();
 
   const filterMap = {
-    'study': {
-      isCheck: isStudyChecked,
-      setCheck: setStudyChecked,
-      name: 'Study Space'
+    'power': {
+      isCheck: isPowerChecked,
+      setCheck: setPowerChecked,
+      name: 'Power'
     },
-    'building': {
-      isCheck: isBuildingChecked,
-      setCheck: setBuildingChecked,
-      name: 'Building'
-    },
-    'cafe': {
-      isCheck: isCafeChecked,
-      setCheck: setCafeChecked,
-      name: 'Cafe'
-    },
-    'computerlab': {
-      isCheck: isCompLabChecked,
-      setCheck: setCompLabChecked,
-      name: 'Computer Lab'
-    },
-    'lecture': {
-      isCheck: isLectureHallChecked,
-      setCheck: setLectureHallChecked,
-      name: 'Lecture Hall'
-    },
-    'tutorial': {
-      isCheck: isTutorialChecked,
-      setCheck: setTutorialChecked,
-      name: 'Tutorial Room'
-    }
   }
 
   const applyFilter = (filterObj, setFilter = true) => {
-    const filterParent = filters['space'] || {};
+    const filterParent = filters['amenities'] || {};
 
     if (setFilter) {
       filterParent[filterObj.type] = filterObj;
@@ -60,12 +30,12 @@ const SpaceTypeFilter = () => {
       delete filterParent[filterObj.type]
     }
     
-    setFilters({...filters, 'space': filterParent});
+    setFilters({...filters, 'amenities': filterParent});
   };
  
   useEffect(() => {
     // Only focus on this filter type
-    let filterTypes = filters['space'];
+    let filterTypes = filters['amenities'];
 
     // If there are filters, set the state of the checkboxes
     if (filterTypes) {
@@ -77,7 +47,7 @@ const SpaceTypeFilter = () => {
 
   return (
     <View style={{ paddingTop: insets.top - 16 }}>
-      <Text style={styles.filterTitle}>Space Type Filter</Text>
+      <Text style={styles.filterTitle}>Amenities Filter</Text>
       <View style={styles.filterList}>
         {
           Object.entries(filterMap).map(([key, value]) => {
@@ -89,7 +59,7 @@ const SpaceTypeFilter = () => {
                 onPress={() => {
                   value.setCheck((prev) => {
                     applyFilter({ type: key, filter: (item) => {
-                      return item.spaceType.includes(value.name)
+                      return item.amenities.some((amenity) => amenity.category.toLowerCase() == key)
                     }}, !prev);
                   });
                 }}
@@ -131,4 +101,4 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default SpaceTypeFilter;
+export default AmenitiesFilter;

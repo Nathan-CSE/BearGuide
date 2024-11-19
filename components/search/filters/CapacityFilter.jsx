@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
 import { FiltersContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
@@ -9,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MIN_CAPACITY = 0;
 const MAX_CAPACITY = 400;
+let timeout = null;
 
 const CapacityFilter = () => {
   // Due to the overlay, this will adjust content to be within
@@ -32,26 +32,44 @@ const CapacityFilter = () => {
     },
   };
 
-  const applyFilter = (filterObj, setFilter = true) => {
+  const applyFilters = (filterArr, setFilter = true) => {
     const filterParent = filters['capacity'] || {};
 
     if (setFilter) {
-      filterParent[filterObj.type] = filterObj.filter;
+      for (let filterObj of filterArr) {
+        filterParent[filterObj.type] = filterObj;
+      }
     } else {
-      delete filterParent[filterObj.type]
+      for (let filterObj of filterArr) {
+        delete filterParent[filterObj.type];
+      }
     }
     
     setFilters({...filters, 'capacity': filterParent});
   };
+
+  const debounce = (fn, wait) => {
+    return function(...args) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        timeout = null;
+        fn(...args);
+      }, wait);
+    }
+  }
  
   useEffect(() => {
     // Only focus on this filter type
     let filterTypes = filters['capacity'];
 
-    // If there are filters, set the state of the checkboxes
+    // console.log(filterTypes)
+
+    // If there are filters, set the states
     if (filterTypes) {
-      filterMap['minCapacity'].setCapacity(filterMap['minCapacity'].capacity);
-      filterMap['maxCapacity'].setCapacity(filterMap['maxCapacity'].capacity);
+      filterMap['minCapacity'].setCapacity(filterTypes['minCapacity']?.capacity ?? MIN_CAPACITY);
+      filterMap['maxCapacity'].setCapacity(filterTypes['maxCapacity']?.capacity ?? MAX_CAPACITY);
     }
   }, [filters]);
 
@@ -59,24 +77,45 @@ const CapacityFilter = () => {
     setMinCapacity(value);
 
     if (value > maxCapacity) {
+      value = maxCapacity;
       setTimeout(() => {
-        setMinCapacity(maxCapacity);
+        setMinCapacity(value);
+        applyBothFilters();
       }, 5);
-    }
+    } 
+
+    debounce(() => {applyBothFilters(value, maxCapacity)}, 100)();
   };
 
   const handleMaxChange = (value) => {
     setMaxCapacity(value);
 
     if (value < minCapacity) {
+      value = minCapacity;
       setTimeout(() => {
-        setMaxCapacity(minCapacity);
+        setMaxCapacity(value);
       }, 5);
     }
+
+    debounce(() => {applyBothFilters(minCapacity, value)}, 100)();
   };
 
+  const applyBothFilters = (min, max) => {
+    applyFilters([{ 
+      type: 'minCapacity', 
+      capacity: min, 
+      filter: 
+        (item) => item.capacity >= min
+    },{ 
+      type: 'maxCapacity', 
+      capacity: max, 
+      filter: 
+        (item) => item.capacity <= max 
+    }])
+  }
+
   return (
-    <View style={{ paddingTop: insets.top - 32 }}>
+    <View style={{ paddingTop: insets.top - 16 }}>
       <Text style={styles.filterTitle}>Capacity Filter</Text>
       <View style={styles.filterList}>
         <View>
@@ -86,6 +125,7 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={minCapacity}
             onValueChange={handleMinChange}
+            onSlidingComplete={handleMinChange}
             step={1}
           />
           <View style={{
