@@ -6,58 +6,50 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SortBy = () => {
-  const [sortOption, setSortOption] = useState();
-  const [sort, setSort] = useContext(SortContext);
+  const [sortOption, setSortOption] = useContext(SortContext);
 
   // Due to the overlay, this will adjust content to be within
   // the actual surface area based on screen offsets.
   const insets = useSafeAreaInsets();
 
-  const applyFilter = (filterObj, setFilter = true) => {
-    const filterParent = filters['space'] || {};
-
-    if (setFilter) {
-      filterParent[filterObj.type] = filterObj;
-    } else {
-      delete filterParent[filterObj.type]
-    }
-    
-    setFilters({...filters, 'space': filterParent});
+  const applySort = (type, fn) => {
+    setSortOption( {type: type, fn: fn} );
   };
- 
-  useEffect(() => {
-    // Only focus on this filter type
-    let filterTypes = filters['space'];
 
-    // If there are filters, set the state of the checkboxes
-    if (filterTypes) {
-      for (let filterKey in filterTypes) {
-        filterMap[filterKey].setCheck(true);
-      }
-    }
-  }, [filters]);
+  const sortMap = {
+    'alphabetical': {
+      name: 'Alphabetical',
+      fn: (a, b) => {}
+    },
+    'rev_alphabetical': {
+      name: 'Reverse Alphabetical',
+      fn: (a, b) => {}
+    },
+  }
 
   return (
-    <View style={{ paddingTop: insets.top - 32 }}>
-      <Text style={styles.filterTitle}>Sort</Text>
+    <View style={{ paddingTop: insets.top }}>
+      <Text style={styles.filterTitle}>Sort By</Text>
       <View style={styles.filterList}>
-        <Pressable style={[
-          styles.filterPressable,
-          EStyleSheet.child(styles, 'filterList', key)
-        ]} 
-          onPress={() => {
-            value.setCheck((prev) => {
-              applyFilter({ type: key, filter: (item) => {
-                return item.spaceType.includes(value.name)
-              }}, !prev);
-            });
-          }}
-        >
-          <Checkbox 
-            value={value.isCheck}
-          />
-          <Text style={{ fontSize: 18 }}>Alphabetical [A-Z]</Text>
-        </Pressable>
+        {
+          Object.entries(sortMap).map(([key, value]) => {
+            return (
+              <Pressable key={key} style={[
+                styles.filterPressable,
+                EStyleSheet.child(styles, 'filterList', key)
+              ]} 
+                onPress={() => {
+                    applySort({ type: key, filter: value.fn });
+                }}
+              >
+                <Checkbox 
+                  value={sortOption.type === key}
+                />
+                <Text style={{ fontSize: 18 }}>{value.name}</Text>
+              </Pressable>
+              )
+          })
+        }
       </View>
     </View>
   );

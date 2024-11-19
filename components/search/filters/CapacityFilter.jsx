@@ -115,7 +115,7 @@ const CapacityFilter = () => {
   }
 
   return (
-    <View style={{ paddingTop: insets.top - 32 }}>
+    <View style={{ paddingTop: insets.top }}>
       <Text style={styles.filterTitle}>Capacity Filter</Text>
       <View style={styles.filterList}>
         <View>
