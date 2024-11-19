@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native';
 import { useBearGuide } from './BearGuideContext';
 import { Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const MapPage = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -33,7 +34,7 @@ const MapPage = () => {
 
   
   return (
-    <View>
+    <SafeAreaView>
       <Button title="Add Location" onPress={addLocation} />
       <Button title="Reset Data" onPress={tools.resetData} />
       <Button title="Dump Data" onPress={tools.dumpData} />
@@ -48,7 +49,7 @@ const MapPage = () => {
           {/* Render more location details if needed */}
         </View>
       ))}
-    </View>
+    </SafeAreaView>
   );
 };
 
