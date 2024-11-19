@@ -35,6 +35,7 @@ const FavouriteList = () => {
       )}
       <FlatList
         data={favourites}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{
           gap: 24,

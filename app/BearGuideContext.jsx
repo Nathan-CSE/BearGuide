@@ -17,22 +17,55 @@ const initialBearGuide = {
       ],
       address: 'Science Rd, Kensington NSW 2033',
       name: 'K17 Computer Science Building',
-      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
+      amenities: [{ category: 'Power', comment: 'Outlet Charging' }],
       capacity: 0,
       popularTimes: {
-        sunday: [],
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
+        monday: [
+          0, 0, 0, 0, 1, 2, 4, 6, 7, 6, 5, 4, 3, 2, 3, 5, 7, 6, 5, 4, 3, 2, 1,
+          0,
+        ],
+        tuesday: [
+          0, 0, 0, 0, 1, 2, 4, 5, 6, 6, 5, 4, 3, 3, 4, 5, 6, 7, 5, 4, 3, 2, 1,
+          0,
+        ],
+        wednesday: [
+          0, 0, 0, 0, 1, 3, 4, 6, 7, 6, 5, 5, 4, 3, 4, 5, 6, 6, 5, 3, 2, 1, 1,
+          0,
+        ],
+        thursday: [
+          0, 0, 0, 0, 1, 2, 3, 5, 6, 6, 5, 4, 3, 4, 5, 5, 6, 6, 5, 4, 3, 2, 1,
+          0,
+        ],
+        friday: [
+          0, 0, 0, 0, 1, 2, 4, 6, 8, 8, 7, 5, 5, 6, 7, 8, 7, 6, 5, 3, 2, 1, 0,
+          0,
+        ],
+        saturday: [
+          0, 0, 0, 1, 2, 3, 5, 6, 7, 8, 8, 7, 6, 5, 4, 5, 6, 5, 4, 3, 2, 1, 0,
+          0,
+        ],
+        sunday: [
+          0, 0, 0, 1, 2, 3, 4, 5, 5, 6, 5, 4, 3, 4, 5, 5, 4, 4, 3, 2, 1, 0, 0,
+          0,
+        ],
       },
       images: [
         'https://s3.studentvip.com.au/photos/front-view-174705-small.jpg',
         'https://s3.studentvip.com.au/photos/back-view-174604-small.jpg',
         'https://s3.studentvip.com.au/photos/side-view-174603-small.jpg',
       ],
-      openingHours: { type: 1, data: {} },
+      openingHours: { 
+        type: 1, 
+        data: {
+          monday: { open: '9:00', close: '17:00' },
+          tuesday: { open: '9:00', close: '23:00' },
+          wednesday: { open: '9:00', close: '17:00' },
+          thursday: { open: '9:00', close: '17:00' },
+          friday: { open: '9:00', close: '17:00' },
+          saturday: { open: '10:00', close: '15:00' },
+          sunday: { open: 'Closed', close: 'Closed' },
+        } 
+      },
       favourited: [1],
       description: 'Computer Science and Engineering',
       reviews: {
@@ -79,7 +112,11 @@ const initialBearGuide = {
         'Lecture Hall',
         'Tutorial Room',
       ],
-      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
+      amenities: [
+        { category: 'Power', comment: 'Outlet Charging' },
+        { category: 'Bathrooms', comment: 'Unisex Toilets' },
+        { category: 'Food', comment: 'Vending Machines' },
+      ],
       capacity: 50,
       // example hourly levels from 12 AM to 11 PM
       popularTimes: {
@@ -121,12 +158,12 @@ const initialBearGuide = {
       openingHours: {
         type: 1, // assuming 1 indicates regular weekly hours
         data: {
-          monday: { open: '9:00 AM', close: '5:00 PM' },
-          tuesday: { open: '9:00 AM', close: '5:00 PM' },
-          wednesday: { open: '9:00 AM', close: '5:00 PM' },
-          thursday: { open: '9:00 AM', close: '5:00 PM' },
-          friday: { open: '9:00 AM', close: '5:00 PM' },
-          saturday: { open: '10:00 AM', close: '3:00 PM' },
+          monday: { open: '9:00', close: '17:00' },
+          tuesday: { open: '9:00', close: '23:00' },
+          wednesday: { open: '9:00', close: '17:00' },
+          thursday: { open: '9:00', close: '17:00' },
+          friday: { open: '9:00', close: '17:00' },
+          saturday: { open: '10:00', close: '15:00' },
           sunday: { open: 'Closed', close: 'Closed' },
         },
       },
@@ -149,7 +186,7 @@ const initialBearGuide = {
             noisiness: 5,
             overall: 5,
             title: 'Very cool!',
-            comment: 'What an amazing building.',
+            comment: 'What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.',
           },
         ],
       },

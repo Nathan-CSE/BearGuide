@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { Card, Text, Avatar, Divider, FAB, Portal, Modal, ScrollView } from "react-native-paper";
+import { Card, Text, Avatar, Divider, FAB, Portal, Modal, ScrollView, MD3Colors, useTheme } from "react-native-paper";
 import StarRating from "../StarRating";
 import ReviewForm from "./ReviewForm";
 
@@ -26,24 +26,37 @@ const Reviews = ({ location }) => {
       </View>
       <Divider style={styles.divider} />
       <View style={styles.detailsRow}>
-        <Text>Accessibility: {item.accessibility}/5</Text>
-        <Text>Cleanliness: {item.cleanliness}/5</Text>
-        <Text>Noisiness: {item.noisiness}/5</Text>
+        <View style={styles.detailItem}>
+          <Text style={styles.score}>{item.accessibility}/5</Text>
+          <Text style={styles.category}>Accessibility</Text>
+        </View>
+        <View style={styles.detailItem}>
+          <Text style={styles.score}>{item.cleanliness}/5</Text>
+          <Text style={styles.category}>Cleanliness</Text>
+        </View>
+        <View style={styles.detailItem}>
+          <Text style={styles.score}>{item.noisiness}/5</Text>
+          <Text style={styles.category}>Noisiness</Text>
+        </View>
       </View>
+      <Divider style={styles.divider} />
       <Text style={styles.comment}>{item.comment}</Text>
     </Card>
   );
+  
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         data={location.reviews.list}
+        showsHorizontalScrollIndicator={false}
         renderItem={renderReview}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
       />
       <FAB
         style={styles.fab}
+        color="white"
         icon="pencil"
         label="Write a Review"
         onPress={() => setModalVisible(true)}
@@ -71,6 +84,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     padding: 10,
     borderRadius: 8,
+    backgroundColor: '#FFF'
   },
   row: {
     flexDirection: "row",
@@ -92,23 +106,26 @@ const styles = StyleSheet.create({
   },
   detailsRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     marginVertical: 5,
+  },
+  detailItem: {
+    alignItems: "center",
   },
   comment: {
     fontSize: 14,
-    color: "gray",
-    marginTop: 8,
+    marginVertical: 8,
+    marginHorizontal: 16
   },
   listContainer: {
     padding: 10,
   },
   fab: {
     position: "absolute",
-    margin: 16,
+    margin: 20,
     right: 0,
     bottom: 0,
-    backgroundColor: "#F4B400",
+    backgroundColor: "#964800",
   },
   modalContainer: {
     backgroundColor: "white",

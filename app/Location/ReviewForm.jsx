@@ -1,13 +1,14 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
-import { Button, Text } from "react-native-paper";
-import StarRating from "../StarRating";
+import { View, TextInput, StyleSheet, ScrollView } from "react-native";
+import { Button, Text, Divider } from "react-native-paper";
+import ReviewStar from "./ReviewStar";
 
 const ReviewForm = ({ onClose, onSubmit }) => {
   const [title, setTitle] = React.useState("");
   const [accessibility, setAccessibility] = React.useState(0);
   const [cleanliness, setCleanliness] = React.useState(0);
   const [noisiness, setNoisiness] = React.useState(0);
+  const [overall, setOverall] = React.useState(0);
   const [comment, setComment] = React.useState("");
 
   const handleSubmit = () => {
@@ -22,21 +23,34 @@ const ReviewForm = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Title</Text>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <Text style={[styles.label, {fontSize: 26}]}>Review Title</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter title"
         value={title}
         onChangeText={setTitle}
       />
-      <Text>Accessibility</Text>
-      <StarRating />
-      <Text>Cleanliness</Text>
-      <StarRating />
-      <Text>Noisiness</Text>
-      <StarRating />
-      <Text style={styles.label}>Comment</Text>
+
+      <Text style={[styles.label, {marginTop: 15}]}>Accessibility</Text>
+      <ReviewStar rating={accessibility} onChange={setAccessibility} />
+
+      <Divider style={styles.divider} />
+
+      <Text style={styles.label}>Cleanliness</Text>
+      <ReviewStar rating={cleanliness} onChange={setCleanliness} />
+
+      <Divider style={styles.divider} />
+
+      <Text style={styles.label}>Noisiness</Text>
+      <ReviewStar rating={noisiness} onChange={setNoisiness} />
+
+      <Divider style={styles.divider} />
+
+      <Text style={styles.label}>Overall Rating</Text>
+      <ReviewStar rating={overall} onChange={setOverall} />
+
+      <Text style={[styles.label, {marginTop: 10}]}>Additional Comments?</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter comment"
@@ -50,13 +64,15 @@ const ReviewForm = ({ onClose, onSubmit }) => {
       <Button onPress={onClose} style={styles.cancel}>
         Cancel
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    marginBottom: 10,
+    paddingBottom: 80
   },
   input: {
     borderWidth: 1,
@@ -66,14 +82,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   label: {
-    marginTop: 16,
+    fontSize: 20,
     fontWeight: "bold",
+    fontSize: 20,
+  },
+
+  divider: {
+    marginTop: -6,
+    marginBottom: 10,
   },
   submit: {
     marginTop: 16,
+    marginBottom: 20,
   },
   cancel: {
-    marginTop: 8,
+    marginVertical: 8,
   },
 });
 
