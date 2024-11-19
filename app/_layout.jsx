@@ -19,7 +19,8 @@ const theme = {
 EStyleSheet.build({});
 
 export default function RootLayout() {
-  NavigationBar.setBackgroundColorAsync("#f7edebff");
+  NavigationBar.setBackgroundColorAsync("#00000000");
+  NavigationBar.setPositionAsync('absolute');
 
   return (
     
