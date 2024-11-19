@@ -37,10 +37,10 @@ const BearGuideColourScheme = {
       "level4": "rgb(242, 230, 224)",
       "level5": "rgb(240, 226, 219)"
     },
-    "surfaceDisabled": "rgba(32, 26, 23, 0.12)",
-    "onSurfaceDisabled": "rgba(32, 26, 23, 0.38)",
-    "backdrop": "rgba(58, 46, 38, 0.4)"
-  }
-}
+    surfaceDisabled: "rgba(32, 26, 23, 0.12)",
+    onSurfaceDisabled: "rgba(32, 26, 23, 0.38)",
+    backdrop: "rgba(58, 46, 38, 0.4)",
+  },
+};
 
 export default BearGuideColourScheme;
