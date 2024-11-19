@@ -15,9 +15,8 @@ import { useBearGuide } from '../BearGuideContext';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTheme } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 
 import OverviewScreen from './OverviewScreen';
 import ReviewsScreen from './ReviewsScreen';
@@ -29,7 +28,7 @@ const LocationDetail = ({ locationId }) => {
   const { id } = useLocalSearchParams();
   const { bearGuide, setBearGuide } = useBearGuide();
   const theme = useTheme();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   if (!locationId) locationId = parseInt(id);
 
@@ -140,7 +139,7 @@ const LocationDetail = ({ locationId }) => {
         <IconButton
           icon="undo-variant"
           mode="contained"
-          onPress={() => navigation.goBack()}
+          onPress={() => router.back()}
           style={styles.closeIcon}
         />
       </View>
