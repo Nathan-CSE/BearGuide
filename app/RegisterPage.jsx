@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import {
   IconButton,
@@ -11,6 +11,7 @@ import {
 } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { useBearGuide } from './BearGuideContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginPage = () => {
   const router = useRouter();
