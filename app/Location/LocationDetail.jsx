@@ -40,7 +40,7 @@ const LocationDetail = ({ locationId }) => {
     return <Text>No location found.</Text>;
   }
 
-  console.log(`this is loc id ${locationId}`)
+  // console.log(`this is loc id ${locationId}`)
 
   const { 
     coordinates,
@@ -101,11 +101,11 @@ const LocationDetail = ({ locationId }) => {
 
   React.useEffect(() => {
     if (openingHours && openingHours.data) {
-      console.log("Opening Hours:");
+      // console.log("Opening Hours:");
       Object.entries(openingHours.data).forEach(([day, hours]) => {
         const formattedDay = day.charAt(0).toUpperCase() + day.slice(1);
         const formattedHours = hours.open === "Closed" ? "Closed" : `${hours.open} - ${hours.close}`;
-        console.log(`${formattedDay}: ${formattedHours}`);
+        // console.log(`${formattedDay}: ${formattedHours}`);
       });
     }
   }, [openingHours]);
@@ -132,25 +132,36 @@ const LocationDetail = ({ locationId }) => {
         <Text style={styles.ratingCount}> ({reviews.list.length})</Text>
       </View>
 
-      {/* Can't seem to get spaces between buttons if I include the entire text in the button */}
-      {/* Spaces vs. text */}
-      <View style={styles.buttonRow}>
-        <Button icon="map-marker" mode="elevated" style={styles.button}>
-          Directions
-        </Button>
-        <Button icon="cards-heart-outline" mode="elevated" style={styles.button}>
-          Favourite
-        </Button>
-        <Button icon="share-variant-outline" mode="elevated" style={styles.shareButton}>
-          Share
-        </Button>
-      </View>
-    
+      {/* Horizontally scrollable button row for actions, have to enclose scrollview in a view otherwise there's vertical space for some reason */}
+      <View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollableButtonRow}
+        >
+          <View style={styles.buttonWrapper}>
+            <Button icon="map-marker" mode="elevated" style={styles.button}>
+              Directions
+            </Button>
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button icon="cards-heart-outline" mode="elevated" style={styles.button}>
+              Favourite
+            </Button>
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button icon="share-variant-outline" mode="elevated" style={styles.button}>
+              Share
+            </Button>
+          </View>
+        </ScrollView>
+        </View>
+
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={(newIndex) => {
-          console.log("Switching to tab:", newIndex);
+          // console.log("Switching to tab:", newIndex);
           setIndex(newIndex);
         }}
         initialLayout={{ width: layout.width }}
@@ -188,18 +199,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5,
   },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
+  scrollableButtonRow: {
+    flexDirection: 'row', // Align buttons horizontally
+    alignItems: 'center', // Center buttons vertically
+    paddingVertical: 5,
+    // flex: 1,
+  },
+  buttonWrapper: {
+    marginHorizontal: 5, // Space between buttons
   },
   button: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  shareButton: {
-    marginHorizontal: 5,
-  },
+    justifyContent: 'center', // Center-align text inside buttons
+  },  
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
