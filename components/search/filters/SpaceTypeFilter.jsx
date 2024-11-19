@@ -3,6 +3,7 @@ import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
 import { FiltersContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SpaceTypeFilter = () => {
   const [isStudyChecked, setStudyChecked] = useState(false);
@@ -12,6 +13,10 @@ const SpaceTypeFilter = () => {
   const [isLectureHallChecked, setLectureHallChecked] = useState(false);
   const [isTutorialChecked, setTutorialChecked] = useState(false);
   const [filters, setFilters] = useContext(FiltersContext);
+
+  // Due to the overlay, this will adjust content to be within
+  // the actual surface area based on screen offsets.
+  const insets = useSafeAreaInsets();
 
   const filterMap = {
     'study': {
@@ -71,7 +76,7 @@ const SpaceTypeFilter = () => {
   }, [filters]);
 
   return (
-    <View>
+    <View style={{ paddingTop: insets.top - 32 }}>
       <Text style={styles.filterTitle}>Space Type Filter</Text>
       <View style={styles.filterList}>
         {
