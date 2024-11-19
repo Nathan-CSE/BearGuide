@@ -42,8 +42,10 @@ export default function RootLayout() {
           />
         </Stack>
         <StatusBar 
+          style="dark"
           translucent={true}
           hidden={false}
+          
         />
       </PaperProvider>
     </BearGuideProvider>
