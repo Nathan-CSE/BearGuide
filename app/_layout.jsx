@@ -7,6 +7,8 @@ import {
 import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const theme = {
   ...DefaultTheme,
@@ -17,6 +19,7 @@ EStyleSheet.build({});
 
 export default function RootLayout() {
   return (
+    
     <BearGuideProvider>
       <PaperProvider theme={theme}>
         <Stack>
@@ -36,7 +39,12 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        <StatusBar 
+          translucent={true}
+          hidden={false}
+        />
       </PaperProvider>
     </BearGuideProvider>
+    
   );
 }
