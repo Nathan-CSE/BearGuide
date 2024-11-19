@@ -1,13 +1,8 @@
 import * as React from 'react';
-import { AppRegistry } from 'react-native';
-import {
-  MD3LightTheme as DefaultTheme,
-  PaperProvider,
-} from 'react-native-paper';
-import { BottomNavigation, Text } from 'react-native-paper';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
+import { BottomNavigation } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
 import BearGuideColourScheme from '@/constants/ColourScheme';
-import { BearGuideProvider } from './BearGuideContext';
 import MapPage from './MapPage';
 import UserProfile from './UserProfile';
 

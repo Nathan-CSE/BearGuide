@@ -8,7 +8,13 @@ const initialBearGuide = {
     {
       id: 0,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      spaceType: ["Building", "Study Space", "Cafe", "Computer Lab", "Tutorial Room"],
+      spaceType: [
+        'Building',
+        'Study Space',
+        'Cafe',
+        'Computer Lab',
+        'Tutorial Room',
+      ],
       address: 'Science Rd, Kensington NSW 2033',
       name: 'K17 Computer Science Building',
       amenities: [{ category: 'power', comment: 'Outlet Charging' }],
@@ -44,6 +50,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
+            title: 'Very cool!',
             comment: 'What an amazing building.',
           },
           {
@@ -53,6 +60,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 4,
             overall: 4.5,
+            title: 'Very cool!',
             comment: 'Spectacular building, but it can get loud.',
           },
         ],
@@ -62,10 +70,16 @@ const initialBearGuide = {
     {
       id: 1,
       coordinates: { long: -33.918900523094244, lat: 151.23102394496718 },
-      address: "Science Rd, Kensington NSW 2033",
-      name: "Blockhouse G15",
-      spaceType: ["Building", "Study Space", "Computer Lab", "Lecture Hall", "Tutorial Room"],
-      amenities: [{ category: "power", comment: "Outlet Charging" }],
+      address: 'Science Rd, Kensington NSW 2033',
+      name: 'Blockhouse G15',
+      spaceType: [
+        'Building',
+        'Study Space',
+        'Computer Lab',
+        'Lecture Hall',
+        'Tutorial Room',
+      ],
+      amenities: [{ category: 'power', comment: 'Outlet Charging' }],
       capacity: 50,
       // example hourly levels from 12 AM to 11 PM
       popularTimes: {
@@ -134,7 +148,9 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
-            comment: 'What an amazing building.',
+            title: 'Very cool!',
+            comment:
+              'The Blockhouse at UNSW is a cool spot to hang out, study, or attend classes. With its modern design and spacious, tech-packed rooms, it’s got everything you need for a productive day on campus. Whether you’re grabbing a coffee nearby or just chilling in one of the comfy common areas, it’s easy to see why it’s such a popular spot. It can get a bit busy at times, but the vibe is always lively and fun, making it a great place to be at UNSW!',
           },
         ],
       },
@@ -146,8 +162,9 @@ const initialBearGuide = {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'bearguide',
-      faculty: 'Computer Science and Engineering',
+      faculty: 'UNSW Faculty of Engineering',
       campus: 'UNSW Kensington',
+      profile_image: null,
       reviews: [{ locationId: 0, reviewId: 0 }],
       favourites: [0], // Array of integers, integers represents locationId
       recents: [0], // Possibly related to search?
@@ -157,8 +174,9 @@ const initialBearGuide = {
       name: 'Jane Doe',
       email: 'janedoe@example.com',
       password: 'bearguide',
-      faculty: 'Computer Science and Engineering',
+      faculty: 'UNSW Faculty of Engineering',
       campus: 'UNSW Kensington',
+      profile_image: null,
       reviews: [
         { locationId: 0, reviewId: 1 },
         { locationId: 1, reviewId: 0 },
@@ -181,8 +199,9 @@ export const BearGuideProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Reset async storage to initial state
-  const resetData = () => {
+  const resetData = async () => {
     try {
+      // Set in-memory data to the initial state
       setBearGuide(initialBearGuide);
     } catch (e) {
       console.warn('Error with resetting data: ', e);
@@ -201,6 +220,7 @@ export const BearGuideProvider = ({ children }) => {
   const loadBearGuideData = async () => {
     try {
       const storedData = await AsyncStorage.getItem(BEAR_GUIDE_STORAGE_KEY);
+
       if (storedData !== null) {
         setBearGuide(JSON.parse(storedData));
       } else {
