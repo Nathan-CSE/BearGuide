@@ -40,7 +40,7 @@ const LoginPage = () => {
       recents: [],
     };
     if (password === password2) {
-      if (userExists) {
+      if (userExists()) {
         setVisible2(true);
       } else {
         setBearGuide({
@@ -56,6 +56,7 @@ const LoginPage = () => {
   };
 
   const userExists = () => {
+    console.log(bearGuide);
     return bearGuide.users.find(
       (user) =>
         user.email.toLowerCase() == email.toLowerCase() &&
