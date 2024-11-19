@@ -186,7 +186,8 @@ const initialBearGuide = {
             noisiness: 5,
             overall: 5,
             title: 'Very cool!',
-            comment: 'What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building. What an amazing building.',
+            comment:
+              'The Blockhouse at UNSW is a cool spot to hang out, study, or attend classes. With its modern design and spacious, tech-packed rooms, it’s got everything you need for a productive day on campus. Whether you’re grabbing a coffee nearby or just chilling in one of the comfy common areas, it’s easy to see why it’s such a popular spot. It can get a bit busy at times, but the vibe is always lively and fun, making it a great place to be at UNSW!',
           },
         ],
       },
@@ -256,7 +257,6 @@ export const BearGuideProvider = ({ children }) => {
   const loadBearGuideData = async () => {
     try {
       const storedData = await AsyncStorage.getItem(BEAR_GUIDE_STORAGE_KEY);
-      
       if (storedData !== null) {
         setBearGuide(JSON.parse(storedData));
       } else {
