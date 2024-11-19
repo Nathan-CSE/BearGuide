@@ -32,17 +32,40 @@ const OverviewScreen = ({ location }) => {
     reviews = { summary: {}, list: [] }, 
   } = location;
 
+  const convertTo12HourFormat = (time24) => {
+    const [hours, minutes] = time24.split(':');
+    const hour = parseInt(hours, 10);
+    const suffix = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${suffix}`;
+  };
+  
+  
   const currentDay = new Date().toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
   const currentTime = new Date().toTimeString().split(":").slice(0, 2).join(":");
   
-  const isOpen = openingHours.data[currentDay]
-    ? currentTime >= openingHours.data[currentDay].open && currentTime <= openingHours.data[currentDay].close
+  const convertToMinutes = (time) => {
+    const [hours, minutes] = time.split(":");
+    return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+  };
+  
+  const currentTimeInMinutes = convertToMinutes(currentTime);
+  const openingTimeInMinutes = convertToMinutes(openingHours.data[currentDay]?.open);
+  const closingTimeInMinutes = convertToMinutes(openingHours.data[currentDay]?.close);
+
+  const isOpen = openingTimeInMinutes && closingTimeInMinutes 
+    ? currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes <= closingTimeInMinutes
     : false;
+
+  // console.log("Current Day:", currentDay);
+  // console.log("Current Time:", currentTime);
+  // console.log("Opening Hours for Today:", openingHours.data[currentDay]);
+  // console.log("Is Open:", isOpen);
 
   const handleExpand = () => setIsExpanded(!isExpanded);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.imageContainer}>
         {images.map((image, index) => (
           <Card.Cover key={index} source={{ uri: image }} style={styles.image} />
@@ -67,34 +90,60 @@ const OverviewScreen = ({ location }) => {
       {/* Opening Hours */}
       {/* Currently an issue where when I expand opening hours, the text */}
       {/* is horizontal and goes off the screen, also I need to add a divider */}
+      
       <View style={styles.openingHoursContainer}>
         <Icon source="clock-outline" size={25} color="#964800" />
         {openingHours.data ? (
           <TouchableOpacity onPress={handleExpand} style={styles.openStatusContainer}>
-            <Text style={{ color: isOpen ? theme.colors.primary : theme.colors.error }}>
+            <Text style={{ color: isOpen ? theme.colors.tertiary : theme.colors.error, fontSize: 14 }}>
               {isOpen ? "Currently Open" : "Currently Closed"}
+              {" • "}
             </Text>
-            <Text style={styles.openingHoursText}>
-              {`${currentDay.charAt(0).toUpperCase() + currentDay.slice(1)}: ${openingHours.data[currentDay]?.open === "Closed" ? "Closed" : `${openingHours.data[currentDay]?.open} - ${openingHours.data[currentDay]?.close}`}`}
+            <Text style={[styles.openingHoursText, { flex: 2 }]}>
+              {`${currentDay.charAt(0).toUpperCase() + currentDay.slice(1)}: ${openingHours.data[currentDay]?.open === "Closed" ? "Closed" : `${convertTo12HourFormat(openingHours.data[currentDay]?.open)} - ${convertTo12HourFormat(openingHours.data[currentDay]?.close)}`}`}
             </Text>
           </TouchableOpacity>
         ) : (
           <Text>No opening hours available.</Text>
         )}
-        {isExpanded && openingHours.data && Object.entries(openingHours.data).map(([day, hours]) => (
-          <Text
-            key={day}
-            style={[
-              styles.openingHoursText,
-              day === currentDay && styles.currentDayText,
-            ]}
-          >
-            {day.charAt(0).toUpperCase() + day.slice(1)}:{" "}
-            {hours.open === "Closed" ? "Closed" : `${hours.open} - ${hours.close}`}
-          </Text>
-        ))}
       </View>
      
+      <View style={{ marginLeft: 30 }}>
+        {isExpanded &&
+          openingHours.data &&
+          Object.entries(openingHours.data).map(([day, hours]) => (
+            <View
+              key={day}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 2,
+              }}
+            >
+              <Text
+                style={[
+                  styles.openingHoursText,
+                  day === currentDay && styles.currentDayText,
+                  { flex: 1 },
+                ]}
+              >
+                {day.charAt(0).toUpperCase() + day.slice(1)}
+              </Text>
+              <Text
+                style={[
+                  styles.openingHoursText,
+                  day === currentDay && styles.currentDayText,
+                  { flex: 2, textAlign: 'right' },
+                ]}
+              >
+                {hours.open === 'Closed'
+                  ? 'Closed'
+                  : `${convertTo12HourFormat(hours.open)} - ${convertTo12HourFormat(hours.close)}`}
+              </Text>
+            </View>
+          ))}
+      </View>
+
      
       <Divider style={styles.divider} />
 

@@ -87,11 +87,14 @@ const LocationSearch = () => {
                   Sort By
                 </Chip>
               </View>
-              <ScrollView horizontal contentContainerStyle={{
-                gap: 16, 
-                paddingLeft: 8, 
-                paddingVertical: 8
-              }}>
+              <ScrollView horizontal 
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  gap: 16, 
+                  paddingLeft: 8, 
+                  paddingVertical: 8
+                }}
+              >
                   <FilterChip
                     id='space' 
                     label="Space Type" 

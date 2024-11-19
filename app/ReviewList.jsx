@@ -39,6 +39,7 @@ const ReviewList = () => {
       )}
       <FlatList
         data={[...reviews]}
+        showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={<Divider />}
         keyExtractor={(item) => item.reviewId}
         renderItem={({ item }) => (
