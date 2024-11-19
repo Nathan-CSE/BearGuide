@@ -175,7 +175,7 @@ const initialBearGuide = {
           accessibility: 4.2,
           cleanliness: 4.2,
           noisiness: 4.2,
-          overall: 4.2,
+          overall: 4.3,
         },
         list: [
           {
