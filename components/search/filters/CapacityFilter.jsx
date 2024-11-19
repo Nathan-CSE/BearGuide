@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
 import { FiltersContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
@@ -59,21 +58,32 @@ const CapacityFilter = () => {
     setMinCapacity(value);
 
     if (value > maxCapacity) {
+      value = maxCapacity;
       setTimeout(() => {
-        setMinCapacity(maxCapacity);
+        setMinCapacity(value);
       }, 5);
-    }
+    } 
   };
 
   const handleMaxChange = (value) => {
     setMaxCapacity(value);
 
     if (value < minCapacity) {
+      value = minCapacity;
       setTimeout(() => {
-        setMaxCapacity(minCapacity);
+        setMaxCapacity(value);
       }, 5);
     }
   };
+
+  const applyBothFilters = () => {
+    applyFilter({ type: 'minCapacity', filter: 
+      (item) => item.capacity >= minCapacity
+    });
+    applyFilter({ type: 'maxCapacity', filter: 
+      (item) => item.capacity <= maxCapacity 
+    });
+  }
 
   return (
     <View style={{ paddingTop: insets.top - 32 }}>
@@ -86,6 +96,11 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={minCapacity}
             onValueChange={handleMinChange}
+            onSlidingComplete={() => {
+              setTimeout(() => {
+                applyBothFilters();
+              }, 25);
+            }}
             step={1}
           />
           <View style={{
@@ -100,6 +115,9 @@ const CapacityFilter = () => {
             onChangeText={(text) => { 
               let parsedText = parseInt(text.replace(/[^0-9]/g, ''));
               handleMinChange(parsedText);
+              setTimeout(() => {
+                applyBothFilters();
+              }, 25);
             }}
           />
         </View>
@@ -110,7 +128,11 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={maxCapacity}
             onValueChange={handleMaxChange}
-            onSlidingComplete={handleMaxChange}
+            onSlidingComplete={() => {
+              setTimeout(() => {
+                applyBothFilters();
+              }, 25);
+            }}
             step={1}
           />
           <View style={{
@@ -125,6 +147,9 @@ const CapacityFilter = () => {
             onChangeText={(text) => { 
               let parsedText = parseInt(text.replace(/[^0-9]/g, ''));
               handleMaxChange(parsedText);
+              setTimeout(() => {
+                applyBothFilters();
+              }, 25);
             }}
           />
         </View>

@@ -34,7 +34,7 @@ const LocationSearch = () => {
     } else {
       setSearchField(e);
     }
-    console.log(e)
+    console.log("Search Refreshing")
     let newList = bearGuide.locations.filter((location) => {
       for (let filterCategory of Object.values(filters)) {
         for (let filterType of Object.values(filterCategory)) {
