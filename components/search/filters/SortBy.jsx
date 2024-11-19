@@ -28,7 +28,7 @@ const SortBy = () => {
   }
 
   return (
-    <View style={{ paddingTop: insets.top }}>
+    <View style={{ paddingTop: insets.top - 16 }}>
       <Text style={styles.filterTitle}>Sort By</Text>
       <View style={styles.filterList}>
         {

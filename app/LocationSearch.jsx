@@ -62,8 +62,8 @@ const LocationSearch = () => {
   }
 
   return (
-    <View>
-      <SafeAreaView style={{paddingHorizontal: 16 }}>
+    <View style={{  }}>
+      <SafeAreaView style={{paddingHorizontal: 16, marginBottom: -24 }}>
         <OverlayContext.Provider value={[ overlayView, setOverlayView ]}>
             <View style={{ 
               flexDirection: 'row', 
@@ -154,8 +154,8 @@ const LocationSearch = () => {
             <View style={{ zIndex: -1 }}>
               <List.Section 
                 title='Locations' 
-                style={{ paddingHorizontal: 16 }}
-                titleStyle={{ paddingHorizontal: 0 }}
+                style={{ paddingHorizontal: 0 }}
+                titleStyle={{ paddingHorizontal: 16 }}
               >
                 {filteredList.map((location) => (
                   <List.Item

@@ -46,7 +46,7 @@ const AmenitiesFilter = () => {
   }, [filters]);
 
   return (
-    <View style={{ paddingTop: insets.top }}>
+    <View style={{ paddingTop: insets.top - 16 }}>
       <Text style={styles.filterTitle}>Amenities Filter</Text>
       <View style={styles.filterList}>
         {

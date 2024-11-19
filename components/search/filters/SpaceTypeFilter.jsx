@@ -76,7 +76,7 @@ const SpaceTypeFilter = () => {
   }, [filters]);
 
   return (
-    <View style={{ paddingTop: insets.top }}>
+    <View style={{ paddingTop: insets.top - 16 }}>
       <Text style={styles.filterTitle}>Space Type Filter</Text>
       <View style={styles.filterList}>
         {
