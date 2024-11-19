@@ -38,13 +38,13 @@ const index = () => {
         <View style={{ alignItems: 'flex-start' }}>
           <Text
             variant="displayMedium"
-            style={{ fontWeight: 'bold', color: theme.colors.onTertiary }}
+            style={{ fontWeight: 'bold', color: theme.colors.secondary }}
           >
             Welcome to
           </Text>
           <Text
             variant="displayLarge"
-            style={{ fontWeight: 'bold', color: theme.colors.primaryContainer }}
+            style={{ fontWeight: 'bold', color: theme.colors.primary }}
           >
             BearGuide
           </Text>

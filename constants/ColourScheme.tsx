@@ -4,7 +4,7 @@ const BearGuideColourScheme = {
     "onPrimary": "rgb(255, 255, 255)",
     "primaryContainer": "rgb(255, 220, 198)",
     "onPrimaryContainer": "rgb(49, 19, 0)",
-    "secondary": "rgb(117, 88, 70)",
+    "secondary": "rgb(28, 29, 0)",
     "onSecondary": "rgb(255, 255, 255)",
     "secondaryContainer": "rgb(255, 220, 198)",
     "onSecondaryContainer": "rgb(43, 23, 8)",
