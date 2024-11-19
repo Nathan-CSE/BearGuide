@@ -31,7 +31,7 @@ const LocationSearch = () => {
 
   useEffect(() => {
     handleSearch(null);
-  }, [filters]);
+  }, [filters, sortOption]);
 
   const handleSearch = (e) => {
     if (e === null) {
@@ -124,8 +124,6 @@ const LocationSearch = () => {
                     setSelected={setChipSelected}
                     component={<AmenitiesFilter />}
                   />
-                  <Chip icon={"menu-down"} onPress={() => {}}>Access</Chip>
-                  <Chip icon={"menu-down"} onPress={() => {}}>Accessibility</Chip>
               </ScrollView>
             </View>
         </OverlayContext.Provider>
