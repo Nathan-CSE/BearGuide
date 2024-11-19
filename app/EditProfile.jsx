@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -16,6 +16,7 @@ import ProfileIcon from '@/components/profile/ProfileIcon';
 import { Dropdown } from 'react-native-element-dropdown';
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const campuses = [
   { label: 'UNSW Kensington', value: 'UNSW Kensington' },
@@ -109,16 +110,14 @@ const EditProfile = () => {
         </Dialog>
       </Portal>
       <Surface elevation={5} mode="flat">
-        <SafeAreaView>
-          <View style={styles.header}>
-            <IconButton
-              icon="arrow-left"
-              size={24}
-              onPress={() => router.dismiss(1)}
-            />
-            <Text variant="titleMedium">Edit Profile</Text>
-            <View style={{ width: 56 }} />
-          </View>
+        <SafeAreaView style={styles.header}>
+          <IconButton
+            icon="arrow-left"
+            size={24}
+            onPress={() => router.dismiss(1)}
+          />
+          <Text variant="titleMedium">Edit Profile</Text>
+          <View style={{ width: 56 }} />
         </SafeAreaView>
       </Surface>
       <View style={styles.mainContent}>
@@ -209,7 +208,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
-    paddingBottom: 16,
   },
   mainContent: {
     alignItems: 'center',

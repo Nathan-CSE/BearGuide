@@ -52,6 +52,9 @@ const ReviewList = () => {
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
               {item.name}
             </Text>
+            <Text variant="labelLarge" numberOfLines={4}>
+              {item.comment}
+            </Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -59,15 +62,12 @@ const ReviewList = () => {
                 alignItems: 'center',
               }}
             >
-              <View style={{ maxWidth: 200, gap: 8 }}>
-                <Text variant="labelLarge">{item.comment}</Text>
-                <StarRatingDisplay
-                  rating={item.overall}
-                  color="#E9C16C"
-                  enableHalfStar={true}
-                  starSize={20}
-                />
-              </View>
+              <StarRatingDisplay
+                rating={item.overall}
+                color="#E9C16C"
+                enableHalfStar={true}
+                starSize={25}
+              />
               <Button
                 mode="outlined"
                 onPress={() =>
