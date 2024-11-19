@@ -59,7 +59,7 @@ const AmenitiesFilter = () => {
                 onPress={() => {
                   value.setCheck((prev) => {
                     applyFilter({ type: key, filter: (item) => {
-                      return item.amenities.some((amenity) => amenity.category === value.name)
+                      return item.amenities.some((amenity) => amenity.category == key)
                     }}, !prev);
                   });
                 }}
