@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 import { useBearGuide } from './BearGuideContext';
 import { StyleSheet } from 'react-native';
 import UserProfileTab from './UserProfileTab';
 import ProfileIcon from '@/components/profile/ProfileIcon';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const UserProfile = () => {
   const { bearGuide } = useBearGuide();
