@@ -7,7 +7,9 @@ import { useRouter } from 'expo-router';
 import FilterChip from '../components/search/FilterChip';
 import SpaceTypeFilter from '../components/search/filters/SpaceTypeFilter';
 import { useBearGuide } from './BearGuideContext';
-import { OverlayContext, FiltersContext } from '../components/search/SearchContexts';
+import { 
+  OverlayContext, FiltersContext, SortContext 
+} from '../components/search/SearchContexts';
 import CapacityFilter from '../components/search/filters/CapacityFilter';
 import AmenitiesFilter from '../components/search/filters/AmenitiesFilter';
 
@@ -19,6 +21,7 @@ const LocationSearch = () => {
 
   const [filters, setFilters] = useState({});
   const [overlayView, setOverlayView] = useState();
+  const [sortFn, setSortFn] = useState();
 
   const theme = useTheme();
   const router = useRouter();
@@ -49,6 +52,10 @@ const LocationSearch = () => {
       }
       return true;
     });
+
+    if (sortFn) {
+      newList.sort(sortFn);
+    }
 
     setFilteredList(newList);
   }
