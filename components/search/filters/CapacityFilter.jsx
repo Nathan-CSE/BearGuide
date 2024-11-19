@@ -32,13 +32,17 @@ const CapacityFilter = () => {
     },
   };
 
-  const applyFilter = (filterObj, setFilter = true) => {
+  const applyFilters = (filterArr, setFilter = true) => {
     const filterParent = filters['capacity'] || {};
 
     if (setFilter) {
-      filterParent[filterObj.type] = filterObj;
+      for (let filterObj of filterArr) {
+        filterParent[filterObj.type] = filterObj;
+      }
     } else {
-      delete filterParent[filterObj.type]
+      for (let filterObj of filterArr) {
+        delete filterParent[filterObj.type];
+      }
     }
     
     setFilters({...filters, 'capacity': filterParent});
@@ -64,8 +68,8 @@ const CapacityFilter = () => {
 
     // If there are filters, set the states
     if (filterTypes) {
-      filterMap['minCapacity'].setCapacity(filterTypes['minCapacity'].capacity);
-      filterMap['maxCapacity'].setCapacity(filterTypes['maxCapacity'].capacity);
+      filterMap['minCapacity'].setCapacity(filterTypes['minCapacity']?.capacity ?? MIN_CAPACITY);
+      filterMap['maxCapacity'].setCapacity(filterTypes['maxCapacity']?.capacity ?? MAX_CAPACITY);
     }
   }, [filters]);
 
@@ -97,16 +101,17 @@ const CapacityFilter = () => {
   };
 
   const applyBothFilters = (min, max) => {
-    applyFilter({ type: 'minCapacity', 
+    applyFilters([{ 
+      type: 'minCapacity', 
       capacity: min, 
       filter: 
         (item) => item.capacity >= min
-    });
-    applyFilter({ type: 'maxCapacity', 
+    },{ 
+      type: 'maxCapacity', 
       capacity: max, 
       filter: 
         (item) => item.capacity <= max 
-    });
+    }])
   }
 
   return (
@@ -145,7 +150,7 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={maxCapacity}
             onValueChange={handleMaxChange}
-            onSlidingComplete={handleMinChange}
+            onSlidingComplete={handleMaxChange}
             step={1}
           />
           <View style={{
