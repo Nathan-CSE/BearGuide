@@ -50,6 +50,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
+            title: 'Very cool!',
             comment: 'What an amazing building.',
           },
           {
@@ -59,6 +60,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 4,
             overall: 4.5,
+            title: 'Very cool!',
             comment: 'Spectacular building, but it can get loud.',
           },
         ],
@@ -146,6 +148,7 @@ const initialBearGuide = {
             cleanliness: 5,
             noisiness: 5,
             overall: 5,
+            title: 'Very cool!',
             comment: 'What an amazing building.',
           },
         ],
@@ -195,8 +198,9 @@ export const BearGuideProvider = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Reset async storage to initial state
-  const resetData = () => {
+  const resetData = async () => {
     try {
+      // Set in-memory data to the initial state
       setBearGuide(initialBearGuide);
     } catch (e) {
       console.warn('Error with resetting data: ', e);
@@ -215,6 +219,7 @@ export const BearGuideProvider = ({ children }) => {
   const loadBearGuideData = async () => {
     try {
       const storedData = await AsyncStorage.getItem(BEAR_GUIDE_STORAGE_KEY);
+      
       if (storedData !== null) {
         setBearGuide(JSON.parse(storedData));
       } else {
