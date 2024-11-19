@@ -28,6 +28,12 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
+          <Stack.Screen
+            name="Location/LocationDetail"
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack>
       </PaperProvider>
     </BearGuideProvider>
