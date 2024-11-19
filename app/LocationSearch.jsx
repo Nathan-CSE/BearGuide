@@ -142,7 +142,14 @@ const LocationSearch = () => {
                   key={location.id}
                   title={location.name}
                   description={location.address}
-                  onPress={() => {console.log('Route to Location: ', location.name)}}
+                  style={{ paddingHorizontal: 16 }}
+                  onPress={() => {
+                    router.push({
+                      pathname: '/Location/LocationDetail',
+                      params: { id: location.id }
+                    }, {})
+                  }}
+
                   left={() => {
                     let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
                     if (location.images.length > 0)
