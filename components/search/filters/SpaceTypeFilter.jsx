@@ -55,7 +55,7 @@ const SpaceTypeFilter = () => {
     const filterParent = filters['space'] || {};
 
     if (setFilter) {
-      filterParent[filterObj.type] = filterObj.filter;
+      filterParent[filterObj.type] = filterObj;
     } else {
       delete filterParent[filterObj.type]
     }

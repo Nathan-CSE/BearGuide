@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MIN_CAPACITY = 0;
 const MAX_CAPACITY = 400;
+let timeout = null;
 
 const CapacityFilter = () => {
   // Due to the overlay, this will adjust content to be within
@@ -35,22 +36,36 @@ const CapacityFilter = () => {
     const filterParent = filters['capacity'] || {};
 
     if (setFilter) {
-      filterParent[filterObj.type] = filterObj.filter;
+      filterParent[filterObj.type] = filterObj;
     } else {
       delete filterParent[filterObj.type]
     }
     
     setFilters({...filters, 'capacity': filterParent});
   };
+
+  const debounce = (fn, wait) => {
+    return function(...args) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        timeout = null;
+        fn(...args);
+      }, wait);
+    }
+  }
  
   useEffect(() => {
     // Only focus on this filter type
     let filterTypes = filters['capacity'];
 
-    // If there are filters, set the state of the checkboxes
+    // console.log(filterTypes)
+
+    // If there are filters, set the states
     if (filterTypes) {
-      filterMap['minCapacity'].setCapacity(filterMap['minCapacity'].capacity);
-      filterMap['maxCapacity'].setCapacity(filterMap['maxCapacity'].capacity);
+      filterMap['minCapacity'].setCapacity(filterTypes['minCapacity'].capacity);
+      filterMap['maxCapacity'].setCapacity(filterTypes['maxCapacity'].capacity);
     }
   }, [filters]);
 
@@ -61,8 +76,11 @@ const CapacityFilter = () => {
       value = maxCapacity;
       setTimeout(() => {
         setMinCapacity(value);
+        applyBothFilters();
       }, 5);
     } 
+
+    debounce(() => {applyBothFilters(value, maxCapacity)}, 100)();
   };
 
   const handleMaxChange = (value) => {
@@ -74,14 +92,20 @@ const CapacityFilter = () => {
         setMaxCapacity(value);
       }, 5);
     }
+
+    debounce(() => {applyBothFilters(minCapacity, value)}, 100)();
   };
 
-  const applyBothFilters = () => {
-    applyFilter({ type: 'minCapacity', filter: 
-      (item) => item.capacity >= minCapacity
+  const applyBothFilters = (min, max) => {
+    applyFilter({ type: 'minCapacity', 
+      capacity: min, 
+      filter: 
+        (item) => item.capacity >= min
     });
-    applyFilter({ type: 'maxCapacity', filter: 
-      (item) => item.capacity <= maxCapacity 
+    applyFilter({ type: 'maxCapacity', 
+      capacity: max, 
+      filter: 
+        (item) => item.capacity <= max 
     });
   }
 
@@ -96,11 +120,7 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={minCapacity}
             onValueChange={handleMinChange}
-            onSlidingComplete={() => {
-              setTimeout(() => {
-                applyBothFilters();
-              }, 25);
-            }}
+            onSlidingComplete={handleMinChange}
             step={1}
           />
           <View style={{
@@ -115,9 +135,6 @@ const CapacityFilter = () => {
             onChangeText={(text) => { 
               let parsedText = parseInt(text.replace(/[^0-9]/g, ''));
               handleMinChange(parsedText);
-              setTimeout(() => {
-                applyBothFilters();
-              }, 25);
             }}
           />
         </View>
@@ -128,11 +145,7 @@ const CapacityFilter = () => {
             maximumValue={MAX_CAPACITY}
             value={maxCapacity}
             onValueChange={handleMaxChange}
-            onSlidingComplete={() => {
-              setTimeout(() => {
-                applyBothFilters();
-              }, 25);
-            }}
+            onSlidingComplete={handleMinChange}
             step={1}
           />
           <View style={{
@@ -147,9 +160,6 @@ const CapacityFilter = () => {
             onChangeText={(text) => { 
               let parsedText = parseInt(text.replace(/[^0-9]/g, ''));
               handleMaxChange(parsedText);
-              setTimeout(() => {
-                applyBothFilters();
-              }, 25);
             }}
           />
         </View>

@@ -38,7 +38,7 @@ const LocationSearch = () => {
     let newList = bearGuide.locations.filter((location) => {
       for (let filterCategory of Object.values(filters)) {
         for (let filterType of Object.values(filterCategory)) {
-          if (filterType(location) === false) {
+          if (filterType.filter(location) === false) {
             return false;
           }
         }
