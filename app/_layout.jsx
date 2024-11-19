@@ -8,6 +8,7 @@ import BearGuideColourScheme from '@/constants/ColourScheme';
 import { BearGuideProvider } from './BearGuideContext';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const theme = {
@@ -18,6 +19,8 @@ const theme = {
 EStyleSheet.build({});
 
 export default function RootLayout() {
+  NavigationBar.setBackgroundColorAsync("#f7edebff");
+
   return (
     
     <BearGuideProvider>
