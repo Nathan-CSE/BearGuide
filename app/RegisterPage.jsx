@@ -56,7 +56,6 @@ const LoginPage = () => {
   };
 
   const userExists = () => {
-    console.log(bearGuide);
     return bearGuide.users.find(
       (user) =>
         user.email.toLowerCase() == email.toLowerCase() &&
