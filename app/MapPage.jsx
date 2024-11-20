@@ -24,7 +24,7 @@ const MapPage = ({ navigation }) => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
   const [debugMenuVisible, setDebugMenuVisible] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
-  const [page1, setPage1] = useState(true);
+  const [page1, setPage1] = useState(false);
   const [page2, setPage2] = useState(false);
   const { walkthrough } = useLocalSearchParams();
 
