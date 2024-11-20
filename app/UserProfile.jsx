@@ -22,6 +22,7 @@ const UserProfile = () => {
       const currUser = bearGuide.users.find(
         (x) => x.id === bearGuide.currentUserId
       );
+      setGuest(false);
       setUser(currUser);
     }
   }, [bearGuide]);

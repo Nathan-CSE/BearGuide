@@ -1,12 +1,14 @@
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useBearGuide } from './BearGuideContext';
 import { Button, Divider, Text } from 'react-native-paper';
 import { StarRatingDisplay } from 'react-native-star-rating-widget';
+import { useRouter } from 'expo-router';
 
 const ReviewList = () => {
   const { bearGuide } = useBearGuide();
   const [reviews, setReviews] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     // map locations -> reviews
@@ -43,10 +45,19 @@ const ReviewList = () => {
         ItemSeparatorComponent={<Divider />}
         keyExtractor={(item) => item.reviewId}
         renderItem={({ item }) => (
-          <View
+          <Pressable
             style={{
               gap: 8,
               paddingVertical: 24,
+            }}
+            onPress={() => {
+              router.push(
+                {
+                  pathname: '/Location/LocationDetail',
+                  params: { id: item.locationId },
+                },
+                {}
+              );
             }}
           >
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
@@ -68,18 +79,8 @@ const ReviewList = () => {
                 enableHalfStar={true}
                 starSize={25}
               />
-              <Button
-                mode="outlined"
-                onPress={() =>
-                  console.log(
-                    `location: ${item.locationId} review: ${item.reviewId}`
-                  )
-                }
-              >
-                More Info
-              </Button>
             </View>
-          </View>
+          </Pressable>
         )}
       />
     </View>
