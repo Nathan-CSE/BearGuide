@@ -53,9 +53,9 @@ const MapPage = ({ navigation }) => {
             </Button>
           }
         >
-          <Menu.Item onPress={addLocation} title={<View style={styles.menuItem}><IconButton icon="plus-circle" size={20} /><Text>Add Location</Text></View>} />
-          <Menu.Item onPress={tools.resetData} title={<View style={styles.menuItem}><IconButton icon="reload" size={20} /><Text>Reset Data</Text></View>} />
-          <Menu.Item onPress={tools.dumpData} title={<View style={styles.menuItem}><IconButton icon="file-export" size={20} /><Text>Dump Data</Text></View>} />
+          <Menu.Item onPress={() => {addLocation; setDebugMenuVisible(false)}} title={<View style={styles.menuItem}><IconButton icon="plus-circle" size={20} /><Text>Add Location</Text></View>} />
+          <Menu.Item onPress={() => {tools.resetData; setDebugMenuVisible(false)}} title={<View style={styles.menuItem}><IconButton icon="reload" size={20} /><Text>Reset Data</Text></View>} />
+          <Menu.Item onPress={() => {tools.dumpData; setDebugMenuVisible(false)}} title={<View style={styles.menuItem}><IconButton icon="file-export" size={20} /><Text>Dump Data</Text></View>} />
           <Menu.Item
             onPress={() => {
               router.push({
@@ -99,7 +99,8 @@ const MapPage = ({ navigation }) => {
       {/* Map */}
       <MapView
         style={styles.map}
-        provider={PROVIDER_GOOGLE}
+        // onMapReady={() => console.log("Map is ready")}
+        // provider={PROVIDER_GOOGLE} // commented out because ios doesn't like google maps api, so by default ios will use apple maps
         initialRegion={{
           latitude: -33.916669653790876,
           longitude: 151.2279911954,
@@ -125,18 +126,6 @@ const MapPage = ({ navigation }) => {
           />
         ))}
 
-        {/* Heatmap */}
-        {showHeatmap && (
-          <Heatmap
-            points={bearGuide.locations.map((location) => ({
-              latitude: location.coordinates.lat,
-              longitude: location.coordinates.long,
-              weight: location.reviews.summary.overall,
-            }))}
-            radius={50}
-            opacity={0.7}
-          />
-        )}
       </MapView>
 
     </SafeAreaView>
