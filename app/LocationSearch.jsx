@@ -63,7 +63,7 @@ const LocationSearch = () => {
 
   return (
     <View style={{  }}>
-      <SafeAreaView style={{paddingHorizontal: 16, marginBottom: -24 }}>
+      <SafeAreaView style={{paddingHorizontal: 16, marginBottom: 0 }}>
         <OverlayContext.Provider value={[ overlayView, setOverlayView ]}>
             <View style={{ 
               flexDirection: 'row', 
@@ -127,67 +127,68 @@ const LocationSearch = () => {
               </ScrollView>
             </View>
         </OverlayContext.Provider>
-      </SafeAreaView>
-      <View style={{ width: '100%', height: '100%' }}>
-        {overlayView && 
-          <Surface elevation={3} style={{ 
-            position: 'absolute',
-            width: '100%', 
-            height: '100%', 
-            zIndex: 10
-          }}>
-            <Portal>
-              <SortContext.Provider value={[ sortOption, setSortOption ]}>
-                <FiltersContext.Provider value={[ filters, setFilters ]}>
-                  <View style={{ top: 148 }}>
-                    {overlayView}
-                  </View>
-                </FiltersContext.Provider>
-              </SortContext.Provider>
-            </Portal>
-          </Surface>
-        }
-        <SortContext.Provider value={[ sortOption, setSortOption ]}>
-          <FiltersContext.Provider value={[ filters, setFilters ]}>
-            <View style={{ zIndex: -1 }}>
-              <List.Section 
-                title='Locations' 
-                style={{ paddingHorizontal: 0 }}
-                titleStyle={{ paddingHorizontal: 16 }}
-              >
-                {filteredList.map((location) => (
-                  <List.Item
-                    key={location.id}
-                    title={location.name}
-                    description={location.address}
-                    style={{ paddingHorizontal: 16 }}
-                    onPress={() => {
-                      router.push({
-                        pathname: '/Location/LocationDetail',
-                        params: { id: location.id }
-                      }, {})
-                    }}
+        <View style={{ width: '100%', height: '100%' }}>
+          {overlayView && 
+            <Surface elevation={3} style={{ 
+              position: 'absolute',
+              width: '200%', 
+              height: '100%', 
+              marginHorizontal: '-50%',
+              zIndex: 10
+            }}>
+              <Portal>
+                <SortContext.Provider value={[ sortOption, setSortOption ]}>
+                  <FiltersContext.Provider value={[ filters, setFilters ]}>
+                    <View style={{ top: 148 }}>
+                      {overlayView}
+                    </View>
+                  </FiltersContext.Provider>
+                </SortContext.Provider>
+              </Portal>
+            </Surface>
+          }
+          <SortContext.Provider value={[ sortOption, setSortOption ]}>
+            <FiltersContext.Provider value={[ filters, setFilters ]}>
+              <View style={{ zIndex: -1 }}>
+                <List.Section 
+                  title='Locations' 
+                  style={{ paddingHorizontal: 0 }}
+                  titleStyle={{ paddingHorizontal: 0 }}
+                >
+                  {filteredList.map((location) => (
+                    <List.Item
+                      key={location.id}
+                      title={location.name}
+                      description={location.address}
+                      style={{ paddingHorizontal: 0 }}
+                      onPress={() => {
+                        router.push({
+                          pathname: '/Location/LocationDetail',
+                          params: { id: location.id }
+                        }, {})
+                      }}
 
-                    left={() => {
-                      let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
-                      if (location.images.length > 0)
-                        leftElement = <Image 
-                          source={{ uri: location.images[0] }} 
-                          style={{ width: 72, height: 72, borderRadius: 8 }} 
-                        />
-                      return (
-                        <View style={{ width: 72, height: 72 }}>
-                          {leftElement}
-                        </View>
-                      )
-                    }}
-                  />
-                ))}
-              </List.Section>
-            </View>
-          </FiltersContext.Provider>
-        </SortContext.Provider>
-      </View>
+                      left={() => {
+                        let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
+                        if (location.images.length > 0)
+                          leftElement = <Image 
+                            source={{ uri: location.images[0] }} 
+                            style={{ width: 72, height: 72, borderRadius: 8 }} 
+                          />
+                        return (
+                          <View style={{ width: 72, height: 72 }}>
+                            {leftElement}
+                          </View>
+                        )
+                      }}
+                    />
+                  ))}
+                </List.Section>
+              </View>
+            </FiltersContext.Provider>
+          </SortContext.Provider>
+        </View>
+      </SafeAreaView>
     </View>
   );
 }
