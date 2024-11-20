@@ -7,17 +7,26 @@ import {
   Button,
   useTheme,
   Text,
+  Modal,
 } from 'react-native-paper';
 import { useBearGuide } from './BearGuideContext';
 import MapView, { Marker, Heatmap } from 'react-native-maps';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useRouter } from 'expo-router';
+import BearPage1 from '@/assets/images/bearPage1.png';
+import BearPage2 from '@/assets/images/bearPage2.png';
+import BearPage3 from '@/assets/images/bearPage3.png';
+import { Image } from 'react-native';
 
 const MapPage = ({ navigation }) => {
   const router = useRouter();
+  const theme = useTheme();
   const { bearGuide, setBearGuide, tools } = useBearGuide();
   const [debugMenuVisible, setDebugMenuVisible] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [page1, setPage1] = useState(true);
+  const [page2, setPage2] = useState(false);
+  const [page3, setPage3] = useState(false);
 
   const addLocation = () => {
     const newLocation = {
@@ -112,7 +121,6 @@ const MapPage = ({ navigation }) => {
           />
         </Menu>
       </View>
-
       {/* Heatmap Toggle Button */}
       <View style={styles.heatmapToggle}>
         <Button
@@ -145,7 +153,7 @@ const MapPage = ({ navigation }) => {
       {/* Map */}
       <MapView
         style={styles.map}
-        // provider={PROVIDER_GOOGLE} // commented out because
+        // provider={PROVIDER_GOOGLE} // commented out because google maps does not work on ios, so by default apple maps will be used on ios
         initialRegion={{
           latitude: -33.916669653790876,
           longitude: 151.2279911954,
@@ -183,6 +191,83 @@ const MapPage = ({ navigation }) => {
           />
         )}
       </MapView>
+
+      <Modal visible={page1} dismissable={false}>
+        <View style={{ alignItems: 'flex-end' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              gap: 20,
+              paddingHorizontal: 30,
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: theme.colors.elevation['level3'],
+                padding: 15,
+                borderRadius: 20,
+                width: 250,
+              }}
+            >
+              <Text variant="titleLarge">Welcome to Bearguide</Text>
+              <Text style={{ textAlign: 'center' }}>
+                The BEST way to find a place to facilitate collaborative
+                meetings, events, and study groups ON CAMPUS!
+              </Text>
+            </View>
+            <IconButton
+              mode="contained-tonal"
+              icon="arrow-right"
+              size={30}
+              onPress={() => {
+                setPage1(false);
+                setPage2(true);
+              }}
+            />
+          </View>
+
+          <Image source={BearPage1} />
+        </View>
+      </Modal>
+      <Modal visible={page2} dismissable={false}>
+        <View style={{ alignItems: 'flex-start' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image source={BearPage2} />
+            <IconButton
+              mode="contained-tonal"
+              icon="arrow-right"
+              size={30}
+              onPress={() => {
+                setPage2(false);
+                setPage3(true);
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '100%',
+              paddingHorizontal: 20,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: theme.colors.elevation['level3'],
+                padding: 15,
+                borderRadius: 20,
+              }}
+            >
+              <Text style={{ textAlign: 'center' }}>
+                Search and filter for the type of space you are looking for!{' '}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
