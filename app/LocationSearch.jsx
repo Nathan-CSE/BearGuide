@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useEffect } from 'react';
-import { View, Pressable, ScrollView, Text, Image } from 'react-native';
+import { View, Pressable, ScrollView, Text, Image, FlatList } from 'react-native';
 import { Button, Chip, List, Searchbar, Surface, Portal } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,6 +13,7 @@ import {
 import CapacityFilter from '../components/search/filters/CapacityFilter';
 import AmenitiesFilter from '../components/search/filters/AmenitiesFilter';
 import SortBy from '../components/search/filters/SortBy';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const LocationSearch = () => {
   const { bearGuide, setBearGuide, tools } = useBearGuide();
@@ -26,6 +27,10 @@ const LocationSearch = () => {
 
   const theme = useTheme();
   const router = useRouter();
+
+  // Due to the overlay, this will adjust content to be within
+  // the actual surface area based on screen offsets.
+  const insets = useSafeAreaInsets();
 
   const [filteredList, setFilteredList] = useState(bearGuide.locations);
 
@@ -149,40 +154,45 @@ const LocationSearch = () => {
           }
           <SortContext.Provider value={[ sortOption, setSortOption ]}>
             <FiltersContext.Provider value={[ filters, setFilters ]}>
-              <View style={{ zIndex: -1 }}>
+              <View style={{ zIndex: -1, height: '65%' }}>
                 <List.Section 
                   title='Locations' 
                   style={{ paddingHorizontal: 0 }}
                   titleStyle={{ paddingHorizontal: 0 }}
                 >
-                  {filteredList.map((location) => (
-                    <List.Item
-                      key={location.id}
-                      title={location.name}
-                      description={location.address}
-                      style={{ paddingHorizontal: 0 }}
-                      onPress={() => {
-                        router.push({
-                          pathname: '/Location/LocationDetail',
-                          params: { id: location.id }
-                        }, {})
-                      }}
+                  <FlatList
+                    data={filteredList}
+                    style={{ height: '90%' }}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <List.Item
+                        key={item.id}
+                        title={item.name}
+                        description={item.address}
+                        style={{ paddingHorizontal: 0 }}
+                        onPress={() => {
+                          router.push({
+                            pathname: '/Location/LocationDetail',
+                            params: { id: item.id }
+                          }, {})
+                        }}
 
-                      left={() => {
-                        let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
-                        if (location.images.length > 0)
-                          leftElement = <Image 
-                            source={{ uri: location.images[0] }} 
-                            style={{ width: 72, height: 72, borderRadius: 8 }} 
-                          />
-                        return (
-                          <View style={{ width: 72, height: 72 }}>
-                            {leftElement}
-                          </View>
-                        )
-                      }}
-                    />
-                  ))}
+                        left={() => {
+                          let leftElement = <List.Icon icon="map-marker" style={{ flexGrow: 1 }}/>
+                          if (item.images.length > 0)
+                            leftElement = <Image 
+                              source={{ uri: item.images[0] }} 
+                              style={{ width: 72, height: 72, borderRadius: 8 }} 
+                            />
+                          return (
+                            <View style={{ width: 72, height: 72 }}>
+                              {leftElement}
+                            </View>
+                          )
+                        }}
+                      />
+                    )}
+                  />
                 </List.Section>
               </View>
             </FiltersContext.Provider>
