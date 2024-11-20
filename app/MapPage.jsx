@@ -145,7 +145,7 @@ const MapPage = ({ navigation }) => {
       {/* Map */}
       <MapView
         style={styles.map}
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE} // commented out because
         initialRegion={{
           latitude: -33.916669653790876,
           longitude: 151.2279911954,
