@@ -2,10 +2,12 @@ import { StyleSheet, View, Image, ScrollView, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useBearGuide } from './BearGuideContext';
 import { Button, Surface, Text } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 
 const FavouriteList = () => {
   const { bearGuide } = useBearGuide();
   const [favourites, setFavourites] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     // map locations -> reviews
@@ -16,7 +18,7 @@ const FavouriteList = () => {
       )
       .flatMap((location) => {
         return {
-          id: location.id,
+          locationId: location.id,
           name: location.name,
           images: [...location.images],
         };
@@ -36,7 +38,7 @@ const FavouriteList = () => {
       <FlatList
         data={favourites}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.locationId.toString()}
         contentContainerStyle={{
           gap: 24,
           paddingTop: 24,
@@ -69,7 +71,15 @@ const FavouriteList = () => {
                 </Text>
                 <Button
                   mode="outlined"
-                  onPress={() => console.log(`location: ${item.id}`)}
+                  onPress={() => {
+                    router.push(
+                      {
+                        pathname: '/Location/LocationDetail',
+                        params: { id: item.locationId },
+                      },
+                      {}
+                    );
+                  }}
                 >
                   Show on Map
                 </Button>
