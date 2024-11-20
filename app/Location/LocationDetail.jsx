@@ -1,15 +1,23 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, Image, useWindowDimensions } from 'react-native';
-import { 
-  Card, 
-  Title, 
-  Paragraph, 
-  Chip, 
-  Divider, 
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Image,
+  useWindowDimensions,
+} from 'react-native';
+import {
+  Card,
+  Title,
+  Paragraph,
+  Chip,
+  Divider,
   Text,
   Button,
   IconButton,
-  MD3Colors
+  MD3Colors,
+  Modal,
+  Portal,
 } from 'react-native-paper';
 import { useBearGuide } from '../BearGuideContext';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -20,19 +28,27 @@ import { useTheme } from 'react-native-paper';
 
 import OverviewScreen from './OverviewScreen';
 import ReviewsScreen from './ReviewsScreen';
-import AmenitiesScreen from './AmenitiesScreen'
+import AmenitiesScreen from './AmenitiesScreen';
 import PopularTimesChart from './PopularTimesChart';
 import StarRating from '../StarRating';
+import BearPage5 from '@/assets/images/bearPage5.png';
+import BearPage6 from '@/assets/images/bearPage6.png';
 
 const LocationDetail = ({ locationId }) => {
-  const { id } = useLocalSearchParams();
+  const { id, walkthrough } = useLocalSearchParams();
   const { bearGuide, setBearGuide } = useBearGuide();
   const theme = useTheme();
   const router = useRouter();
+  const [page5, setPage5] = useState(false);
+  const [page6, setPage6] = useState(false);
+
+  useEffect(() => {
+    setPage5(walkthrough !== null);
+  }, []);
 
   if (!locationId) locationId = parseInt(id);
 
-  const location = bearGuide.locations.find(loc => loc.id === locationId);
+  const location = bearGuide.locations.find((loc) => loc.id === locationId);
 
   if (!location) {
     return <Text>No location found.</Text>;
@@ -44,24 +60,24 @@ const LocationDetail = ({ locationId }) => {
     coordinates,
     address,
     name,
-    amenities = [], 
-    capacity, 
-    popularTimes = {}, 
-    images = [""], 
-    openingHours = { type: 1, data: {} }, 
-    description, 
+    amenities = [],
+    capacity,
+    popularTimes = {},
+    images = [''],
+    openingHours = { type: 1, data: {} },
+    description,
     reviews = { summary: {}, list: [] },
     favourited = [],
   } = location;
-  
+
   const currentUserId = bearGuide.currentUserId;
   const isFavourited = favourited.includes(currentUserId);
 
   const toggleFavourite = () => {
-    const updatedLocations = bearGuide.locations.map(loc => {
+    const updatedLocations = bearGuide.locations.map((loc) => {
       if (loc.id === locationId) {
         const updatedFavourited = isFavourited
-          ? loc.favourited.filter(userId => userId !== currentUserId) // Remove from favourites
+          ? loc.favourited.filter((userId) => userId !== currentUserId) // Remove from favourites
           : [...loc.favourited, currentUserId]; // Add to favourites
 
         return { ...loc, favourited: updatedFavourited };
@@ -85,7 +101,9 @@ const LocationDetail = ({ locationId }) => {
     overview: () => <OverviewScreen location={location} />,
     reviews: () => <ReviewsScreen location={location} />,
     amenities: () => <AmenitiesScreen location={location} />,
-    popularTimes: () => <PopularTimesChart location={location} selectedDay="Monday" />,
+    popularTimes: () => (
+      <PopularTimesChart location={location} selectedDay="Monday" />
+    ),
   });
 
   const renderTabBar = (props) => (
@@ -114,22 +132,21 @@ const LocationDetail = ({ locationId }) => {
       scrollEnabled={true}
     />
   );
-  
 
   React.useEffect(() => {
     if (openingHours && openingHours.data) {
       // console.log("Opening Hours:");
       Object.entries(openingHours.data).forEach(([day, hours]) => {
         const formattedDay = day.charAt(0).toUpperCase() + day.slice(1);
-        const formattedHours = hours.open === "Closed" ? "Closed" : `${hours.open} - ${hours.close}`;
+        const formattedHours =
+          hours.open === 'Closed' ? 'Closed' : `${hours.open} - ${hours.close}`;
         // console.log(`${formattedDay}: ${formattedHours}`);
       });
     }
   }, [openingHours]);
-  
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 25, backgroundColor: "#fffdf5" }}>
+    <SafeAreaView style={{ flex: 1, padding: 25, backgroundColor: '#fffdf5' }}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text variant="headlineLarge" style={styles.title} numberOfLines={2}>
@@ -148,7 +165,9 @@ const LocationDetail = ({ locationId }) => {
       <View style={styles.ratingContainer}>
         <StarRating rating={reviews.summary.overall || 4.2} size={20} />
         <Text style={styles.ratingValue}>
-          {reviews.summary.overall ? reviews.summary.overall.toFixed(1) : 'Unable to find star rating'}
+          {reviews.summary.overall
+            ? reviews.summary.overall.toFixed(1)
+            : 'Unable to find star rating'}
         </Text>
         <Text style={styles.ratingCount}> ({reviews.list.length})</Text>
       </View>
@@ -167,21 +186,25 @@ const LocationDetail = ({ locationId }) => {
           </View>
           <View style={styles.buttonWrapper}>
             <Button
-              icon={isFavourited ? "cards-heart" : "cards-heart-outline"}
+              icon={isFavourited ? 'cards-heart' : 'cards-heart-outline'}
               mode="elevated"
               style={styles.button}
               onPress={toggleFavourite}
             >
-              {isFavourited ? "Favourited" : "Favourite"}
+              {isFavourited ? 'Favourited' : 'Favourite'}
             </Button>
           </View>
           <View style={styles.buttonWrapper}>
-            <Button icon="share-variant-outline" mode="elevated" style={styles.button}>
+            <Button
+              icon="share-variant-outline"
+              mode="elevated"
+              style={styles.button}
+            >
               Share
             </Button>
           </View>
         </ScrollView>
-        </View>
+      </View>
 
       <TabView
         navigationState={{ index, routes }}
@@ -194,13 +217,97 @@ const LocationDetail = ({ locationId }) => {
         renderTabBar={renderTabBar}
         style={styles.tabView}
       />
-
+      <Modal visible={page5} dismissable={false}>
+        <View style={{ alignItems: 'flex-end' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              paddingHorizontal: 30,
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: theme.colors.elevation['level3'],
+                padding: 15,
+                borderRadius: 20,
+              }}
+            >
+              <Text
+                variant="titleMedium"
+                style={{
+                  width: 210,
+                  textAlign: 'center',
+                }}
+              >
+                Discover, navigate, research, share, and review spaces around
+                the campus!
+              </Text>
+            </View>
+            <IconButton
+              mode="contained-tonal"
+              icon="arrow-right"
+              size={30}
+              onPress={() => {
+                setPage5(false);
+                setPage6(true);
+              }}
+            />
+          </View>
+          <Image source={BearPage5} />
+        </View>
+      </Modal>
+      <Modal visible={page6} dismissable={false}>
+        <View style={{ alignItems: 'flex-start' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              gap: 20,
+              paddingHorizontal: 30,
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: theme.colors.elevation['level3'],
+                padding: 15,
+                borderRadius: 20,
+              }}
+            >
+              <Text
+                variant="titleLarge"
+                style={{
+                  width: 150,
+                  textAlign: 'center',
+                }}
+              >
+                LETS GET STARTED!
+              </Text>
+            </View>
+            <IconButton
+              mode="contained-tonal"
+              icon="arrow-right"
+              size={30}
+              onPress={() => {
+                setPage5(false);
+                setPage6(false);
+                router.push('/LoginPage');
+              }}
+            />
+          </View>
+          <Image source={BearPage6} />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  tabView: { flex: 1, height: "100%", overflow: "hidden" },
+  tabView: { flex: 1, height: '100%', overflow: 'hidden' },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -216,7 +323,7 @@ const styles = StyleSheet.create({
   closeIcon: {
     position: 'absolute',
     right: 0,
-    marginLeft: 10
+    marginLeft: 10,
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -238,7 +345,7 @@ const styles = StyleSheet.create({
   },
   button: {
     justifyContent: 'center',
-  },  
+  },
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -280,7 +387,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 14,
     color: 'gray',
-  }
+  },
 });
 
 export default LocationDetail;

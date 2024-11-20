@@ -19,11 +19,10 @@ const theme = {
 EStyleSheet.build({});
 
 export default function RootLayout() {
-  NavigationBar.setBackgroundColorAsync("#00000000");
+  NavigationBar.setBackgroundColorAsync('#00000000');
   NavigationBar.setPositionAsync('absolute');
 
   return (
-    
     <BearGuideProvider>
       <PaperProvider theme={theme}>
         <Stack>
@@ -45,14 +44,8 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-        <StatusBar 
-          style="dark"
-          translucent={true}
-          hidden={false}
-          
-        />
+        <StatusBar style="dark" translucent={true} hidden={false} />
       </PaperProvider>
     </BearGuideProvider>
-    
   );
 }
