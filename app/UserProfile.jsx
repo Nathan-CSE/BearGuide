@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Dialog, Surface, Text } from 'react-native-paper';
 import { useBearGuide } from './BearGuideContext';
 import { StyleSheet } from 'react-native';
 import UserProfileTab from './UserProfileTab';
@@ -11,11 +11,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const UserProfile = () => {
   const { bearGuide } = useBearGuide();
   const [user, setUser] = useState(null);
+  const [guest, setGuest] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    // finds current user using userId
-    setUser(bearGuide.users.find((x) => x.id === bearGuide.currentUserId));
+    if (bearGuide.currentUserId === null) {
+      setGuest(true);
+    } else {
+      // finds current user using userId
+      const currUser = bearGuide.users.find(
+        (x) => x.id === bearGuide.currentUserId
+      );
+      setGuest(false);
+      setUser(currUser);
+    }
   }, [bearGuide]);
 
   return (
@@ -23,19 +32,23 @@ const UserProfile = () => {
       <Surface elevation={5} mode="flat" style={styles.headerContainer}>
         <SafeAreaView>
           <View style={styles.userInfo}>
-            <ProfileIcon user={user} />
-            <View style={{ maxWidth: 150 }}>
-              <Text
-                variant="headlineLarge"
-                style={{ fontWeight: 'bold' }}
-                numberOfLines={1}
-              >
-                {user ? user.name : 'Name'}
-              </Text>
-              <Text variant="labelLarge" numberOfLines={2}>
-                {user ? user.faculty : 'Faculty'}
-              </Text>
-              <Text variant="labelLarge">{user ? user.campus : 'Campus'}</Text>
+            <View style={{ flexDirection: 'row', gap: 24 }}>
+              <ProfileIcon user={user} />
+              <View style={{ maxWidth: 150 }}>
+                <Text
+                  variant="headlineLarge"
+                  style={{ fontWeight: 'bold' }}
+                  numberOfLines={1}
+                >
+                  {user ? user.name : 'Name'}
+                </Text>
+                <Text variant="labelLarge" numberOfLines={2}>
+                  {user ? user.faculty : 'Faculty'}
+                </Text>
+                <Text variant="labelLarge">
+                  {user ? user.campus : 'Campus'}
+                </Text>
+              </View>
             </View>
             <Button
               mode="contained"
@@ -47,6 +60,17 @@ const UserProfile = () => {
         </SafeAreaView>
       </Surface>
       <UserProfileTab />
+      <Dialog visible={guest} dismissable={false}>
+        <Dialog.Title>Notice</Dialog.Title>
+        <Dialog.Content>
+          <Text>Login to access these features</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => router.push('/LoginPage')}>
+            Go to Login/Register
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 };
@@ -62,7 +86,7 @@ const styles = StyleSheet.create({
   userInfo: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 24,
+    justifyContent: 'space-between',
   },
 });
 
