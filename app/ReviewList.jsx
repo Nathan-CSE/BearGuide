@@ -43,7 +43,6 @@ const ReviewList = () => {
         data={[...reviews]}
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={<Divider />}
-        keyExtractor={(item) => item.reviewId}
         renderItem={({ item }) => (
           <Pressable
             style={{
