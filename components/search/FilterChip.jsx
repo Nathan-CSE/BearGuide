@@ -1,10 +1,16 @@
 import { Chip } from 'react-native-paper';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { OverlayContext } from './SearchContexts';
 
 const FilterChip = ({ label, selected, setSelected, id, component }) => {
   const [overlayContext, setOverlayContext] = useContext(OverlayContext);
   
+  useEffect(() => {
+    if (overlayContext === null) {
+      setSelected('');
+    }
+  }, [overlayContext]);
+
   return (
     <Chip 
       icon={(selected === id && "menu-right-outline") || "menu-down"} 
