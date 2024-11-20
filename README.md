@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# Overview
+---
+This is our technical beta for our application BearGuide, currently the following features have been implemented:
+- User register/login
+- Guest access
+- Searching for various locations on campus
+	- Filtering locations based on various aspects, such as capacity, storage space etc.
+	- Sort location results
+- Viewing the details of a location
+- Adding a location to favourites
+- Adding a review to a location
+- Viewing popular times for a location
+- Editing user profile
+- Viewing favourited locations and written reviews
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+The following features have not been implemented:
+- Receiving navigation instructions to a location
+- Sharing a location
+- Heatmap layer
+- Map interfacing
 
-## Get started
+Regarding the above, the library used to implement the map functionality has experienced some bugs due to Expo's SDK update, which has prevented us from integrating the map into our features - [link](https://github.com/react-native-maps/react-native-maps/issues/5221)
+- This has also prevented us from implementing a heatmap layer which was one of our main functionalities, however a majority of other functions operate as intended
 
-1. Install dependencies
+# FAQ + How to install?
+1. Clone the repository
+2. Run `npm install` to install all libraries, if testing on iOS, also run `npx pod-install`
+3. Start the app by using `npm start`, ensure that you are using Expo Go and not on the development build as this will cause issues
+4. If there are errors related to undefined fields, there is a debug menu that allows you to reset the data to the initial state - navigate to the map screen and select the settings cog with the label `Debug Menu` and reset data as needed
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+**FAQ**
+- There will be a console error that shows this output: 
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+A props object containing a "key" prop is being spread into JSX:
+  let props = {key: someKey, route: ..., borderless: ..., centered: ..., rippleColor: ..., onPress: ..., onLongPress: ..., testID: ..., accessibilityLabel: ..., accessibilityRole: ..., accessibilityState: ..., style: ..., children: ...};
+  <Touchable {...props} />
+...
+```
+- This is due to an issue with one of our libraries, `React Native Paper` which was a result of the latest Expo SDK update as when the prop is passed to the components, it is not destructured enough to separate the `key` resulting in the error - however this will have any major issues on the functionality of our app
