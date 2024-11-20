@@ -43,7 +43,7 @@ const LocationDetail = ({ locationId }) => {
   const [page6, setPage6] = useState(false);
 
   useEffect(() => {
-    setPage5(walkthrough !== null);
+    setPage5(walkthrough === 'true');
   }, []);
 
   if (!locationId) locationId = parseInt(id);

@@ -29,8 +29,8 @@ const MapPage = ({ navigation }) => {
   const { walkthrough } = useLocalSearchParams();
 
   useEffect(() => {
-    setPage1(walkthrough !== null);
-  }, []);
+    setPage1(walkthrough === 'true');
+  }, [walkthrough]);
 
   const addLocation = () => {
     const newLocation = {
