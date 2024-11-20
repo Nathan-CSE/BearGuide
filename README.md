@@ -1,5 +1,4 @@
 # Overview
----
 This is our technical beta for our application BearGuide, currently the following features have been implemented:
 - User register/login
 - Guest access
