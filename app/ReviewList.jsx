@@ -50,12 +50,10 @@ const ReviewList = () => {
               paddingVertical: 24,
             }}
             onPress={() => {
-              router.push(
-                {
-                  pathname: '/Location/LocationDetail',
-                  params: { id: item.locationId },
-                },
-              );
+              router.push({
+                pathname: '/Location/LocationDetail',
+                params: { id: item.locationId },
+              });
             }}
           >
             <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
