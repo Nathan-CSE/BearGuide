@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import {
   IconButton,
@@ -107,14 +107,19 @@ const LoginPage = () => {
               Create an account
             </Text>
           </Link>
-          <Link href={'/LoginPage'}>
+          <Pressable
+            onPress={() => {
+              setBearGuide({ ...bearGuide, currentUserId: null });
+              router.push('/home');
+            }}
+          >
             <Text
               variant="bodyLarge"
               style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}
             >
               Or continue without signing in
             </Text>
-          </Link>
+          </Pressable>
         </View>
       </SafeAreaView>
       <Dialog visible={visible} onDismiss={() => setVisible(false)}>

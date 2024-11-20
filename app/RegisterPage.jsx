@@ -21,9 +21,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [visible2, setVisible2] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showMatchingDialog, setShowMatchingDialog] = useState(false);
+  const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
+  const [showEmptyDialog, setShowEmptyDialog] = useState(false);
   const { bearGuide, setBearGuide } = useBearGuide();
 
   const handleRegister = () => {
@@ -40,8 +41,10 @@ const LoginPage = () => {
       recents: [],
     };
     if (password === password2) {
-      if (userExists()) {
-        setVisible2(true);
+      if (userName.length * password.length * password2.length === 0) {
+        setShowEmptyDialog(true);
+      } else if (userExists()) {
+        setShowDuplicateDialog(true);
       } else {
         setBearGuide({
           ...bearGuide,
@@ -51,14 +54,14 @@ const LoginPage = () => {
         router.push('/home');
       }
     } else {
-      setVisible(true);
+      setShowMatchingDialog(true);
     }
   };
 
   const userExists = () => {
     return bearGuide.users.find(
       (user) =>
-        user.email.toLowerCase() == email.toLowerCase() &&
+        user.email.toLowerCase() === email.toLowerCase() &&
         user.password == password
     );
   };
@@ -121,15 +124,15 @@ const LoginPage = () => {
               <TextInput
                 style={{ maxHeight: 56, width: '100%' }}
                 label="Password"
-                secureTextEntry={!showPassword2}
+                secureTextEntry={!showConfirmPassword}
                 value={password2}
                 onChangeText={setPassword2}
                 mode="outlined"
                 right={
                   <TextInput.Icon
-                    icon={showPassword2 ? 'eye-off' : 'eye'}
+                    icon={showConfirmPassword ? 'eye-off' : 'eye'}
                     size={24}
-                    onPress={() => setShowPassword2((prev) => !prev)}
+                    onPress={() => setShowConfirmPassword((prev) => !prev)}
                   />
                 }
               />
@@ -158,7 +161,10 @@ const LoginPage = () => {
           </Pressable>
         </View>
       </SafeAreaView>
-      <Dialog visible={visible} onDismiss={() => setVisible(false)}>
+      <Dialog
+        visible={showMatchingDialog}
+        onDismiss={() => setShowMatchingDialog(false)}
+      >
         <Dialog.Title>
           <Text>Error</Text>
         </Dialog.Title>
@@ -168,10 +174,13 @@ const LoginPage = () => {
           </Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => setVisible(false)}>Ok</Button>
+          <Button onPress={() => setShowMatchingDialog(false)}>Ok</Button>
         </Dialog.Actions>
       </Dialog>
-      <Dialog visible={visible2} onDismiss={() => setVisible2(false)}>
+      <Dialog
+        visible={showDuplicateDialog}
+        onDismiss={() => setShowDuplicateDialog(false)}
+      >
         <Dialog.Title>
           <Text>Error</Text>
         </Dialog.Title>
@@ -179,7 +188,21 @@ const LoginPage = () => {
           <Text>Account already exists with this email</Text>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => setVisible2(false)}>Ok</Button>
+          <Button onPress={() => setShowDuplicateDialog(false)}>Ok</Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog
+        visible={showEmptyDialog}
+        onDismiss={() => setShowEmptyDialog(false)}
+      >
+        <Dialog.Title>
+          <Text>Error</Text>
+        </Dialog.Title>
+        <Dialog.Content>
+          <Text>No field can be blank</Text>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={() => setShowEmptyDialog(false)}>Ok</Button>
         </Dialog.Actions>
       </Dialog>
     </Surface>
