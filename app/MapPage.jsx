@@ -77,7 +77,10 @@ const MapPage = ({ navigation }) => {
           }
         >
           <Menu.Item
-            onPress={addLocation}
+            onPress={() => {
+              addLocation;
+              setDebugMenuVisible(false);
+            }}
             title={
               <View style={styles.menuItem}>
                 <IconButton icon="plus-circle" size={20} />
@@ -86,7 +89,10 @@ const MapPage = ({ navigation }) => {
             }
           />
           <Menu.Item
-            onPress={tools.resetData}
+            onPress={() => {
+              tools.resetData;
+              setDebugMenuVisible(false);
+            }}
             title={
               <View style={styles.menuItem}>
                 <IconButton icon="reload" size={20} />
@@ -95,7 +101,10 @@ const MapPage = ({ navigation }) => {
             }
           />
           <Menu.Item
-            onPress={tools.dumpData}
+            onPress={() => {
+              tools.dumpData;
+              setDebugMenuVisible(false);
+            }}
             title={
               <View style={styles.menuItem}>
                 <IconButton icon="file-export" size={20} />
@@ -153,7 +162,8 @@ const MapPage = ({ navigation }) => {
       {/* Map */}
       <MapView
         style={styles.map}
-        // provider={PROVIDER_GOOGLE} // commented out because google maps does not work on ios, so by default apple maps will be used on ios
+        // onMapReady={() => console.log("Map is ready")}
+        // provider={PROVIDER_GOOGLE} // commented out because ios doesn't like google maps api, so by default ios will use apple maps
         initialRegion={{
           latitude: -33.916669653790876,
           longitude: 151.2279911954,
@@ -177,19 +187,6 @@ const MapPage = ({ navigation }) => {
             }
           />
         ))}
-
-        {/* Heatmap */}
-        {showHeatmap && (
-          <Heatmap
-            points={bearGuide.locations.map((location) => ({
-              latitude: location.coordinates.lat,
-              longitude: location.coordinates.long,
-              weight: location.reviews.summary.overall,
-            }))}
-            radius={50}
-            opacity={0.7}
-          />
-        )}
       </MapView>
 
       <Modal visible={page1} dismissable={false}>
