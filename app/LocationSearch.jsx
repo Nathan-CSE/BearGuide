@@ -144,9 +144,11 @@ const LocationSearch = () => {
               <Portal>
                 <SortContext.Provider value={[ sortOption, setSortOption ]}>
                   <FiltersContext.Provider value={[ filters, setFilters ]}>
-                    <View style={{ top: 148 }}>
-                      {overlayView}
-                    </View>
+                    <OverlayContext.Provider value={[ overlayView, setOverlayView ]}>
+                      <View style={{ top: 148 }}>
+                        {overlayView}
+                      </View>
+                    </OverlayContext.Provider>
                   </FiltersContext.Provider>
                 </SortContext.Provider>
               </Portal>

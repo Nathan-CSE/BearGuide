@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
-import { FiltersContext } from "../SearchContexts";
+import { FiltersContext, OverlayContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +13,7 @@ const SpaceTypeFilter = () => {
   const [isLectureHallChecked, setLectureHallChecked] = useState(false);
   const [isTutorialChecked, setTutorialChecked] = useState(false);
   const [filters, setFilters] = useContext(FiltersContext);
+  const [overlayContext, setOverlayContext] = useContext(OverlayContext);
 
   // Due to the overlay, this will adjust content to be within
   // the actual surface area based on screen offsets.
@@ -77,7 +78,28 @@ const SpaceTypeFilter = () => {
 
   return (
     <View style={{ paddingTop: insets.top - 16 }}>
-      <Text style={styles.filterTitle}>Space Type Filter</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text style={styles.filterTitle}>Space Type Filter</Text>
+        <Pressable style={{ 
+            flexShrink: 1, 
+            right: 0,
+            position: 'absolute',
+            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            width: 48,
+            height: 48,
+            borderRadius: 16,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginHorizontal: 16,
+            android_ripple: { color: 'rgba(0,0,0,0.2)' },
+          }}
+          onPress={() => {
+            setOverlayContext(null);
+          }}
+        >
+          <Text style={{ textAlign: 'center' }}>X</Text>
+        </Pressable>
+      </View>
       <View style={styles.filterList}>
         {
           Object.entries(filterMap).map(([key, value]) => {
@@ -113,7 +135,8 @@ const styles = EStyleSheet.create({
     fontWeight: '600',
     alignItems: 'center',
     textAlign: 'center',
-    padding: 16
+    padding: 16,
+    flexShrink: 1
   },
   filterPressable: { 
     flexDirection: 'row', 
