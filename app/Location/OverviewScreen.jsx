@@ -95,12 +95,12 @@ const OverviewScreen = ({ location }) => {
         <Icon source="clock-outline" size={25} color="#964800" />
         {openingHours.data ? (
           <TouchableOpacity onPress={handleExpand} style={styles.openStatusContainer}>
-            <Text style={{ color: isOpen ? theme.colors.tertiary : theme.colors.error, fontSize: 14 }}>
+            <Text style={{ color: isOpen ? theme.colors.tertiary : theme.colors.error, fontSize: 16 }}>
               {isOpen ? "Currently Open" : "Currently Closed"}
               {" • "}
             </Text>
             <Text style={[styles.openingHoursText, { flex: 2 }]}>
-              {`${currentDay.charAt(0).toUpperCase() + currentDay.slice(1)}: ${openingHours.data[currentDay]?.open === "Closed" ? "Closed" : `${convertTo12HourFormat(openingHours.data[currentDay]?.open)} - ${convertTo12HourFormat(openingHours.data[currentDay]?.close)}`}`}
+              {`${openingHours.data[currentDay]?.open === "Closed" ? "Closed" : `${convertTo12HourFormat(openingHours.data[currentDay]?.open)} - ${convertTo12HourFormat(openingHours.data[currentDay]?.close)}`}`}
             </Text>
           </TouchableOpacity>
         ) : (
@@ -108,6 +108,10 @@ const OverviewScreen = ({ location }) => {
         )}
       </View>
      
+      {isExpanded &&
+        <Divider style={styles.divider} />
+      }
+
       <View style={{ marginLeft: 30 }}>
         {isExpanded &&
           openingHours.data &&
@@ -211,7 +215,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   locationText: {
-    marginLeft: 15,
+    marginLeft: 10,
     fontSize: 16,
     color: 'black',
   },

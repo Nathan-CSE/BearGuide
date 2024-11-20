@@ -3,24 +3,52 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { Card, Text, Avatar, Divider, FAB, Portal, Modal, ScrollView, MD3Colors, useTheme } from "react-native-paper";
 import StarRating from "../StarRating";
 import ReviewForm from "./ReviewForm";
+import { useBearGuide } from "../BearGuideContext";
 
 const Reviews = ({ location }) => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const { bearGuide } = useBearGuide();
+  const currentUserId = bearGuide.currentUserId;
+  console.log(`this is current logged in ${currentUserId}`);
 
   const handleReviewSubmit = (newReview) => {
     location.reviews.list.push({
       id: location.reviews.list.length + 1,
+      userId: currentUserId,
       ...newReview,
     });
+    console.log(location.reviews.list);
     setModalVisible(false);
   };
 
-  const renderReview = ({ item }) => (
+const renderReview = ({ item }) => {
+  // Get the user's profile picture based on their ID
+  const user = bearGuide.users.find(user => user.id === item.userId);
+  const userProfilePic = user ? user.profile_image : null; // Assuming the user has a 'profilePic' field
+  
+  // console.log(`profile pic ${userProfilePic}`)
+  console.log(JSON.stringify(user))
+  // console.log(`user id ${user.id} ${item.userId}`)
+
+  return (
     <Card style={styles.card} elevation={2}>
       <View style={styles.row}>
-        <Avatar.Icon size={40} icon="account" style={styles.avatar} />
+        {/* Conditionally render Avatar.Image or Avatar.Icon based on profile picture */}
+        {userProfilePic ? (
+          <Avatar.Image 
+            size={40} 
+            source={{ uri: userProfilePic }} 
+            style={styles.avatar} 
+          />
+        ) : (
+          <Avatar.Icon 
+            size={40} 
+            icon="account" 
+            style={styles.avatar} 
+          />
+        )}
         <View style={styles.header}>
-          <Text style={styles.title}>{item.title || "Anonymous Review"}</Text>
+          <Text style={styles.title}>{item.title || `${user.name}'s Review`}</Text>
           <StarRating rating={item.overall} />
         </View>
       </View>
@@ -43,6 +71,9 @@ const Reviews = ({ location }) => {
       <Text style={styles.comment}>{item.comment}</Text>
     </Card>
   );
+};
+
+  
   
 
   return (

@@ -17,7 +17,7 @@ const ReviewForm = ({ onClose, onSubmit }) => {
       accessibility,
       cleanliness,
       noisiness,
-      overall: (accessibility + cleanliness + noisiness) / 3,
+      overall,
       comment,
     });
   };
