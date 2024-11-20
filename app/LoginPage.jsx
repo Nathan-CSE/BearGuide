@@ -55,7 +55,7 @@ const LoginPage = () => {
             </Text>
             <Text
               variant="labelLarge"
-              style={{ color: theme.colors.tertiary, textAlign: 'center' }}
+              style={{ color: theme.colors.primary, textAlign: 'center' }}
             >
               Welcome back! We&#39;ve missed you
             </Text>

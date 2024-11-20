@@ -82,7 +82,7 @@ const LoginPage = () => {
             </Text>
             <Text
               variant="labelLarge"
-              style={{ color: theme.colors.tertiary, textAlign: 'center' }}
+              style={{ color: theme.colors.primary, textAlign: 'center' }}
             >
               Create an account so you can access all our features
             </Text>

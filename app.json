@@ -27,6 +27,8 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    "android.config.googleMaps.apiKey": "AIzaSyDrHYJEZ4pKy5CXqyCENQIQ1Gfgtg9VI_U",
+    "ios.config.googleMapsApiKey": "AIzaSyDrHYJEZ4pKy5CXqyCENQIQ1Gfgtg9VI_U",
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true

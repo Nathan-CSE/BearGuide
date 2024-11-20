@@ -40,7 +40,7 @@ const LocationDetail = ({ locationId }) => {
 
   // console.log(`this is loc id ${locationId}`)
 
-  const { 
+  const {
     coordinates,
     address,
     name,
@@ -200,7 +200,7 @@ const LocationDetail = ({ locationId }) => {
 };
 
 const styles = StyleSheet.create({
-  tabView: { flex: 1, height: "100%" },
+  tabView: { flex: 1, height: "100%", overflow: "hidden" },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
