@@ -1,9 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import { useState, useContext, useEffect } from "react";
-import { FiltersContext } from "../SearchContexts";
-import EStyleSheet from 'react-native-extended-stylesheet'
+import { FiltersContext, OverlayContext } from "../SearchContexts";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Icon } from "react-native-paper";
+import FilterStyles from "./FilterStyles";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const SpaceTypeFilter = () => {
   const [isStudyChecked, setStudyChecked] = useState(false);
@@ -13,6 +15,7 @@ const SpaceTypeFilter = () => {
   const [isLectureHallChecked, setLectureHallChecked] = useState(false);
   const [isTutorialChecked, setTutorialChecked] = useState(false);
   const [filters, setFilters] = useContext(FiltersContext);
+  const [overlayContext, setOverlayContext] = useContext(OverlayContext);
 
   // Due to the overlay, this will adjust content to be within
   // the actual surface area based on screen offsets.
@@ -77,14 +80,23 @@ const SpaceTypeFilter = () => {
 
   return (
     <View style={{ paddingTop: insets.top - 16 }}>
-      <Text style={styles.filterTitle}>Space Type Filter</Text>
-      <View style={styles.filterList}>
+      <View style={FilterStyles.filterHeader}>
+        <Text style={FilterStyles.filterTitle}>Space Type Filter</Text>
+        <Pressable style={FilterStyles.filterPressableClose}
+          onPress={() => {
+            setOverlayContext(null);
+          }}
+        >
+          <Icon source="close" size={32} color="black" />
+        </Pressable>
+      </View>
+      <View style={FilterStyles.filterList}>
         {
           Object.entries(filterMap).map(([key, value]) => {
             return (
               <Pressable key={key} style={[
-                styles.filterPressable,
-                EStyleSheet.child(styles, 'filterList', key)
+                FilterStyles.filterPressable,
+                EStyleSheet.child(FilterStyles, 'filterList', key)
               ]} 
                 onPress={() => {
                   value.setCheck((prev) => {
@@ -106,29 +118,5 @@ const SpaceTypeFilter = () => {
     </View>
   );
 }
-
-const styles = EStyleSheet.create({
-  filterTitle: {
-    fontSize: 20, 
-    fontWeight: '600',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: 16
-  },
-  filterPressable: { 
-    flexDirection: 'row', 
-    gap: 8, 
-    alignItems: 'center',
-    paddingVertical: 16,
-  },
-  filterList: { 
-    paddingHorizontal: 16, 
-    paddingVertical: 12, 
-    gap: 12,
-  },
-  'filterList:nth-child-even': {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  }
-});
 
 export default SpaceTypeFilter;

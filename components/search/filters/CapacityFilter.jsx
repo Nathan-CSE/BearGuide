@@ -1,10 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useState, useContext, useEffect } from "react";
-import { FiltersContext } from "../SearchContexts";
+import { FiltersContext, OverlayContext } from "../SearchContexts";
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Slider from "@react-native-community/slider";
 import { TextInput } from "react-native-paper";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import FilterStyles from "./FilterStyles";
+import { Icon } from "react-native-paper";
 
 const MIN_CAPACITY = 0;
 const MAX_CAPACITY = 400;
@@ -18,6 +20,7 @@ const CapacityFilter = () => {
   const [minCapacity, setMinCapacity] = useState(0);
   const [maxCapacity, setMaxCapacity] = useState(400);
   const [filters, setFilters] = useContext(FiltersContext);
+  const [overlayContext, setOverlayContext] = useContext(OverlayContext);
 
   const filterMap = {
     'minCapacity': {
@@ -116,8 +119,17 @@ const CapacityFilter = () => {
 
   return (
     <View style={{ paddingTop: insets.top - 16 }}>
-      <Text style={styles.filterTitle}>Capacity Filter</Text>
-      <View style={styles.filterList}>
+      <View style={FilterStyles.filterHeader}>
+        <Text style={FilterStyles.filterTitle}>Capacity Filter</Text>
+        <Pressable style={FilterStyles.filterPressableClose}
+          onPress={() => {
+            setOverlayContext(null);
+          }}
+        >
+          <Icon source="close" size={32} color="black" />
+        </Pressable>
+      </View>
+      <View style={{...FilterStyles.filterList, gap: 64}}>
         <View>
           <Text style={{ fontSize: 16 }}>Minimum Capacity</Text>
           <Slider
@@ -172,29 +184,5 @@ const CapacityFilter = () => {
     </View>
   );
 }
-
-const styles = EStyleSheet.create({
-  filterTitle: {
-    fontSize: 20, 
-    fontWeight: '600',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: 16
-  },
-  filterPressable: { 
-    flexDirection: 'row', 
-    gap: 8, 
-    alignItems: 'center',
-    paddingVertical: 16,
-  },
-  filterList: { 
-    paddingHorizontal: 16, 
-    paddingVertical: 12, 
-    gap: 64,
-  },
-  'filterList:nth-child-even': {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  }
-});
 
 export default CapacityFilter;
