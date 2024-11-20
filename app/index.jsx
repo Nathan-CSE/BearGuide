@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { Button, Text, useTheme } from 'react-native-paper';
 import a from '@/assets/images/Expanded Logo.png';
 import { useBearGuide } from './BearGuideContext';
@@ -52,7 +52,12 @@ const index = () => {
         <View style={{ width: '100%', gap: 16 }}>
           <Button
             mode="contained"
-            onPress={() => console.log('go to starting guide')}
+            onPress={() => {
+              router.push({
+                pathname: '/home',
+                params: { walkthrough: true },
+              });
+            }}
           >
             Get Started
           </Button>

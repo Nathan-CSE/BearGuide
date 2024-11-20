@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   ScrollView,
@@ -35,12 +35,16 @@ import BearPage5 from '@/assets/images/bearPage5.png';
 import BearPage6 from '@/assets/images/bearPage6.png';
 
 const LocationDetail = ({ locationId }) => {
-  const { id } = useLocalSearchParams();
+  const { id, walkthrough } = useLocalSearchParams();
   const { bearGuide, setBearGuide } = useBearGuide();
   const theme = useTheme();
   const router = useRouter();
-  const [page5, setPage5] = useState(true);
+  const [page5, setPage5] = useState(false);
   const [page6, setPage6] = useState(false);
+
+  useEffect(() => {
+    setPage5(walkthrough !== null);
+  }, []);
 
   if (!locationId) locationId = parseInt(id);
 
@@ -288,7 +292,11 @@ const LocationDetail = ({ locationId }) => {
               mode="contained-tonal"
               icon="arrow-right"
               size={30}
-              onPress={() => router.push('/LoginPage')}
+              onPress={() => {
+                setPage5(false);
+                setPage6(false);
+                router.push('/LoginPage');
+              }}
             />
           </View>
           <Image source={BearPage6} />

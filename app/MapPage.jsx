@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import {
   IconButton,
@@ -12,7 +12,7 @@ import {
 import { useBearGuide } from './BearGuideContext';
 import MapView, { Marker, Heatmap } from 'react-native-maps';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import BearPage1 from '@/assets/images/bearPage1.png';
 import BearPage2 from '@/assets/images/bearPage2.png';
 import BearPage3 from '@/assets/images/bearPage3.png';
@@ -26,7 +26,11 @@ const MapPage = ({ navigation }) => {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [page1, setPage1] = useState(true);
   const [page2, setPage2] = useState(false);
-  const [page3, setPage3] = useState(false);
+  const { walkthrough } = useLocalSearchParams();
+
+  useEffect(() => {
+    setPage1(walkthrough !== null);
+  }, []);
 
   const addLocation = () => {
     const newLocation = {
@@ -231,7 +235,15 @@ const MapPage = ({ navigation }) => {
       </Modal>
       <Modal visible={page2} dismissable={false}>
         <View style={{ alignItems: 'flex-start' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+              justifyContent: 'space-between',
+              paddingRight: 20,
+            }}
+          >
             <Image source={BearPage2} />
             <IconButton
               mode="contained-tonal"
@@ -239,7 +251,10 @@ const MapPage = ({ navigation }) => {
               size={30}
               onPress={() => {
                 setPage2(false);
-                setPage3(true);
+                router.push({
+                  pathname: '/Location/LocationDetail',
+                  params: { id: 0, walkthrough: true },
+                });
               }}
             />
           </View>
@@ -259,7 +274,7 @@ const MapPage = ({ navigation }) => {
               }}
             >
               <Text style={{ textAlign: 'center' }}>
-                Search and filter for the type of space you are looking for!{' '}
+                Search and filter for the type of space you are looking for!
               </Text>
             </View>
           </View>
