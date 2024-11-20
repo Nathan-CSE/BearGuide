@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 import { useBearGuide } from './BearGuideContext';
 import { StyleSheet } from 'react-native';
 import UserProfileTab from './UserProfileTab';
 import ProfileIcon from '@/components/profile/ProfileIcon';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const UserProfile = () => {
   const { bearGuide } = useBearGuide();
@@ -56,8 +57,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     paddingHorizontal: 24,
-    paddingTop: 64,
-    paddingBottom: 16,
+    paddingTop: 16,
   },
   userInfo: {
     alignItems: 'center',

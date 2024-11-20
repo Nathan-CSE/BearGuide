@@ -57,10 +57,10 @@ const OverviewScreen = ({ location }) => {
     ? currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes <= closingTimeInMinutes
     : false;
 
-  console.log("Current Day:", currentDay);
-  console.log("Current Time:", currentTime);
-  console.log("Opening Hours for Today:", openingHours.data[currentDay]);
-  console.log("Is Open:", isOpen);
+  // console.log("Current Day:", currentDay);
+  // console.log("Current Time:", currentTime);
+  // console.log("Opening Hours for Today:", openingHours.data[currentDay]);
+  // console.log("Is Open:", isOpen);
 
   const handleExpand = () => setIsExpanded(!isExpanded);
 
