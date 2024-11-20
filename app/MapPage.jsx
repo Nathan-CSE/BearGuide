@@ -250,6 +250,7 @@ const MapPage = ({ navigation }) => {
               icon="arrow-right"
               size={30}
               onPress={() => {
+                setPage1(false);
                 setPage2(false);
                 router.push({
                   pathname: '/Location/LocationDetail',
