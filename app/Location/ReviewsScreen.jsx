@@ -8,12 +8,16 @@ import { useBearGuide } from "../BearGuideContext";
 const Reviews = ({ location }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const { bearGuide } = useBearGuide();
+  const currentUserId = bearGuide.currentUserId;
+  console.log(`this is current logged in ${currentUserId}`);
 
   const handleReviewSubmit = (newReview) => {
     location.reviews.list.push({
       id: location.reviews.list.length + 1,
+      userId: currentUserId,
       ...newReview,
     });
+    console.log(location.reviews.list);
     setModalVisible(false);
   };
 
@@ -22,8 +26,9 @@ const renderReview = ({ item }) => {
   const user = bearGuide.users.find(user => user.id === item.userId);
   const userProfilePic = user ? user.profile_image : null; // Assuming the user has a 'profilePic' field
   
-  console.log(`profile pic ${userProfilePic}`)
-  console.log(`user id ${user.id} ${item.userId}`)
+  // console.log(`profile pic ${userProfilePic}`)
+  console.log(JSON.stringify(user))
+  // console.log(`user id ${user.id} ${item.userId}`)
 
   return (
     <Card style={styles.card} elevation={2}>
@@ -43,7 +48,7 @@ const renderReview = ({ item }) => {
           />
         )}
         <View style={styles.header}>
-          <Text style={styles.title}>{item.title || "Anonymous Review"}</Text>
+          <Text style={styles.title}>{item.title || `${user.name}'s Review`}</Text>
           <StarRating rating={item.overall} />
         </View>
       </View>
